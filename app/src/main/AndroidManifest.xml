@@ -28,7 +28,15 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
         <activity android:name=".ComprobarActivity" />
-        <activity android:name=".RegistroActivity"></activity>
+        <activity android:name=".RegistroActivity" />
+        <activity
+            android:name=".newBikeActivity"
+            android:label="@string/title_activity_new_bike"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".bikelistActivity"
+            android:label="@string/title_activity_bikelist"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
