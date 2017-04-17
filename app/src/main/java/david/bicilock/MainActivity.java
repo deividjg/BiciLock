@@ -57,15 +57,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void pantallaRegistro(View view){
-
+        Intent intent = new Intent (this, RegistroActivity.class);
+        startActivity(intent);
     }
 
-    public void pantallaGestionar(View view){
+    public void pantallaLogin(View view){
         Intent intent = new Intent (this, LoginActivity.class);
         startActivity(intent);
     }
 
     public void pantallaComprobar(View view){
-
+        Intent intent = new Intent (this, ComprobarActivity.class);
+        startActivity(intent);
     }
 }
