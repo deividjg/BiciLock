@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                newBikeScreen();
             }
         });
     }
@@ -68,6 +69,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void pantallaComprobar(View view){
         Intent intent = new Intent (this, ComprobarActivity.class);
+        startActivity(intent);
+    }
+
+    public void newBikeScreen(){
+        Intent intent = new Intent (this, newBikeActivity.class);
         startActivity(intent);
     }
 }
