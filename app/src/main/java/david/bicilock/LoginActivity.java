@@ -3,6 +3,7 @@ package david.bicilock;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -20,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,8 +31,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -40,6 +48,15 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    protected TextView tv;
+
+    ArrayList<String> usuarios;
+    private String url_consulta = "http://iesayala.ddns.net/deividjg/php.php";
+    private JSONArray jSONArray;
+    private DevuelveJSON devuelveJSON;
+    private Usuario usuario;
+    private ArrayList<Usuario> arrayUsuarios;
+    ArrayList<HashMap<String, String>> userList;
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -67,9 +84,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        tv = (TextView)findViewById(R.id.textView11);
+
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
+
+        url_consulta = "http://iesayala.ddns.net/deividjg/php.php";
+
+        devuelveJSON = new DevuelveJSON();
+        new ComprobarLoguin().execute();
+
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -93,6 +120,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
     }
 
     private void populateAutoComplete() {
@@ -347,5 +375,72 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
-}
 
+    ///////Task para comprobar conexcion de usuario
+    class ComprobarLoguin extends AsyncTask<String, String, JSONArray> {
+        private ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(LoginActivity.this);
+            pDialog.setMessage("Cargando...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            Log.e("pre carga: ", url_consulta);
+            pDialog.show();
+        }
+
+        @Override
+        protected JSONArray doInBackground(String... args) {
+
+            try {
+                HashMap<String, String> parametrosPost = new HashMap<>();
+                parametrosPost.put("ins_sql", "Select * from usuarios where email='deividjg@gmail.com' and Password=432");
+
+                Log.e("carga: ", parametrosPost.get("ins_sql"));
+                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPost);
+
+                if (jSONArray != null) {
+                    return jSONArray;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(JSONArray json) {
+            if (pDialog != null && pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
+            if (json != null) {
+                arrayUsuarios = new ArrayList<Usuario>();
+                for (int i = 0; i < json.length(); i++) {
+                    try {
+                        JSONObject jsonObject = json.getJSONObject(i);
+                        usuario = new Usuario();
+                        usuario.setEmail(jsonObject.getString("email"));
+                        usuario.setLocalidad(jsonObject.getInt("Poblacion"));
+                        usuario.setNombre(jsonObject.getInt("Nombre"));
+                        usuario.setPassword(jsonObject.getInt("Password"));
+                        usuario.setProvincia(jsonObject.getInt("Provincia"));
+                        usuario.setTelefono(jsonObject.getString("Telefono"));
+                        arrayUsuarios.add(usuario);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    tv.setText(arrayUsuarios.get(0).getNombre()+"");
+                }
+
+            } else {
+                Toast.makeText(LoginActivity.this, "JSON Array nulo",
+                        Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+    }
+
+}
