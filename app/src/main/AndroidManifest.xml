@@ -38,6 +38,10 @@
         <activity
             android:name=".bikelistActivity"
             android:label="@string/title_activity_bikelist"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".BikeViewerActivity"
+            android:label="@string/title_activity_bike_viewer"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

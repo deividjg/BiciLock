@@ -6,8 +6,21 @@ package david.bicilock;
 
 public class Usuario {
 
-    String email, telefono;
-    int nombre, localidad, provincia, password;
+    String email, password, nombre, poblacion, provincia, telefono;
+
+    public Usuario(String email, String password, String nombre, String poblacion, String provincia, String telefono) {
+        this.email = email;
+        this.password = password;
+        this.nombre = nombre;
+        this.poblacion = poblacion;
+        this.provincia = provincia;
+
+        this.telefono = telefono;
+    }
+
+    public Usuario(){
+
+    }
 
     public String getEmail() {
         return email;
@@ -17,58 +30,44 @@ public class Usuario {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getPoblacion() {
+        return poblacion;
+    }
+
+    public void setPoblacion(String poblacion) {
+        this.poblacion = poblacion;
+    }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+
     public String getTelefono() {
         return telefono;
     }
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
-    }
-
-    public int getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(int nombre) {
-        this.nombre = nombre;
-    }
-
-    public int getLocalidad() {
-        return localidad;
-    }
-
-    public void setLocalidad(int localidad) {
-        this.localidad = localidad;
-    }
-
-    public int getProvincia() {
-        return provincia;
-    }
-
-    public void setProvincia(int provincia) {
-        this.provincia = provincia;
-    }
-
-    public int getPassword() {
-        return password;
-    }
-
-    public void setPassword(int password) {
-        this.password = password;
-    }
-
-    public Usuario(String email, String telefono, int nombre, int localidad, int provincia, int password) {
-        this.email = email;
-        this.telefono = telefono;
-        this.nombre = nombre;
-
-        this.localidad = localidad;
-        this.provincia = provincia;
-        this.password = password;
-    }
-
-    public Usuario(){
-
     }
 }
 

@@ -17,4 +17,5 @@
     </string>
     <string name="title_activity_new_bike">newBikeActivity</string>
     <string name="title_activity_bikelist">bikelistActivity</string>
+    <string name="title_activity_bike_viewer">BikeViewerActivity</string>
 </resources>
