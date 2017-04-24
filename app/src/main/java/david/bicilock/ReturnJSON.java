@@ -22,7 +22,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DevuelveJSON {
+public class ReturnJSON {
     private HttpURLConnection conn;
     public static final int CONNECTION_TIMEOUT = 15 * 1000;
 

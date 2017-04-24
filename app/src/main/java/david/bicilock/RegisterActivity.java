@@ -14,18 +14,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.StringTokenizer;
 
-public class RegistroActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     private String url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
     private JSONArray jSONArray;
     protected JSONObject jsonObject;
-    private DevuelveJSON devuelveJSON;
-    private Usuario user;
-    private ArrayList<Usuario> arrayUsuarios;
+    private ReturnJSON devuelveJSON;
+    private User user;
+    private ArrayList<User> arrayUsers;
     ArrayList<HashMap<String, String>> userList;
-    protected EditText etEMail;
+    private EditText etEMail;
     String email;
 
     @Override
@@ -36,7 +35,7 @@ public class RegistroActivity extends AppCompatActivity {
 
         url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
 
-        devuelveJSON = new DevuelveJSON();
+        devuelveJSON = new ReturnJSON();
 
     }
     public void registrar(View view){
@@ -54,7 +53,7 @@ public class RegistroActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            pDialog = new ProgressDialog(RegistroActivity.this);
+            pDialog = new ProgressDialog(RegisterActivity.this);
             pDialog.setMessage("Cargando...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
@@ -90,21 +89,17 @@ public class RegistroActivity extends AppCompatActivity {
                 }
 
                 if(add!=0){
-                    Toast.makeText(RegistroActivity.this, "Registro guardado",
+                    Toast.makeText(RegisterActivity.this, "Registro guardado",
                             Toast.LENGTH_LONG).show();
                 }else{
-                    Toast.makeText(RegistroActivity.this, "ha ocurrido un error",
+                    Toast.makeText(RegisterActivity.this, "ha ocurrido un error",
                             Toast.LENGTH_LONG).show();
                 }
 
             } else {
-                Toast.makeText(RegistroActivity.this, "JSON Array nulo",
+                Toast.makeText(RegisterActivity.this, "JSON Array nulo",
                         Toast.LENGTH_LONG).show();
             }
-
         }
-
-
     }
-
 }

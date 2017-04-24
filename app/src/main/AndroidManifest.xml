@@ -26,11 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
-        <activity android:name=".ComprobarActivity" />
-        <activity android:name=".RegistroActivity" />
+        <activity android:name=".CheckBikeActivity" />
+        <activity android:name=".RegisterActivity" />
         <activity
             android:name=".newBikeActivity"
             android:label="@string/title_activity_new_bike"
@@ -42,6 +39,10 @@
         <activity
             android:name=".BikeViewerActivity"
             android:label="@string/title_activity_bike_viewer"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void pantallaRegistro(View view){
-        Intent intent = new Intent (this, RegistroActivity.class);
+        Intent intent = new Intent (this, RegisterActivity.class);
         startActivity(intent);
     }
 
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void pantallaComprobar(View view){
-        Intent intent = new Intent (this, ComprobarActivity.class);
+        Intent intent = new Intent (this, CheckBikeActivity.class);
         startActivity(intent);
     }
 
