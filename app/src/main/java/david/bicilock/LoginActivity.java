@@ -1,6 +1,7 @@
 package david.bicilock;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -22,14 +22,14 @@ import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private String url_consulta;
+    private String url_consulta, email, password;
     private JSONArray jSONArray;
     private ReturnJSON returnJSON;
     private User user;
     private ArrayList<User> arrayUsers;
     ArrayList<HashMap<String, String>> userList;
 
-    private EditText tvEmail, tvPassword;
+    private EditText etEmail, etPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +38,8 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        tvEmail = (EditText) findViewById(R.id.etEmailLogin);
-        tvPassword = (EditText) findViewById(R.id.etPasswordLogin);
+        etEmail = (EditText) findViewById(R.id.etEmailLogin);
+        etPassword = (EditText) findViewById(R.id.etPasswordLogin);
 
         url_consulta = "http://iesayala.ddns.net/deividjg/php.php";
 
@@ -53,14 +53,19 @@ public class LoginActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+
     }
 
     public void entrar(View view){
-        new LoginActivity.ComprobarLoguin().execute();
+        email = etEmail.getText().toString();
+        password = etPassword.getText().toString();
+        new CheckLogin().execute();
     }
 
     ///////Task para comprobar conexcion de usuario
-    class ComprobarLoguin extends AsyncTask<String, String, JSONArray> {
+    class CheckLogin extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
         @Override
@@ -77,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
 
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql", "Select * from users where email='deividjg@gmail.com' and Password=123456");
+                parametrosPost.put("ins_sql", "Select * from users where email='" + email + "' and Password=" + password);
 
                 jSONArray = returnJSON.sendRequest(url_consulta, parametrosPost);
 
@@ -107,21 +112,25 @@ public class LoginActivity extends AppCompatActivity {
                         user.setProvince(jsonObject.getString("Province"));
                         user.setPhone(jsonObject.getString("Phone"));
                         arrayUsers.add(user);
-
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        System.out.println("joder");
                     }
-
-                    Toast.makeText(LoginActivity.this, arrayUsers.get(0).getName()+"", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Login Correcto", Toast.LENGTH_SHORT).show();
+                    garageScreen();
                 }
 
             } else {
-                Toast.makeText(LoginActivity.this, "JSON Array nulo",
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Error. usuario y/o password incorrecto", Toast.LENGTH_LONG).show();
             }
-
         }
 
+    }
+
+    protected void garageScreen(){
+        Intent intent = new Intent (this, bikelistActivity.class);
+        intent.putExtra("email", email);
+        startActivity(intent);
     }
 
 }

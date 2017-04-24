@@ -7,8 +7,10 @@ package david.bicilock;
 public class Bike {
 
     String serialNumber, brand, model, color, year, stolen, details;
+    Long id;
 
-    public Bike(String serialNumber, String brand, String model, String color, String year, String stolen, String details) {
+    public Bike(Long id, String serialNumber, String brand, String model, String color, String year, String stolen, String details) {
+        this.id = id;
         this.serialNumber = serialNumber;
         this.brand = brand;
         this.model = model;
@@ -20,6 +22,13 @@ public class Bike {
 
     public Bike(){
 
+    }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getSerialNumber() {
