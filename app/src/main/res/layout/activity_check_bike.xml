@@ -10,13 +10,13 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Introduce Número de Bastidor"
-        android:textSize="18sp"
-        tools:layout_editor_absoluteX="72dp"
-        tools:layout_editor_absoluteY="35dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp" />
+        android:layout_marginTop="36dp"
+        android:text="Introduce Número de Serie"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="72dp"
+        tools:layout_editor_absoluteY="35dp" />
 
     <Button
         android:id="@+id/button"
@@ -26,19 +26,20 @@
         tools:layout_editor_absoluteX="138dp"
         tools:layout_editor_absoluteY="132dp"
         android:layout_marginTop="21dp"
-        android:layout_below="@+id/etBastidor"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/etSerialNumberCheckBike"
+        android:layout_centerHorizontal="true"
+        android:onClick="checkSerialNumber"/>
 
     <EditText
-        android:id="@+id/etBastidor"
+        android:id="@+id/etSerialNumberCheckBike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Nº Bastidor"
+        android:text="0807FFH"
         tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="65dp"
-        android:layout_marginTop="24dp"
-        android:layout_below="@+id/textView3"
-        android:layout_centerHorizontal="true" />
+        tools:layout_editor_absoluteY="65dp" />
 </RelativeLayout>

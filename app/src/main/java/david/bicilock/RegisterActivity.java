@@ -38,13 +38,11 @@ public class RegisterActivity extends AppCompatActivity {
         devuelveJSON = new ReturnJSON();
 
     }
+
     public void registrar(View view){
         email = etEMail.getText().toString();
         new RegistroTask().execute();
     }
-
-
-
 
     ///////Task para registrar un nuevo usuario
     class RegistroTask extends AsyncTask<String, String, JSONObject> {

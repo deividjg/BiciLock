@@ -1,6 +1,8 @@
 package david.bicilock;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,6 +10,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -20,15 +24,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class bikelistActivity extends AppCompatActivity {
+public class BikelistActivity extends AppCompatActivity {
 
     ListView lv;
     static Adapter a;
 
-    private String url_consulta, email;
+    private String url_consulta, url_borrado, email, numSerie;
     private JSONArray jSONArray;
+    protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
     private Bike bike;
+    private int id;
     private ArrayList<Bike> arrayBikes;
     ArrayList<HashMap<String, String>> bikeList;
 
@@ -47,7 +53,7 @@ public class bikelistActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView adapter, View view, int position, long arg) {
-                Bike bike = (Bike) lv.getAdapter().getItem(position);
+                bike = (Bike) lv.getAdapter().getItem(position);
                 Toast.makeText(getApplicationContext(), position+"", Toast.LENGTH_LONG).show();
                 /*Intent intent = new Intent (getApplicationContext(), EditarActivity.class);
                 intent.putExtra("idContacto", contacto.getId());
@@ -60,12 +66,16 @@ public class bikelistActivity extends AppCompatActivity {
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             public boolean onItemLongClick(AdapterView<?> arg0, View v, int index, long arg3) {
-                Toast.makeText(getApplicationContext(), "largoooo" + index, Toast.LENGTH_LONG).show();
+                bike = (Bike)lv.getAdapter().getItem(index);
+                numSerie = bike.getSerialNumber();
+                id = index;
+                showConfirmDialog();
                 return true;
             }
         });
 
         url_consulta = "http://iesayala.ddns.net/deividjg/php.php";
+        url_borrado = "http://iesayala.ddns.net/deividjg/prueba.php";
         returnJSON = new ReturnJSON();
         new CheckLogin().execute();
 
@@ -79,6 +89,29 @@ public class bikelistActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_bike_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.addBike) {
+            Intent intent = new Intent (this, NewBikeActivity.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     protected void getEmail(){
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -88,13 +121,13 @@ public class bikelistActivity extends AppCompatActivity {
         }
     }
 
-    ///////Task para comprobar conexcion de usuario
+    ///////Task para descargar las bicicletas del usuario
     class CheckLogin extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
         @Override
         protected void onPreExecute() {
-            pDialog = new ProgressDialog(bikelistActivity.this);
+            pDialog = new ProgressDialog(BikelistActivity.this);
             pDialog.setMessage("Cargando...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
@@ -144,15 +177,92 @@ public class bikelistActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    a = new Adapter(bikelistActivity.this, arrayBikes);
+                    a = new Adapter(BikelistActivity.this, arrayBikes);
                     a.notifyDataSetChanged();
                     lv.setAdapter(a);
 
-                    Toast.makeText(bikelistActivity.this, "Carga correcta", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BikelistActivity.this, "Carga correcta", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(bikelistActivity.this, "Error en la carga del garaje", Toast.LENGTH_LONG).show();
+                Toast.makeText(BikelistActivity.this, "Error en la carga del garaje", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    ///////Task para eliminar una bicicleta
+    class DeleteBikeTask extends AsyncTask<String, String, JSONObject> {
+        private ProgressDialog pDialog;
+        int add;
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(BikelistActivity.this);
+            pDialog.setMessage("Cargando...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            try {
+                HashMap<String, String> parametrosPost = new HashMap<>();
+                parametrosPost.put("ins_sql",  "DELETE FROM bikes WHERE SerialNumber='" + numSerie + "'");
+
+                jsonObject = returnJSON.sendDMLRequest(url_borrado, parametrosPost);
+
+                if (jsonObject != null) {
+                    return jsonObject;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(JSONObject json) {
+            if (pDialog != null && pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
+            if (json != null) {
+                try {
+                    add = json.getInt("added");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if(add!=0){
+                    Toast.makeText(BikelistActivity.this, "Registro borrado", Toast.LENGTH_LONG).show();
+                    arrayBikes.remove(id);
+                    a.notifyDataSetChanged();
+                }else{
+                    Toast.makeText(BikelistActivity.this, "Error al borrar", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(BikelistActivity.this, "JSON Array nulo", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    protected void showConfirmDialog(){
+        AlertDialog.Builder alertDialogBu = new AlertDialog.Builder(BikelistActivity.this);
+        alertDialogBu.setTitle("Eliminar bicicleta");
+        alertDialogBu.setMessage("¿Estás seguro?");
+        alertDialogBu.setIcon(android.R.drawable.ic_dialog_alert);
+
+        alertDialogBu.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "Boton Rechazar pulsado", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alertDialogBu.setPositiveButton( "Sí", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                new DeleteBikeTask().execute();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBu.create();
+        alertDialog.show();
     }
 }

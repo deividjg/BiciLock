@@ -29,11 +29,11 @@
         <activity android:name=".CheckBikeActivity" />
         <activity android:name=".RegisterActivity" />
         <activity
-            android:name=".newBikeActivity"
+            android:name=".NewBikeActivity"
             android:label="@string/title_activity_new_bike"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".bikelistActivity"
+            android:name=".BikelistActivity"
             android:label="@string/title_activity_bikelist"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

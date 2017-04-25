@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void newBikeScreen(){
-        Intent intent = new Intent (this, newBikeActivity.class);
+        Intent intent = new Intent (this, NewBikeActivity.class);
         startActivity(intent);
     }
 }
