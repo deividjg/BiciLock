@@ -71,7 +71,6 @@ public class UploadPhotosActivity extends AppCompatActivity {
 
         storageReference = FirebaseStorage.getInstance().getReference();
 
-
     }
 
     public void showFileChooser(View view) {

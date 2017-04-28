@@ -9,4 +9,6 @@
     <string name="title_activity_bike_viewer">BikeViewerActivity</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_photos">PhotosActivity</string>
+    <string name="title_activity_show_images">ShowImagesActivity</string>
+    <string name="title_activity_detail">DetailActivity</string>
 </resources>
