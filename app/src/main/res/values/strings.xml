@@ -8,4 +8,5 @@
     <string name="title_activity_bikelist">bikelistActivity</string>
     <string name="title_activity_bike_viewer">BikeViewerActivity</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_photos">PhotosActivity</string>
 </resources>

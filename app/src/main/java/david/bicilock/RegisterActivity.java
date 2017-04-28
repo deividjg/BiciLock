@@ -30,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registro);
+        setContentView(R.layout.activity_register);
         etEMail = (EditText)findViewById(R.id.etEMail);
 
         url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
@@ -62,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
         protected JSONObject doInBackground(String... args) {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql",  "INSERT INTO `usuarios`(`email`, `Password`, `Nombre`, `Poblacion`, `Provincia`, `Telefono`) VALUES ('" + email + "',0,0,0,0,'')");
+                parametrosPost.put("ins_sql", "INSERT INTO users (`email`, `Password`, `Name`, `Town`, `Province`, `Phone`) VALUES ('" + email + "','0','0','0','0','')");
 
                 jsonObject = devuelveJSON.sendDMLRequest(url_subida, parametrosPost);
 
