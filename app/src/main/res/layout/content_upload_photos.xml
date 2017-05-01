@@ -54,14 +54,12 @@
             android:text="Upload"
             android:onClick="uploadFile"/>
 
-        <TextView
-            android:id="@+id/textViewShow"
+        <Button
+            android:id="@+id/buttonShowPhotos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="View Uploads"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold" />
+            android:layout_weight="1"
+            android:text="Show Photos"
+            android:onClick="showPhotos"/>
     </LinearLayout>
 </RelativeLayout>

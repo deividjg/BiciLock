@@ -34,11 +34,13 @@ public class UploadPhotosActivity extends AppCompatActivity {
     //constant to track image chooser intent
     private static final int PICK_IMAGE_REQUEST = 234;
 
+    private String serialNumber;
+
     //view objects
     private Button buttonChoose;
     private Button buttonUpload;
+    private Button buttonShowPhotos;
     private EditText editTextName;
-    private TextView textViewShow;
     private ImageView imageView;
 
     //uri to store file
@@ -67,9 +69,11 @@ public class UploadPhotosActivity extends AppCompatActivity {
         buttonUpload = (Button) findViewById(R.id.buttonUpload);
         imageView = (ImageView) findViewById(R.id.imageView);
         editTextName = (EditText) findViewById(R.id.editText);
-        textViewShow = (TextView) findViewById(R.id.textViewShow);
+        buttonShowPhotos = (Button) findViewById(R.id.buttonShowPhotos);
 
         storageReference = FirebaseStorage.getInstance().getReference();
+
+        serialNumber = "0807FFH";
 
     }
 
@@ -150,7 +154,8 @@ public class UploadPhotosActivity extends AppCompatActivity {
         }
     }
 
-
-
-
+    public void showPhotos(View view) {
+        Intent intent = new Intent (this, ShowImagesActivity.class);
+        startActivity(intent);
+    }
 }
