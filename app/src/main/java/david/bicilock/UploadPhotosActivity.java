@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -27,14 +28,28 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 
 public class UploadPhotosActivity extends AppCompatActivity {
 
     //constant to track image chooser intent
     private static final int PICK_IMAGE_REQUEST = 234;
 
-    private String serialNumber;
+    private DateFormat datehourFormat;
+    private Date date;
+
+    private String id, serialNumber;
+
+    private String url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
+    protected JSONObject jsonObject;
+    private ReturnJSON returnJSON;
 
     //view objects
     private Button buttonChoose;
@@ -65,6 +80,11 @@ public class UploadPhotosActivity extends AppCompatActivity {
             }
         });
 
+        url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
+        returnJSON = new ReturnJSON();
+
+        System.out.println(System.currentTimeMillis());
+
         buttonChoose = (Button) findViewById(R.id.buttonChoose);
         buttonUpload = (Button) findViewById(R.id.buttonUpload);
         imageView = (ImageView) findViewById(R.id.imageView);
@@ -74,7 +94,6 @@ public class UploadPhotosActivity extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
 
         serialNumber = "0807FFH";
-
     }
 
     public void showFileChooser(View view) {
@@ -113,7 +132,9 @@ public class UploadPhotosActivity extends AppCompatActivity {
             progressDialog.setTitle("Uploading");
             progressDialog.show();
 
-            StorageReference riversRef = storageReference.child("images/pic.jpg");
+            id = newPhotoId();
+
+            StorageReference riversRef = storageReference.child("images/" + serialNumber + "/" + id + "." + getFileExtension(filePath));
             riversRef.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -124,6 +145,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
 
                             //and displaying a success toast
                             Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
+                            new NewPhotoTask().execute();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -132,7 +154,6 @@ public class UploadPhotosActivity extends AppCompatActivity {
                             //if the upload is not successfull
                             //hiding the progress dialog
                             progressDialog.dismiss();
-
                             //and displaying error message
                             Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
                         }
@@ -157,5 +178,67 @@ public class UploadPhotosActivity extends AppCompatActivity {
     public void showPhotos(View view) {
         Intent intent = new Intent (this, ShowImagesActivity.class);
         startActivity(intent);
+    }
+
+    ///////Task para registrar una nueva foto
+    class NewPhotoTask extends AsyncTask<String, String, JSONObject> {
+        private ProgressDialog pDialog;
+        int add;
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(UploadPhotosActivity.this);
+            pDialog.setMessage("Cargando...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            try {
+                HashMap<String, String> parametrosPost = new HashMap<>();
+                parametrosPost.put("ins_sql", "INSERT INTO photos VALUES('" + id + "', '" + serialNumber + "')");
+                jsonObject = returnJSON.sendDMLRequest(url_subida, parametrosPost);
+
+                if (jsonObject != null) {
+                    return jsonObject;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(JSONObject json) {
+            if (pDialog != null && pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
+            if (json != null) {
+                try {
+                    add = json.getInt("added");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if(add!=0){
+                    Toast.makeText(UploadPhotosActivity.this, "Registro guardado",
+                            Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(UploadPhotosActivity.this, "ha ocurrido un error",
+                            Toast.LENGTH_LONG).show();
+                }
+
+            } else {
+                Toast.makeText(UploadPhotosActivity.this, "JSON Array nulo",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    protected String newPhotoId(){
+        datehourFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        date = new Date();
+        return datehourFormat.format(date);
     }
 }
