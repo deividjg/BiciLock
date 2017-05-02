@@ -2,6 +2,7 @@ package david.bicilock;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,7 +15,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ShowImagesActivity extends AppCompatActivity {
@@ -28,6 +34,14 @@ public class ShowImagesActivity extends AppCompatActivity {
     //list to hold all the uploaded images
     private List<Upload> uploads;
 
+    private String url_consulta, url_borrado, email, numSerie;
+    private JSONArray jSONArray;
+    protected JSONObject jsonObject;
+    private ReturnJSON returnJSON;
+    private Upload upload;
+    private int id;
+    private ArrayList<Upload> arrayUploads;
+    ArrayList<HashMap<String, String>> uploadList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +58,11 @@ public class ShowImagesActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        url_consulta = "http://iesayala.ddns.net/deividjg/php.php";
+        url_borrado = "http://iesayala.ddns.net/deividjg/prueba.php";
+        returnJSON = new ReturnJSON();
+        new CheckLogin().execute();
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -65,24 +84,13 @@ public class ShowImagesActivity extends AppCompatActivity {
 
         }));
 
-        uploads = new ArrayList<>();
+        //uploads = new ArrayList<>();
+
+        getBikePhotos();
 
         //displaying progress dialog while fetching images
 
-        Upload upload = new Upload("nombre", "http://esyourself.wpengine.netdna-cdn.com/wp-content/uploads/2013/06/bancos-de-imagenes.jpg");
-        Upload upload2 = new Upload("nombre", "http://esyourself.wpengine.netdna-cdn.com/wp-content/uploads/2013/06/bancos-de-imagenes-gratis.jpg");
-        Upload upload3 = new Upload("nombre", "http://esyourself.wpengine.netdna-cdn.com/wp-content/uploads/2013/06/banco-de-imagenes-gratis.jpg");
-        Upload upload4 = new Upload("nombre", "http://esyourself.wpengine.netdna-cdn.com/wp-content/uploads/2013/06/bancos-imagenes-gratuitas.jpg");
-        Upload upload5 = new Upload("nombre", "http://esyourself.wpengine.netdna-cdn.com/wp-content/uploads/2013/06/imagenes-gratis.jpg");
-        Upload upload6 = new Upload("nombre", "http://esyourself.wpengine.netdna-cdn.com/wp-content/uploads/2013/06/banco-de-imagenes-gratuito.jpg");
-        uploads.add(upload);
-        uploads.add(upload2);
-        uploads.add(upload3);
-        uploads.add(upload4);
-        uploads.add(upload5);
-        uploads.add(upload6);
-
-        adapter = new MyAdapter(getApplicationContext(), uploads);
+        adapter = new MyAdapter(getApplicationContext(), arrayUploads);
 
         //adding adapter to recyclerview
         recyclerView.setAdapter(adapter);
@@ -136,6 +144,71 @@ public class ShowImagesActivity extends AppCompatActivity {
         @Override
         public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
+        }
+    }
+
+    protected void getBikePhotos(){
+
+    }
+
+    ///////Task para descargar las fotos de una bicicleta
+    class CheckLogin extends AsyncTask<String, String, JSONArray> {
+        private ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(ShowImagesActivity.this);
+            pDialog.setMessage("Cargando...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected JSONArray doInBackground(String... args) {
+
+            try {
+                HashMap<String, String> parametrosPost = new HashMap<>();
+                parametrosPost.put("ins_sql", "Select * from bikes where email='" + email + "'");
+
+                jSONArray = returnJSON.sendRequest(url_consulta, parametrosPost);
+
+                if (jSONArray != null) {
+                    return jSONArray;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(JSONArray json) {
+            if (pDialog != null && pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
+            if (json != null) {
+                arrayUploads = new ArrayList<Upload>();
+                long id;
+                for (int i = 0; i < json.length(); i++) {
+                    id = i;
+                    try {
+                        JSONObject jsonObject = json.getJSONObject(i);
+                        upload = new Upload();
+                        upload.setId(id);
+                        upload.setName(jsonObject.getString("SerialNumber"));
+
+                        arrayUploads.add(upload);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    adapter.notifyDataSetChanged();
+
+                    Toast.makeText(ShowImagesActivity.this, "Carga correcta", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(ShowImagesActivity.this, "Error en la carga del garaje", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

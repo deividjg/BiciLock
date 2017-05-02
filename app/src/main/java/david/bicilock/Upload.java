@@ -3,18 +3,28 @@ package david.bicilock;
 public class Upload {
 
     public String name;
-    public String url;
+    public Long id;
 
-    public Upload(String name, String url) {
+    public Upload(Long id, String name, String url) {
+        this.id = id;
         this.name = name;
-        this.url= url;
+    }
+
+    public Upload(){}
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getUrl() {
-        return url;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

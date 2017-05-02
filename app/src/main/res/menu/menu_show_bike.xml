@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="david.bicilock.ShowBikeActivity">
+    <item
+        android:id="@+id/editBike"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:orderInCategory="100"
+        android:title="editBike"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/deleteBike"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:orderInCategory="100"
+        android:title="deleteBike"
+        app:showAsAction="always" />
+</menu>

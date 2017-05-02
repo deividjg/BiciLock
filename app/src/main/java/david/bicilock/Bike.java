@@ -1,10 +1,8 @@
 package david.bicilock;
 
-/**
- * Created by DJG on 24/04/2017.
- */
+import java.io.Serializable;
 
-public class Bike {
+public class Bike implements Serializable {
 
     String serialNumber, brand, model, color, year, stolen, details;
     Long id;

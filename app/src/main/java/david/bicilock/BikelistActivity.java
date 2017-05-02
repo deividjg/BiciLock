@@ -58,9 +58,9 @@ public class BikelistActivity extends AppCompatActivity {
             public void onItemClick(AdapterView adapter, View view, int position, long arg) {
                 bike = (Bike) lv.getAdapter().getItem(position);
                 Toast.makeText(getApplicationContext(), position+"", Toast.LENGTH_LONG).show();
-                /*Intent intent = new Intent (getApplicationContext(), EditarActivity.class);
-                intent.putExtra("idContacto", contacto.getId());
-                startActivity(intent);*/
+                Intent intent = new Intent (getApplicationContext(), ShowBikeActivity.class);
+                intent.putExtra("bike", bike);
+                startActivity(intent);
             }
 
 
