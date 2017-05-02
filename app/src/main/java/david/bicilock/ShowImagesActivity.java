@@ -15,6 +15,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,9 +42,9 @@ public class ShowImagesActivity extends AppCompatActivity {
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
     private Upload upload;
-    private int id;
     private ArrayList<Upload> arrayUploads;
     ArrayList<HashMap<String, String>> uploadList;
+    private String serialNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +65,6 @@ public class ShowImagesActivity extends AppCompatActivity {
         url_consulta = "http://iesayala.ddns.net/deividjg/php.php";
         url_borrado = "http://iesayala.ddns.net/deividjg/prueba.php";
         returnJSON = new ReturnJSON();
-        new CheckLogin().execute();
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -84,17 +86,7 @@ public class ShowImagesActivity extends AppCompatActivity {
 
         }));
 
-        //uploads = new ArrayList<>();
-
         getBikePhotos();
-
-        //displaying progress dialog while fetching images
-
-        adapter = new MyAdapter(getApplicationContext(), arrayUploads);
-
-        //adding adapter to recyclerview
-        recyclerView.setAdapter(adapter);
-
     }
 
     public static interface ClickListener{
@@ -148,11 +140,12 @@ public class ShowImagesActivity extends AppCompatActivity {
     }
 
     protected void getBikePhotos(){
-
+        serialNumber = getIntent().getExtras().getString("serialNumber");
+        new DownloadPhotos().execute();
     }
 
     ///////Task para descargar las fotos de una bicicleta
-    class CheckLogin extends AsyncTask<String, String, JSONArray> {
+    class DownloadPhotos extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
         @Override
@@ -169,7 +162,7 @@ public class ShowImagesActivity extends AppCompatActivity {
 
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql", "Select * from bikes where email='" + email + "'");
+                parametrosPost.put("ins_sql", "SELECT * FROM photos WHERE SerialNumber='" + serialNumber + "'");
 
                 jSONArray = returnJSON.sendRequest(url_consulta, parametrosPost);
 
@@ -188,20 +181,27 @@ public class ShowImagesActivity extends AppCompatActivity {
             }
             if (json != null) {
                 arrayUploads = new ArrayList<Upload>();
-                long id;
+                long position;
                 for (int i = 0; i < json.length(); i++) {
-                    id = i;
+                    position = i;
                     try {
                         JSONObject jsonObject = json.getJSONObject(i);
                         upload = new Upload();
-                        upload.setId(id);
-                        upload.setName(jsonObject.getString("SerialNumber"));
+                        upload.setPosition(position);
+                        upload.setId(jsonObject.getString("id"));
+                        upload.setSerialNumber(jsonObject.getString("SerialNumber"));
+                        upload.setUrl(jsonObject.getString("url"));
+
+                        System.out.println(upload.getUrl());
 
                         arrayUploads.add(upload);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
+                    adapter = new MyAdapter(getApplicationContext(), arrayUploads);
+                    //adding adapter to recyclerview
+                    recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
 
                     Toast.makeText(ShowImagesActivity.this, "Carga correcta", Toast.LENGTH_SHORT).show();

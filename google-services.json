@@ -1,0 +1,50 @@
+{
+  "project_info": {
+    "project_number": "111124862355",
+    "firebase_url": "https://bicilock-95ae7.firebaseio.com",
+    "project_id": "bicilock-95ae7",
+    "storage_bucket": "bicilock-95ae7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111124862355:android:47fe543fecbb1c88",
+        "android_client_info": {
+          "package_name": "david.bicilock"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111124862355-vo1s12a3s011bn2gfunkv3mq3p6tald8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0cguU9lJIWZeL6hF_qx1nfssDxYLh7l8"
+        },
+        {
+          "current_key": "AIzaSyDjJX8sJD-OusAa8XnrEUTjODHHT1HuyQM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111124862355-vo1s12a3s011bn2gfunkv3mq3p6tald8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

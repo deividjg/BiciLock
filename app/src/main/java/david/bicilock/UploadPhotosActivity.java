@@ -53,6 +53,8 @@ public class UploadPhotosActivity extends AppCompatActivity {
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
 
+    private String url;
+
     //view objects
     private ImageView imageView;
 
@@ -171,6 +173,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
                             new NewPhotoTask().execute();
                             imageView.setImageBitmap(null);
+                            url = taskSnapshot.getDownloadUrl().toString();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -223,7 +226,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
         protected JSONObject doInBackground(String... args) {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql", "INSERT INTO photos VALUES('" + id + "', '" + serialNumber + "')");
+                parametrosPost.put("ins_sql", "INSERT INTO photos VALUES('" + id + "', '" + serialNumber + "', '" + url + "')");
                 jsonObject = returnJSON.sendDMLRequest(url_subida, parametrosPost);
 
                 if (jsonObject != null) {

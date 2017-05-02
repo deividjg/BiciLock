@@ -2,29 +2,49 @@ package david.bicilock;
 
 public class Upload {
 
-    public String name;
-    public Long id;
+    public Long position;
+    public String id;
+    public String serialNumber;
+    public String url;
 
-    public Upload(Long id, String name, String url) {
+    public Upload(Long position, String id, String serialNumber, String url) {
+        this.position = position;
         this.id = id;
-        this.name = name;
+        this.serialNumber = serialNumber;
+        this.url = url;
     }
 
     public Upload(){}
 
-    public Long getId() {
+    public Long getPosition() {
+        return position;
+    }
+
+    public void setPosition(Long position) {
+        this.position = position;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
