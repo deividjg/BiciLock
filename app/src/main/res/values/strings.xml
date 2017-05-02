@@ -8,7 +8,7 @@
     <string name="title_activity_bikelist">Bike List</string>
     <string name="title_activity_bike_viewer">Bike</string>
     <string name="title_activity_login">Login</string>
-    <string name="title_activity_photos">Upload Photo</string>
+    <string name="title_activity_photos">Add Photos</string>
     <string name="title_activity_show_images">Photos</string>
     <string name="title_activity_detail">Detail</string>
 </resources>

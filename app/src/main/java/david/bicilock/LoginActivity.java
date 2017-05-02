@@ -2,6 +2,7 @@ package david.bicilock;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -26,9 +27,10 @@ public class LoginActivity extends AppCompatActivity {
     private ReturnJSON returnJSON;
     private User user;
     private ArrayList<User> arrayUsers;
-    ArrayList<HashMap<String, String>> userList;
-
+    private ArrayList<HashMap<String, String>> userList;
     private EditText etEmail, etPassword;
+
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                         System.out.println("joder");
                     }
                     Toast.makeText(LoginActivity.this, "Login Correcto", Toast.LENGTH_SHORT).show();
+                    holdLogin();
                     garageScreen();
                 }
 
@@ -123,9 +126,15 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    protected void holdLogin(){
+        sp = getSharedPreferences("preferences", this.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("email", email);
+        editor.commit();
+    }
+
     protected void garageScreen(){
         Intent intent = new Intent (this, BikelistActivity.class);
-        intent.putExtra("email", email);
         startActivity(intent);
     }
 

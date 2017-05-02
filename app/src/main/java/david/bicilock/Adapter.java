@@ -13,10 +13,6 @@ import android.widget.TextView;
 import java.io.File;
 import java.util.ArrayList;
 
-/**
- * Created by david on 03/12/2016.
- */
-
 public class Adapter extends BaseAdapter {
     private ArrayList<Bike> list;
     private final Activity actividad;

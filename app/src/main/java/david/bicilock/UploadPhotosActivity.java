@@ -13,6 +13,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -52,10 +54,6 @@ public class UploadPhotosActivity extends AppCompatActivity {
     private ReturnJSON returnJSON;
 
     //view objects
-    private Button buttonChoose;
-    private Button buttonUpload;
-    private Button buttonShowPhotos;
-    private EditText editTextName;
     private ImageView imageView;
 
     //uri to store file
@@ -80,20 +78,46 @@ public class UploadPhotosActivity extends AppCompatActivity {
             }
         });
 
+        getSerialNumber();
+
         url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
         returnJSON = new ReturnJSON();
 
-        System.out.println(System.currentTimeMillis());
-
-        buttonChoose = (Button) findViewById(R.id.buttonChoose);
-        buttonUpload = (Button) findViewById(R.id.buttonUpload);
         imageView = (ImageView) findViewById(R.id.imageView);
-        editTextName = (EditText) findViewById(R.id.editText);
-        buttonShowPhotos = (Button) findViewById(R.id.buttonShowPhotos);
 
         storageReference = FirebaseStorage.getInstance().getReference();
+    }
 
-        serialNumber = "0807FFH";
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_upload_photos, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.terminar) {
+            finish();
+            garageScreen();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    protected void getSerialNumber(){
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            Toast.makeText(getApplicationContext(), "Error recibiendo serialNumber", Toast.LENGTH_LONG).show();
+        } else {
+            serialNumber = extras.getString("serialNumber");
+        }
     }
 
     public void showFileChooser(View view) {
@@ -146,6 +170,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
                             //and displaying a success toast
                             Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
                             new NewPhotoTask().execute();
+                            imageView.setImageBitmap(null);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -240,5 +265,10 @@ public class UploadPhotosActivity extends AppCompatActivity {
         datehourFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         date = new Date();
         return datehourFormat.format(date);
+    }
+
+    protected void garageScreen(){
+        Intent intent = new Intent (this, BikelistActivity.class);
+        startActivity(intent);
     }
 }

@@ -1,6 +1,7 @@
 package david.bicilock;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -130,18 +131,25 @@ public class NewBikeActivity extends AppCompatActivity {
                 }
 
                 if(add!=0){
-                    Toast.makeText(NewBikeActivity.this, "Registro guardado",
+                    Toast.makeText(NewBikeActivity.this, "Bicicleta Registrada",
                             Toast.LENGTH_LONG).show();
+                    addPhotosScreen();
                 }else{
-                    Toast.makeText(NewBikeActivity.this, "ha ocurrido un error",
+                    Toast.makeText(NewBikeActivity.this, "Error. No se ha podido registrar",
                             Toast.LENGTH_LONG).show();
                 }
 
             } else {
-                Toast.makeText(NewBikeActivity.this, "JSON Array nulo",
+                Toast.makeText(NewBikeActivity.this, "Error. No se ha podido registrar",
                         Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    public void addPhotosScreen(){
+        Intent intent = new Intent (this, UploadPhotosActivity.class);
+        intent.putExtra("serialNumber", serialNumber);
+        startActivity(intent);
     }
 
 }

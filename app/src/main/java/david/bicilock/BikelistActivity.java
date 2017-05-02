@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -37,6 +38,8 @@ public class BikelistActivity extends AppCompatActivity {
     private int id;
     private ArrayList<Bike> arrayBikes;
     ArrayList<HashMap<String, String>> bikeList;
+
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,12 +116,8 @@ public class BikelistActivity extends AppCompatActivity {
     }
 
     protected void getEmail(){
-        Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            Toast.makeText(getApplicationContext(), "Error recibiendo e-mail", Toast.LENGTH_LONG).show();
-        } else {
-            email = extras.getString("email");
-        }
+        sp = getSharedPreferences("preferences", this.MODE_PRIVATE);
+        email = sp.getString("email", "null");
     }
 
     ///////Task para descargar las bicicletas del usuario
@@ -207,7 +206,7 @@ public class BikelistActivity extends AppCompatActivity {
         protected JSONObject doInBackground(String... args) {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql",  "DELETE FROM bikes WHERE SerialNumber='" + numSerie + "'");
+                parametrosPost.put("ins_sql", "DELETE FROM bikes WHERE SerialNumber='" + numSerie + "'");
 
                 jsonObject = returnJSON.sendDMLRequest(url_borrado, parametrosPost);
 
