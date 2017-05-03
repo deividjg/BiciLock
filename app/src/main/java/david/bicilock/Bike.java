@@ -4,10 +4,11 @@ import java.io.Serializable;
 
 public class Bike implements Serializable {
 
-    String serialNumber, brand, model, color, year, stolen, details;
+    String serialNumber, brand, model, color, year, details;
+    int stolen;
     Long id;
 
-    public Bike(Long id, String serialNumber, String brand, String model, String color, String year, String stolen, String details) {
+    public Bike(Long id, String serialNumber, String brand, String model, String color, String year, int stolen, String details) {
         this.id = id;
         this.serialNumber = serialNumber;
         this.brand = brand;
@@ -69,11 +70,11 @@ public class Bike implements Serializable {
         this.year = year;
     }
 
-    public String getStolen() {
+    public int getStolen() {
         return stolen;
     }
 
-    public void setStolen(String stolen) {
+    public void setStolen(int stolen) {
         this.stolen = stolen;
     }
 

@@ -12,4 +12,5 @@
     <string name="title_activity_show_images">Photos</string>
     <string name="title_activity_detail">Detail</string>
     <string name="title_activity_show_bike">ShowBikeActivity</string>
+    <string name="title_activity_set_stolen">SetStolenActivity</string>
 </resources>

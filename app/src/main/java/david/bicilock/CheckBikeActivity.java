@@ -94,7 +94,7 @@ public class CheckBikeActivity extends AppCompatActivity {
                         bike.setModel(jsonObject.getString("Model"));
                         bike.setColor(jsonObject.getString("Color"));
                         bike.setYear(jsonObject.getString("Year"));
-                        bike.setStolen(jsonObject.getString("Stolen"));
+                        bike.setStolen(jsonObject.getInt("Stolen"));
                         bike.setDetails("Details");
                         arrayBikes.add(bike);
                     } catch (JSONException e) {

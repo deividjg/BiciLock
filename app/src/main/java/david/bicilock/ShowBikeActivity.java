@@ -9,12 +9,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class ShowBikeActivity extends AppCompatActivity {
 
     private Bike bike;
-    private EditText etSerialNumberShow, etBrandShow, etModelShow, etColorShow, etYearShow;
+    private EditText etSerialNumberShow, etBrandShow, etModelShow, etColorShow, etYearShow, etStolenShow, etDetailsShow;
+    private CheckBox checkBoxStolenShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,8 @@ public class ShowBikeActivity extends AppCompatActivity {
         etModelShow = (EditText)findViewById(R.id.etModelShow);
         etColorShow = (EditText)findViewById(R.id.etColorShow);
         etYearShow = (EditText)findViewById(R.id.etYearShow);
+        etDetailsShow = (EditText)findViewById(R.id.etDetailsShow);
+        checkBoxStolenShow = (CheckBox)findViewById(R.id.checkBoxStolenShow);
 
         getBike();
         showBikeData();
@@ -76,13 +81,23 @@ public class ShowBikeActivity extends AppCompatActivity {
         etSerialNumberShow.setText(bike.getSerialNumber());
         etBrandShow.setText(bike.getBrand());
         etModelShow.setText(bike.getModel());
-        etColorShow.setText(bike.color);
-        etYearShow.setText(bike.year);
+        etColorShow.setText(bike.getColor());
+        etYearShow.setText(bike.getYear());
+        etDetailsShow.setText((bike.getDetails()));
+        if(bike.getStolen() == 1) {
+            checkBoxStolenShow.setChecked(true);
+        }
     }
 
     public void showPhotos(View view) {
         Intent intent = new Intent (this, ShowImagesActivity.class);
         intent.putExtra("serialNumber", etSerialNumberShow.getText().toString());
+        startActivity(intent);
+    }
+
+    public void setStolenScreen(View view) {
+        Intent intent = new Intent (getApplicationContext(), SetStolenActivity.class);
+        intent.putExtra("bike", bike);
         startActivity(intent);
     }
 

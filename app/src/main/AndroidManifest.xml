@@ -58,6 +58,10 @@
         <activity
             android:name=".ShowBikeActivity"
             android:label="@string/title_activity_show_bike"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SetStolenActivity"
+            android:label="@string/title_activity_set_stolen"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
