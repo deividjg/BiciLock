@@ -14,8 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp"
-        android:text="Bienvenido a BiciLock" />
+        android:layout_marginTop="27dp"
+        android:text="Bienvenido a BiciLock"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -24,7 +25,8 @@
         android:layout_alignEnd="@+id/textView"
         android:layout_below="@+id/textView"
         android:layout_marginTop="37dp"
-        android:text="¿Qué quieres hacer?" />
+        android:text="¿Qué quieres hacer?"
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/btnComprobar"
@@ -33,8 +35,8 @@
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:text="Comprobar Bastidor"
-        android:onClick="pantallaComprobar"/>
+        android:onClick="pantallaComprobar"
+        android:text="Comprobar Número de Serie" />
 
     <Button
         android:id="@+id/btnGestionar"
@@ -46,7 +48,7 @@
         android:onClick="pantallaLogin"/>
 
     <Button
-        android:id="@+id/btnRegistrar"
+        android:id="@+id/buttonRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -56,12 +58,11 @@
         android:onClick="pantallaRegistro"/>
 
     <Button
-        android:id="@+id/btnSalir"
+        android:id="@+id/buttonLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnRegistrar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp"
-        android:text="Salir"
-        android:onClick="salir"/>
+        android:layout_marginTop="30dp"
+        android:text="Logout"
+        android:layout_below="@+id/buttonRegister"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

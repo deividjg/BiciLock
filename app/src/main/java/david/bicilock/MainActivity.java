@@ -1,6 +1,7 @@
 package david.bicilock;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,8 +10,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
+
+    SharedPreferences sp;
+
+    Button buttonLogout, buttonRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +33,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        buttonLogout = (Button)findViewById(R.id.buttonLogout);
+        buttonRegister = (Button)findViewById(R.id.buttonRegister);
+
+        if(alreadyLogged()){
+            buttonLogout.setVisibility(View.INVISIBLE);
+            buttonRegister.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -44,15 +58,11 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.salir) {
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void salir(View view){
-        finish();
     }
 
     public void pantallaRegistro(View view){
@@ -61,8 +71,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void pantallaLogin(View view){
-        Intent intent = new Intent (this, LoginActivity.class);
-        startActivity(intent);
+        if(alreadyLogged()){
+            Intent intent = new Intent (this, BikelistActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent (this, LoginActivity.class);
+            startActivity(intent);
+        }
+
     }
 
     public void pantallaComprobar(View view){
@@ -73,5 +89,10 @@ public class MainActivity extends AppCompatActivity {
     public void newBikeScreen(){
         Intent intent = new Intent (this, NewBikeActivity.class);
         startActivity(intent);
+    }
+
+    public boolean alreadyLogged() {
+        sp = getSharedPreferences("preferences", this.MODE_PRIVATE);
+        return sp.getBoolean("logged", false);
     }
 }

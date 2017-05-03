@@ -79,6 +79,7 @@ public class ShowBikeActivity extends AppCompatActivity {
 
     protected void showBikeData(){
         etSerialNumberShow.setText(bike.getSerialNumber());
+        etSerialNumberShow.setClickable(false);
         etBrandShow.setText(bike.getBrand());
         etModelShow.setText(bike.getModel());
         etColorShow.setText(bike.getColor());
@@ -87,6 +88,7 @@ public class ShowBikeActivity extends AppCompatActivity {
         if(bike.getStolen() == 1) {
             checkBoxStolenShow.setChecked(true);
         }
+        checkBoxStolenShow.setClickable(false);
     }
 
     public void showPhotos(View view) {

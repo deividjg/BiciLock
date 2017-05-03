@@ -13,4 +13,5 @@
     <string name="title_activity_detail">Detail</string>
     <string name="title_activity_show_bike">ShowBikeActivity</string>
     <string name="title_activity_set_stolen">SetStolenActivity</string>
+    <string name="title_activity_edit_bike">EditBikeActivity</string>
 </resources>

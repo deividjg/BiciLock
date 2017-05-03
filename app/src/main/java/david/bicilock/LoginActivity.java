@@ -130,6 +130,7 @@ public class LoginActivity extends AppCompatActivity {
         sp = getSharedPreferences("preferences", this.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("email", email);
+        editor.putBoolean("logged", true);
         editor.commit();
     }
 
