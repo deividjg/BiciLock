@@ -31,7 +31,7 @@ public class BikelistActivity extends AppCompatActivity {
     static Adapter a;
 
     private String url_consulta, url_borrado, email, numSerie;
-    private JSONArray jSONArrayBikes;
+    private JSONArray jSONArrayBikes, jSONArrayPhotos;
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
     private Bike bike;
@@ -132,7 +132,7 @@ public class BikelistActivity extends AppCompatActivity {
 
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql", "Select * from bikes where email='" + email + "'");
+                parametrosPost.put("ins_sql", "Select bikes.SerialNumber, Brand, Model, Color, Year, Stolen, Details, url, favourite from bikes, photos where email='" + email + "' AND bikes.SerialNumber = photos.SerialNumber AND Favourite = 1");
 
                 jSONArrayBikes = returnJSON.sendRequest(url_consulta, parametrosPost);
 
@@ -165,6 +165,7 @@ public class BikelistActivity extends AppCompatActivity {
                         bike.setYear(jsonObject.getString("Year"));
                         bike.setStolen(jsonObject.getInt("Stolen"));
                         bike.setDetails("Details");
+                        bike.setUrlFav("Favourite");
                         arrayBikes.add(bike);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -174,7 +175,7 @@ public class BikelistActivity extends AppCompatActivity {
                     a.notifyDataSetChanged();
                     lv.setAdapter(a);
 
-                    Toast.makeText(BikelistActivity.this, "Carga correcta", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BikelistActivity.this, "Mostrando Garaje", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(BikelistActivity.this, "Error en la carga del garaje", Toast.LENGTH_LONG).show();

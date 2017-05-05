@@ -10,6 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -47,6 +49,8 @@ public class Adapter extends BaseAdapter {
         tvBrand.setText((CharSequence) list.get(position).getBrand());
         TextView tvModel = (TextView) view.findViewById(R.id.tvModelItem);
         tvModel.setText(list.get(position).getModel());
+        ImageView iv = (ImageView) view.findViewById(R.id.iv);
+        Glide.with(actividad).load(list.get(position).getUrlFav()).into(iv);
         /*File imgFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Fotos_Contactos", lista.get(position).getrFoto());
         if (imgFile.exists()) {
             ImageView im = (ImageView) view.findViewById(R.id.iv);
