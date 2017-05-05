@@ -5,13 +5,13 @@
     <!-- Strings related to login -->
     <string name="action_sign_in">Entrar</string>
     <string name="title_activity_new_bike">New Bike</string>
-    <string name="title_activity_bikelist">Bike List</string>
+    <string name="title_activity_bikelist">Your Garage</string>
     <string name="title_activity_bike_viewer">Bike</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_photos">Add Photos</string>
     <string name="title_activity_show_images">Photos</string>
     <string name="title_activity_detail">Detail</string>
-    <string name="title_activity_show_bike">ShowBikeActivity</string>
+    <string name="title_activity_show_bike">Your Bike</string>
     <string name="title_activity_set_stolen">SetStolenActivity</string>
-    <string name="title_activity_edit_bike">EditBikeActivity</string>
+    <string name="title_activity_edit_bike">Edit Bike</string>
 </resources>

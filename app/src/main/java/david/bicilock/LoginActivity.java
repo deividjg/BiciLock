@@ -56,10 +56,14 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void entrar(View view){
+    public void enter(View view){
         email = etEmail.getText().toString();
         password = etPassword.getText().toString();
         new CheckLogin().execute();
+    }
+
+    public void cancel(){
+        finish();
     }
 
     ///////Task para comprobar conexcion de usuario
@@ -116,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     Toast.makeText(LoginActivity.this, "Login Correcto", Toast.LENGTH_SHORT).show();
                     holdLogin();
-                    garageScreen();
+                    mainScreen();
                 }
 
             } else {
@@ -134,9 +138,13 @@ public class LoginActivity extends AppCompatActivity {
         editor.commit();
     }
 
-    protected void garageScreen(){
-        Intent intent = new Intent (this, BikelistActivity.class);
+    protected void mainScreen(){
+        Intent intent = new Intent (this, MainActivity.class);
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

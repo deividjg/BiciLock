@@ -31,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        etEMail = (EditText)findViewById(R.id.etEMail);
+        etEMail = (EditText) findViewById(R.id.etEMail);
 
         url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
 
@@ -39,9 +39,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    public void registrar(View view){
+    public void registrar(View view) {
         email = etEMail.getText().toString();
         new RegistroTask().execute();
+    }
+
+    public void cancel(View view) {
+        finish();
     }
 
     ///////Task para registrar un nuevo usuario
@@ -86,10 +90,10 @@ public class RegisterActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                if(add!=0){
+                if (add != 0) {
                     Toast.makeText(RegisterActivity.this, "Registro guardado",
                             Toast.LENGTH_LONG).show();
-                }else{
+                } else {
                     Toast.makeText(RegisterActivity.this, "ha ocurrido un error",
                             Toast.LENGTH_LONG).show();
                 }

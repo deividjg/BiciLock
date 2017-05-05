@@ -1,17 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="david.bicilock.NewBikeActivity">
+    tools:context="david.bicilock.EditBikeActivity">
     <item
-        android:id="@+id/saveBike"
+        android:id="@+id/saveBikeEdit"
         android:icon="@android:drawable/ic_menu_save"
         android:orderInCategory="100"
-        android:title="saveBikeNew"
+        android:title="saveBikeEdit"
         app:showAsAction="always" />
     <item
-        android:id="@+id/cancelNewBike"
+        android:id="@+id/cancelBikeEdit"
         android:icon="@android:drawable/ic_menu_close_clear_cancel"
         android:orderInCategory="100"
-        android:title="cancelBikeNew"
+        android:title="cancelBikeEdit"
         app:showAsAction="always" />
 </menu>

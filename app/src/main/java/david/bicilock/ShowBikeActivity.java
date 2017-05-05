@@ -9,15 +9,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class ShowBikeActivity extends AppCompatActivity {
 
     private Bike bike;
-    private EditText etSerialNumberShow, etBrandShow, etModelShow, etColorShow, etYearShow, etStolenShow, etDetailsShow;
+    private EditText etSerialNumberShow, etBrandShow, etModelShow, etColorShow, etYearShow, etDetailsShow;
     private CheckBox checkBoxStolenShow;
+    private Button btnSetStolen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,28 +43,27 @@ public class ShowBikeActivity extends AppCompatActivity {
         etYearShow = (EditText)findViewById(R.id.etYearShow);
         etDetailsShow = (EditText)findViewById(R.id.etDetailsShow);
         checkBoxStolenShow = (CheckBox)findViewById(R.id.checkBoxStolenShow);
+        btnSetStolen = (Button)findViewById(R.id.buttonSetStolen);
 
         getBike();
-        showBikeData();
+        prepareScreen();
+        if(bike.getStolen() == 1) {
+            btnSetStolen.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_show_bike, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.editBike) {
-
+            editBikeScreen();
         }
 
         if (id == R.id.deleteBike) {
@@ -77,9 +77,8 @@ public class ShowBikeActivity extends AppCompatActivity {
         bike = (Bike)getIntent().getSerializableExtra("bike");
     }
 
-    protected void showBikeData(){
+    protected void prepareScreen(){
         etSerialNumberShow.setText(bike.getSerialNumber());
-        etSerialNumberShow.setClickable(false);
         etBrandShow.setText(bike.getBrand());
         etModelShow.setText(bike.getModel());
         etColorShow.setText(bike.getColor());
@@ -99,6 +98,12 @@ public class ShowBikeActivity extends AppCompatActivity {
 
     public void setStolenScreen(View view) {
         Intent intent = new Intent (getApplicationContext(), SetStolenActivity.class);
+        intent.putExtra("bike", bike);
+        startActivity(intent);
+    }
+
+    protected void editBikeScreen(){
+        Intent intent = new Intent (getApplicationContext(), EditBikeActivity.class);
         intent.putExtra("bike", bike);
         startActivity(intent);
     }

@@ -8,61 +8,173 @@
     tools:context="david.bicilock.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="27dp"
-        android:text="Bienvenido a BiciLock"
-        android:textSize="18sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textView"
-        android:layout_below="@+id/textView"
-        android:layout_marginTop="37dp"
-        android:text="¿Qué quieres hacer?"
-        android:textSize="18sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnComprobar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:onClick="pantallaComprobar"
-        android:text="Comprobar Número de Serie" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:text="Bienvenido a BiciLock"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/btnGestionar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Gestionar Garaje"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="pantallaLogin"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/buttonRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Registrarse"
-        android:layout_below="@+id/btnGestionar"
-        android:layout_centerHorizontal="true"
-        android:onClick="pantallaRegistro"/>
+            <TextView
+                android:id="@+id/tvEmailMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:text="Invitado"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/buttonLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Logout"
-        android:layout_below="@+id/buttonRegister"
-        android:layout_centerHorizontal="true" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvEmailMain"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:text="¿Qué quieres hacer?"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCheckBike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnLogin"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="17dp"
+                android:layout_weight="0.31"
+                android:onClick="checkBikeScreen"
+                android:text="Comprobar Número de Serie" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnManageGarage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/buttonModifyPersonalData"
+                android:layout_alignStart="@+id/textView2"
+                android:layout_marginBottom="19dp"
+                android:layout_weight="1"
+                android:onClick="bikeListScreen"
+                android:text="Gestionar Garaje" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonModifyPersonalData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/buttonRegister"
+                android:layout_alignStart="@+id/textView"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:text="Modificar mis datos" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/buttonLogout"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:onClick="registerScreen"
+                android:text="Registrarse" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/buttonLogout"
+                android:layout_below="@+id/textView2"
+                android:layout_marginTop="15dp"
+                android:layout_weight="1"
+                android:text="Login"
+                android:onClick="loginScreen"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonLogout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="22dp"
+                android:layout_weight="1"
+                android:onClick="logout"
+                android:text="Logout" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 </RelativeLayout>
