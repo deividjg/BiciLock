@@ -1,7 +1,9 @@
 package david.bicilock;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,9 +16,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
-
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,6 +44,8 @@ public class ShowImagesActivity extends AppCompatActivity {
     private ArrayList<Upload> arrayUploads;
     ArrayList<HashMap<String, String>> uploadList;
     private String serialNumber;
+    private String id;
+    private int pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +82,9 @@ public class ShowImagesActivity extends AppCompatActivity {
 
             @Override
             public void onLongClick(View view, int position) {
-                Toast.makeText(getApplicationContext(), "Long press on position :"+position, Toast.LENGTH_LONG).show();
+                pos = position;
+                showConfirmDialog();
             }
-
         }));
 
         getBikePhotos();
@@ -141,11 +142,36 @@ public class ShowImagesActivity extends AppCompatActivity {
 
     protected void getBikePhotos(){
         serialNumber = getIntent().getExtras().getString("serialNumber");
-        new DownloadPhotos().execute();
+        new DownloadPhotosTask().execute();
+    }
+
+    protected void showConfirmDialog(){
+        AlertDialog.Builder alertDialogBu = new AlertDialog.Builder(ShowImagesActivity.this);
+        alertDialogBu.setTitle("Eliminar bicicleta");
+        alertDialogBu.setMessage("¿Estás seguro?");
+        alertDialogBu.setIcon(android.R.drawable.ic_dialog_alert);
+
+        alertDialogBu.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "Boton Rechazar pulsado", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alertDialogBu.setPositiveButton( "Sí", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                upload = arrayUploads.get(pos);
+                id = upload.getId();
+                Toast.makeText(ShowImagesActivity.this, id, Toast.LENGTH_SHORT).show();
+                new DeletePhotoTask().execute();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBu.create();
+        alertDialog.show();
     }
 
     ///////Task para descargar las fotos de una bicicleta
-    class DownloadPhotos extends AsyncTask<String, String, JSONArray> {
+    class DownloadPhotosTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
         @Override
@@ -208,6 +234,61 @@ public class ShowImagesActivity extends AppCompatActivity {
                 }
             } else {
                 Toast.makeText(ShowImagesActivity.this, "Error en la carga del garaje", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    ///////Task para eliminar una foto
+    class DeletePhotoTask extends AsyncTask<String, String, JSONObject> {
+        private ProgressDialog pDialog;
+        int add;
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(ShowImagesActivity.this);
+            pDialog.setMessage("Cargando...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            try {
+                HashMap<String, String> parametrosPost = new HashMap<>();
+                parametrosPost.put("ins_sql", "DELETE FROM photos WHERE id = '" + id + "'");
+
+                jsonObject = returnJSON.sendDMLRequest(url_borrado, parametrosPost);
+
+                if (jsonObject != null) {
+                    return jsonObject;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(JSONObject json) {
+            if (pDialog != null && pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
+            if (json != null) {
+                try {
+                    add = json.getInt("added");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if(add!=0){
+                    Toast.makeText(ShowImagesActivity.this, "Registro borrado", Toast.LENGTH_LONG).show();
+                    arrayUploads.remove(pos);
+                    adapter.notifyDataSetChanged();
+                }else{
+                    Toast.makeText(ShowImagesActivity.this, "Error al borrar", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(ShowImagesActivity.this, "JSON Array nulo", Toast.LENGTH_LONG).show();
             }
         }
     }
