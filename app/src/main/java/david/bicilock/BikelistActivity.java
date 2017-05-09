@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,13 +36,14 @@ public class BikelistActivity extends AppCompatActivity {
     ListView lv;
     static Adapter a;
 
-    private String url_consulta, url_borrado, email, numSerie;
-    private JSONArray jSONArrayBikes, jSONArrayPhotos;
+    private String url_consulta, url_borrado, email, serialNumber;
+    private JSONArray jSONArrayBikes, jSONArrayString;
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
     private Bike bike;
     private int id;
     private ArrayList<Bike> arrayBikes;
+    private ArrayList<String> arrayString;
 
     SharedPreferences sp;
 
@@ -69,7 +76,7 @@ public class BikelistActivity extends AppCompatActivity {
 
             public boolean onItemLongClick(AdapterView<?> arg0, View v, int index, long arg3) {
                 bike = (Bike)lv.getAdapter().getItem(index);
-                numSerie = bike.getSerialNumber();
+                serialNumber = bike.getSerialNumber();
                 id = index;
                 showConfirmDialog();
                 return true;
@@ -132,7 +139,8 @@ public class BikelistActivity extends AppCompatActivity {
 
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql", "Select bikes.SerialNumber, Brand, Model, Color, Year, Stolen, Details, url, favourite from bikes, photos where email='" + email + "' AND bikes.SerialNumber = photos.SerialNumber AND Favourite = 1");
+                //parametrosPost.put("ins_sql", "SELECT bikes.SerialNumber, Brand, Model, Color, Year, Stolen, Details, url, favourite from bikes, photos where email='" + email + "' AND bikes.SerialNumber = photos.SerialNumber AND Favourite = 1");
+                parametrosPost.put("ins_sql", "SELECT * FROM bikes where email='" + email + "'");
 
                 jSONArrayBikes = returnJSON.sendRequest(url_consulta, parametrosPost);
 
@@ -201,7 +209,7 @@ public class BikelistActivity extends AppCompatActivity {
         protected JSONObject doInBackground(String... args) {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql", "DELETE FROM bikes WHERE SerialNumber='" + numSerie + "'");
+                parametrosPost.put("ins_sql", "DELETE FROM bikes WHERE SerialNumber='" + serialNumber + "'");
 
                 jsonObject = returnJSON.sendDMLRequest(url_borrado, parametrosPost);
 
@@ -238,6 +246,63 @@ public class BikelistActivity extends AppCompatActivity {
         }
     }
 
+    ///////Task para borrar todas las fotos
+    class DeleteAllPhotosTask extends AsyncTask<String, String, JSONArray> {
+        private ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(BikelistActivity.this);
+            pDialog.setMessage("Cargando...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected JSONArray doInBackground(String... args) {
+
+            try {
+                HashMap<String, String> parametrosPost = new HashMap<>();
+                parametrosPost.put("ins_sql", "SELECT * FROM photos WHERE SerialNumber='" + serialNumber + "'");
+
+                jSONArrayString = returnJSON.sendRequest(url_consulta, parametrosPost);
+
+                if (jSONArrayString != null) {
+                    return jSONArrayString;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(JSONArray json) {
+            if (pDialog != null && pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
+            if (json != null) {
+                arrayString = new ArrayList<String>();
+                String idPhoto;
+                for (int i = 0; i < json.length(); i++) {
+                    try {
+                        JSONObject jsonObject = json.getJSONObject(i);
+                        idPhoto = jsonObject.getString("id");
+                        arrayString.add(idPhoto);
+                        System.out.println("entra");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                Toast.makeText(BikelistActivity.this, "Array idPhoto Listo", Toast.LENGTH_SHORT).show();
+                borrar();
+            } else {
+                Toast.makeText(BikelistActivity.this, "Error Array idPhoto", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
     protected void showConfirmDialog(){
         AlertDialog.Builder alertDialogBu = new AlertDialog.Builder(BikelistActivity.this);
         alertDialogBu.setTitle("Eliminar bicicleta");
@@ -252,11 +317,37 @@ public class BikelistActivity extends AppCompatActivity {
 
         alertDialogBu.setPositiveButton( "Sí", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                new DeleteBikeTask().execute();
+                new DeleteAllPhotosTask().execute();
             }
         });
 
         AlertDialog alertDialog = alertDialogBu.create();
         alertDialog.show();
+    }
+
+    protected void borrar() {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        System.out.println(storageReference.toString());
+        System.out.println(arrayString.size()+"");
+
+        for (int i = 0; i < arrayString.size(); i++) {
+            StorageReference toDeleteFile = storageReference.child("images/" + serialNumber + "/" + arrayString.get(i) + ".jpg");
+
+            System.out.println(toDeleteFile.toString());
+
+            toDeleteFile.delete().addOnSuccessListener(new OnSuccessListener() {
+                @Override
+                public void onSuccess(Object o) {
+                    Toast.makeText(BikelistActivity.this, "foto borrada del servidor", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Toast.makeText(BikelistActivity.this, "NADA BORRADO", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        new DeleteBikeTask().execute();
     }
 }

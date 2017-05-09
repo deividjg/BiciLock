@@ -53,10 +53,6 @@ public class ShowImagesActivity extends AppCompatActivity {
     private String id;
     private int pos;
 
-    //firebase objects
-    private FirebaseStorage storage;
-    private StorageReference storageReference, toDeleteFile;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +64,7 @@ public class ShowImagesActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                borrar();
             }
         });
 
@@ -98,10 +93,6 @@ public class ShowImagesActivity extends AppCompatActivity {
         }));
 
         getBikePhotos();
-
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
-
     }
 
     public static interface ClickListener {
@@ -233,8 +224,6 @@ public class ShowImagesActivity extends AppCompatActivity {
                         upload.setSerialNumber(jsonObject.getString("SerialNumber"));
                         upload.setUrl(jsonObject.getString("url"));
 
-                        System.out.println(upload.getUrl());
-
                         arrayUploads.add(upload);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -309,11 +298,15 @@ public class ShowImagesActivity extends AppCompatActivity {
         }
     }
 
-    public void borrar() {
+    protected void borrar() {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        System.out.println(storageReference.toString());
 
-        toDeleteFile = storageReference.child("images/" + serialNumber + "/" + id + ".jpg");
+        StorageReference toDeleteFile = storageReference.child("images/" + serialNumber + "/" + id + ".jpg");
 
-        storageReference.delete().addOnSuccessListener(new OnSuccessListener() {
+        System.out.println(toDeleteFile.toString());
+
+        toDeleteFile.delete().addOnSuccessListener(new OnSuccessListener() {
             @Override
             public void onSuccess(Object o) {
                 Toast.makeText(ShowImagesActivity.this, "foto borrada del servidor", Toast.LENGTH_SHORT).show();
@@ -321,7 +314,7 @@ public class ShowImagesActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                // Uh-oh, an error occurred!
+                Toast.makeText(ShowImagesActivity.this, "NADA BORRADO", Toast.LENGTH_SHORT).show();
             }
         });
     }

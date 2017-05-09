@@ -88,6 +88,8 @@ public class UploadPhotosActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
 
         storageReference = FirebaseStorage.getInstance().getReference();
+
+        System.out.println(storageReference.toString());
     }
 
     @Override
@@ -171,9 +173,9 @@ public class UploadPhotosActivity extends AppCompatActivity {
 
                             //and displaying a success toast
                             Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
-                            new NewPhotoTask().execute();
                             imageView.setImageBitmap(null);
                             url = taskSnapshot.getDownloadUrl().toString();
+                            new NewPhotoTask().execute();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -226,7 +228,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
         protected JSONObject doInBackground(String... args) {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql", "INSERT INTO photos VALUES('" + id + "', '" + serialNumber + "', '" + url + "')");
+                parametrosPost.put("ins_sql", "INSERT INTO photos VALUES('" + id + "', '" + serialNumber + "', '" + url + "', 0)");
                 jsonObject = returnJSON.sendDMLRequest(url_subida, parametrosPost);
 
                 if (jsonObject != null) {
