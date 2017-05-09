@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,11 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +52,10 @@ public class ShowImagesActivity extends AppCompatActivity {
     private String serialNumber;
     private String id;
     private int pos;
+
+    //firebase objects
+    private FirebaseStorage storage;
+    private StorageReference storageReference, toDeleteFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,22 +98,27 @@ public class ShowImagesActivity extends AppCompatActivity {
         }));
 
         getBikePhotos();
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
     }
 
-    public static interface ClickListener{
-        public void onClick(View view,int position);
-        public void onLongClick(View view,int position);
+    public static interface ClickListener {
+        public void onClick(View view, int position);
+
+        public void onLongClick(View view, int position);
     }
 
-    class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{
+    class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
         private ClickListener clicklistener;
         private GestureDetector gestureDetector;
 
-        public RecyclerTouchListener(Context context, final RecyclerView recycleView, final ClickListener clicklistener){
+        public RecyclerTouchListener(Context context, final RecyclerView recycleView, final ClickListener clicklistener) {
 
-            this.clicklistener=clicklistener;
-            gestureDetector=new GestureDetector(context,new GestureDetector.SimpleOnGestureListener(){
+            this.clicklistener = clicklistener;
+            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
                 @Override
                 public boolean onSingleTapUp(MotionEvent e) {
                     return true;
@@ -111,9 +126,9 @@ public class ShowImagesActivity extends AppCompatActivity {
 
                 @Override
                 public void onLongPress(MotionEvent e) {
-                    View child=recycleView.findChildViewUnder(e.getX(),e.getY());
-                    if(child!=null && clicklistener!=null){
-                        clicklistener.onLongClick(child,recycleView.getChildAdapterPosition(child));
+                    View child = recycleView.findChildViewUnder(e.getX(), e.getY());
+                    if (child != null && clicklistener != null) {
+                        clicklistener.onLongClick(child, recycleView.getChildAdapterPosition(child));
                     }
                 }
             });
@@ -121,9 +136,9 @@ public class ShowImagesActivity extends AppCompatActivity {
 
         @Override
         public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-            View child=rv.findChildViewUnder(e.getX(),e.getY());
-            if(child!=null && clicklistener!=null && gestureDetector.onTouchEvent(e)){
-                clicklistener.onClick(child,rv.getChildAdapterPosition(child));
+            View child = rv.findChildViewUnder(e.getX(), e.getY());
+            if (child != null && clicklistener != null && gestureDetector.onTouchEvent(e)) {
+                clicklistener.onClick(child, rv.getChildAdapterPosition(child));
             }
 
             return false;
@@ -140,12 +155,12 @@ public class ShowImagesActivity extends AppCompatActivity {
         }
     }
 
-    protected void getBikePhotos(){
+    protected void getBikePhotos() {
         serialNumber = getIntent().getExtras().getString("serialNumber");
         new DownloadPhotosTask().execute();
     }
 
-    protected void showConfirmDialog(){
+    protected void showConfirmDialog() {
         AlertDialog.Builder alertDialogBu = new AlertDialog.Builder(ShowImagesActivity.this);
         alertDialogBu.setTitle("Eliminar bicicleta");
         alertDialogBu.setMessage("¿Estás seguro?");
@@ -157,7 +172,7 @@ public class ShowImagesActivity extends AppCompatActivity {
             }
         });
 
-        alertDialogBu.setPositiveButton( "Sí", new DialogInterface.OnClickListener() {
+        alertDialogBu.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 upload = arrayUploads.get(pos);
                 id = upload.getId();
@@ -280,16 +295,34 @@ public class ShowImagesActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                if(add!=0){
+                if (add != 0) {
                     Toast.makeText(ShowImagesActivity.this, "Registro borrado", Toast.LENGTH_LONG).show();
                     arrayUploads.remove(pos);
                     adapter.notifyDataSetChanged();
-                }else{
+                    borrar();
+                } else {
                     Toast.makeText(ShowImagesActivity.this, "Error al borrar", Toast.LENGTH_LONG).show();
                 }
             } else {
                 Toast.makeText(ShowImagesActivity.this, "JSON Array nulo", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    public void borrar() {
+
+        toDeleteFile = storageReference.child("images/" + serialNumber + "/" + id + ".jpg");
+
+        storageReference.delete().addOnSuccessListener(new OnSuccessListener() {
+            @Override
+            public void onSuccess(Object o) {
+                Toast.makeText(ShowImagesActivity.this, "foto borrada del servidor", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Uh-oh, an error occurred!
+            }
+        });
     }
 }
