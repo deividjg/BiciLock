@@ -77,4 +77,9 @@ public class EditBikeActivity extends AppCompatActivity {
         etYearEdit.setText(bike.getYear());
         etDetailsEdit.setText((bike.getDetails()));
     }
+
+    @Override
+    public void onBackPressed(){
+        finish();
+    }
 }

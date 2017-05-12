@@ -309,13 +309,18 @@ public class ShowImagesActivity extends AppCompatActivity {
         toDeleteFile.delete().addOnSuccessListener(new OnSuccessListener() {
             @Override
             public void onSuccess(Object o) {
-                Toast.makeText(ShowImagesActivity.this, "foto borrada del servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ShowImagesActivity.this, "Foto borrada del servidor", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                Toast.makeText(ShowImagesActivity.this, "NADA BORRADO", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ShowImagesActivity.this, "Foto no borrada del servidor", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed(){
+        finish();
     }
 }

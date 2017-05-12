@@ -1,6 +1,9 @@
 package david.bicilock;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +29,9 @@ public class SetStolenActivity extends AppCompatActivity {
 
     Bike bike;
     private TextView tvBrandSetStolen, tvModelSetStolen, tvSerialNumberSetStolen;
+    private CheckBox checkBoxStolenShow;
     private EditText etDetailsSetStolen;
+    private Button btnSetStolen;
 
     private String url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
     protected JSONObject jsonObject;
@@ -48,13 +56,26 @@ public class SetStolenActivity extends AppCompatActivity {
         tvBrandSetStolen = (TextView)findViewById(R.id.tvBrandSetStolen);
         tvModelSetStolen = (TextView)findViewById(R.id.tvModelSetStolen);
         tvSerialNumberSetStolen = (TextView)findViewById(R.id.tvSerialNumberSetStolen);
+        checkBoxStolenShow = (CheckBox)findViewById(R.id.checkBoxStolenSetStolen);
         etDetailsSetStolen = (EditText)findViewById(R.id.etDetailsSetStolen);
+        btnSetStolen = (Button)findViewById(R.id.buttonSetStolenSetStolen);
 
         getBike();
         showBikeData();
 
         url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
         returnJSON = new ReturnJSON();
+
+        checkBoxStolenShow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (checkBoxStolenShow.isChecked()) {
+                        etDetailsSetStolen.setVisibility(View.VISIBLE);
+                    } else {
+                        etDetailsSetStolen.setVisibility(View.INVISIBLE);
+                    }
+            }
+        });
     }
 
     @Override
@@ -72,7 +93,7 @@ public class SetStolenActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.cancelNewBike) {
+        if (id == R.id.cancelSetStolen) {
             finish();
         }
 
@@ -87,11 +108,35 @@ public class SetStolenActivity extends AppCompatActivity {
         tvBrandSetStolen.setText(bike.getBrand());
         tvModelSetStolen.setText(bike.getModel());
         tvSerialNumberSetStolen.setText(bike.getSerialNumber());
+        etDetailsSetStolen.setText(bike.getDetails());
+        if (bike.getStolen() == 1) {
+            checkBoxStolenShow.setChecked(true);
+        }
     }
 
     public void setStolen(View view) {
-        bike.setDetails(etDetailsSetStolen.getText().toString());
-        new SetStolenTask().execute();
+        showConfirmDialog();
+    }
+
+    protected void showConfirmDialog(){
+        AlertDialog.Builder alertDialogBu = new AlertDialog.Builder(SetStolenActivity.this);
+        alertDialogBu.setTitle("Modificar Estado");
+        alertDialogBu.setMessage("¿Estás seguro?");
+        alertDialogBu.setIcon(android.R.drawable.ic_dialog_alert);
+
+        alertDialogBu.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {}
+        });
+
+        alertDialogBu.setPositiveButton( "Sí", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                bike.setDetails(etDetailsSetStolen.getText().toString());
+                new SetStolenTask().execute();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBu.create();
+        alertDialog.show();
     }
 
     ///////Task para marcar una bici como robada
@@ -112,7 +157,13 @@ public class SetStolenActivity extends AppCompatActivity {
         protected JSONObject doInBackground(String... args) {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql", "UPDATE bikes SET Stolen = 1, Details = '" + bike.getDetails() + "' WHERE SerialNumber = '" + bike.getSerialNumber() + "'");
+
+                if(bike.getStolen() == 0){
+                    parametrosPost.put("ins_sql", "UPDATE bikes SET Stolen = 1, Details = '" + bike.getDetails() + "' WHERE SerialNumber = '" + bike.getSerialNumber() + "'");
+                } else {
+                    parametrosPost.put("ins_sql", "UPDATE bikes SET Stolen = 0, Details = '" + bike.getDetails() + "' WHERE SerialNumber = '" + bike.getSerialNumber() + "'");
+                }
+
                 jsonObject = returnJSON.sendDMLRequest(url_subida, parametrosPost);
 
                 if (jsonObject != null) {
@@ -136,9 +187,11 @@ public class SetStolenActivity extends AppCompatActivity {
                 }
 
                 if(add!=0){
-                    Toast.makeText(SetStolenActivity.this, "Bicicleta Registrada",
-                            Toast.LENGTH_LONG).show();
-
+                    Toast.makeText(SetStolenActivity.this, "Estado modificado", Toast.LENGTH_LONG).show();
+                    refreshBike();
+                    Intent intent = new Intent (getApplicationContext(), ShowBikeActivity.class);
+                    intent.putExtra("bike", bike);
+                    startActivity(intent);
                 }else{
                     Toast.makeText(SetStolenActivity.this, "Error. No se ha podido registrar",
                             Toast.LENGTH_LONG).show();
@@ -151,4 +204,17 @@ public class SetStolenActivity extends AppCompatActivity {
         }
     }
 
+    protected void refreshBike() {
+        if (checkBoxStolenShow.isChecked()) {
+            bike.setStolen(1);
+        } else {
+            bike.setStolen(0);
+        }
+        bike.setDetails(etDetailsSetStolen.getText().toString());
+    }
+
+    @Override
+    public void onBackPressed(){
+        finish();
+    }
 }

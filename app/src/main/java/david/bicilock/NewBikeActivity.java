@@ -152,4 +152,9 @@ public class NewBikeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed(){
+        finish();
+    }
+
 }

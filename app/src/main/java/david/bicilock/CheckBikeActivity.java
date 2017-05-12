@@ -140,4 +140,9 @@ public class CheckBikeActivity extends AppCompatActivity {
         //intent.putExtra("email", email);
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed(){
+        finish();
+    }
 }

@@ -43,13 +43,10 @@ public class ShowBikeActivity extends AppCompatActivity {
         etYearShow = (EditText)findViewById(R.id.etYearShow);
         etDetailsShow = (EditText)findViewById(R.id.etDetailsShow);
         checkBoxStolenShow = (CheckBox)findViewById(R.id.checkBoxStolenShow);
-        btnSetStolen = (Button)findViewById(R.id.buttonSetStolen);
+        btnSetStolen = (Button)findViewById(R.id.buttonSetStolenShowBike);
 
         getBike();
         prepareScreen();
-        if(bike.getStolen() == 1) {
-            btnSetStolen.setVisibility(View.INVISIBLE);
-        }
     }
 
     @Override
@@ -83,7 +80,7 @@ public class ShowBikeActivity extends AppCompatActivity {
         etModelShow.setText(bike.getModel());
         etColorShow.setText(bike.getColor());
         etYearShow.setText(bike.getYear());
-        etDetailsShow.setText((bike.getDetails()));
+        etDetailsShow.setText(bike.getDetails());
         if(bike.getStolen() == 1) {
             checkBoxStolenShow.setChecked(true);
         }
@@ -108,4 +105,19 @@ public class ShowBikeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed(){
+        finish();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable("bike", bike);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        bike = (Bike) savedInstanceState.getSerializable("bike");
+    }
 }

@@ -211,12 +211,12 @@
 
 
             <Button
-                android:id="@+id/buttonSetStolen"
+                android:id="@+id/buttonSetStolenShowBike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Marcar Como Robada"
-                android:onClick="setStolenScreen"/>
+                android:onClick="setStolenScreen"
+                android:text="Gestionar Robo" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

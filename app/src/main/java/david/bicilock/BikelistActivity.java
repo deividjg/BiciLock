@@ -63,13 +63,10 @@ public class BikelistActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView adapter, View view, int position, long arg) {
                 bike = (Bike) lv.getAdapter().getItem(position);
-                Toast.makeText(getApplicationContext(), position+"", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent (getApplicationContext(), ShowBikeActivity.class);
                 intent.putExtra("bike", bike);
                 startActivity(intent);
             }
-
-
         });
 
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -140,7 +137,7 @@ public class BikelistActivity extends AppCompatActivity {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 //parametrosPost.put("ins_sql", "SELECT bikes.SerialNumber, Brand, Model, Color, Year, Stolen, Details, url, favourite from bikes, photos where email='" + email + "' AND bikes.SerialNumber = photos.SerialNumber AND Favourite = 1");
-                parametrosPost.put("ins_sql", "SELECT * FROM bikes where email='" + email + "'");
+                parametrosPost.put("ins_sql", "SELECT * FROM bikes WHERE email='" + email + "'");
 
                 jSONArrayBikes = returnJSON.sendRequest(url_consulta, parametrosPost);
 
@@ -172,7 +169,7 @@ public class BikelistActivity extends AppCompatActivity {
                         bike.setColor(jsonObject.getString("Color"));
                         bike.setYear(jsonObject.getString("Year"));
                         bike.setStolen(jsonObject.getInt("Stolen"));
-                        bike.setDetails("Details");
+                        bike.setDetails(jsonObject.getString("Details"));
                         bike.setUrlFav("Favourite");
                         arrayBikes.add(bike);
                     } catch (JSONException e) {
@@ -349,5 +346,10 @@ public class BikelistActivity extends AppCompatActivity {
         }
 
         new DeleteBikeTask().execute();
+    }
+
+    @Override
+    public void onBackPressed(){
+        finish();
     }
 }

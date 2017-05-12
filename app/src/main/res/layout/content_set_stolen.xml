@@ -89,6 +89,22 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
+            <CheckBox
+                android:id="@+id/checkBoxStolenSetStolen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="150dp"
+                android:layout_weight="1"
+                android:text="¿Robada?"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
 
             <EditText
                 android:id="@+id/etDetailsSetStolen"
@@ -107,12 +123,12 @@
 
 
             <Button
-                android:id="@+id/buttonSetStolen"
+                android:id="@+id/buttonSetStolenSetStolen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="setStolen"
-                android:text="Marcar Como Robada" />
+                android:text="Modificar Estado" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

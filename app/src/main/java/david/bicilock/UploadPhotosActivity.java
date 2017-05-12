@@ -205,11 +205,6 @@ public class UploadPhotosActivity extends AppCompatActivity {
         }
     }
 
-    public void showPhotos(View view) {
-        Intent intent = new Intent (this, ShowImagesActivity.class);
-        startActivity(intent);
-    }
-
     ///////Task para registrar una nueva foto
     class NewPhotoTask extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
@@ -275,5 +270,10 @@ public class UploadPhotosActivity extends AppCompatActivity {
     protected void garageScreen(){
         Intent intent = new Intent (this, BikelistActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed(){
+        finish();
     }
 }
