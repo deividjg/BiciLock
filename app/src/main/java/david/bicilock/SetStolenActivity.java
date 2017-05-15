@@ -66,7 +66,7 @@ public class SetStolenActivity extends AppCompatActivity {
         url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
         returnJSON = new ReturnJSON();
 
-        checkBoxStolenShow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        /*checkBoxStolenShow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (checkBoxStolenShow.isChecked()) {
@@ -75,7 +75,7 @@ public class SetStolenActivity extends AppCompatActivity {
                         etDetailsSetStolen.setVisibility(View.INVISIBLE);
                     }
             }
-        });
+        });*/
     }
 
     @Override
@@ -192,6 +192,7 @@ public class SetStolenActivity extends AppCompatActivity {
                     Intent intent = new Intent (getApplicationContext(), ShowBikeActivity.class);
                     intent.putExtra("bike", bike);
                     startActivity(intent);
+                    finish();
                 }else{
                     Toast.makeText(SetStolenActivity.this, "Error. No se ha podido registrar",
                             Toast.LENGTH_LONG).show();

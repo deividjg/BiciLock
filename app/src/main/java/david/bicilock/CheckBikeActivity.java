@@ -63,7 +63,7 @@ public class CheckBikeActivity extends AppCompatActivity {
 
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql", "Select * from bikes where SerialNumber='" + serialNumber + "'");
+                parametrosPost.put("ins_sql", "SELECT * FROM bikes WHERE SerialNumber='" + serialNumber + "'");
 
                 jSONArray = returnJSON.sendRequest(url_consulta, parametrosPost);
 
@@ -103,7 +103,11 @@ public class CheckBikeActivity extends AppCompatActivity {
 
                     Toast.makeText(CheckBikeActivity.this, "Bici encontrada", Toast.LENGTH_SHORT).show();
 
-                    showConfirmDialog();
+                    if (bike.stolen == 1) {
+                        showConfirmDialog();
+                    } else {
+                        Toast.makeText(CheckBikeActivity.this, "La bicicleta no está denunciada", Toast.LENGTH_LONG).show();
+                    }
                 }
             } else {
                 Toast.makeText(CheckBikeActivity.this, "La bicicleta no se encuentra en la BD", Toast.LENGTH_LONG).show();

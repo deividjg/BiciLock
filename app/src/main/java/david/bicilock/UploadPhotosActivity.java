@@ -223,7 +223,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
         protected JSONObject doInBackground(String... args) {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql", "INSERT INTO photos VALUES('" + id + "', '" + serialNumber + "', '" + url + "', 0)");
+                parametrosPost.put("ins_sql", "INSERT INTO photos VALUES('" + id + "." + getFileExtension(filePath) + "', '" + serialNumber + "', '" + url + "', 0)");
                 jsonObject = returnJSON.sendDMLRequest(url_subida, parametrosPost);
 
                 if (jsonObject != null) {

@@ -328,7 +328,7 @@ public class BikelistActivity extends AppCompatActivity {
         System.out.println(arrayString.size()+"");
 
         for (int i = 0; i < arrayString.size(); i++) {
-            StorageReference toDeleteFile = storageReference.child("images/" + serialNumber + "/" + arrayString.get(i) + ".jpg");
+            StorageReference toDeleteFile = storageReference.child("images/" + serialNumber + "/" + arrayString.get(i));
 
             System.out.println(toDeleteFile.toString());
 

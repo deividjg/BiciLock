@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +15,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.GestureDetector;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -64,7 +67,7 @@ public class ShowImagesActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                borrar();
+
             }
         });
 
@@ -93,6 +96,25 @@ public class ShowImagesActivity extends AppCompatActivity {
         }));
 
         getBikePhotos();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_show_images, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.addPhotoShow) {
+            Intent intent = new Intent (this, UploadPhotosActivity.class);
+            intent.putExtra("serialNumber", serialNumber);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public static interface ClickListener {
@@ -302,9 +324,9 @@ public class ShowImagesActivity extends AppCompatActivity {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         System.out.println(storageReference.toString());
 
-        StorageReference toDeleteFile = storageReference.child("images/" + serialNumber + "/" + id + ".jpg");
+        StorageReference toDeleteFile = storageReference.child("images/" + serialNumber + "/" + id);
 
-        System.out.println(toDeleteFile.toString());
+        System.out.println("Pruebas" + toDeleteFile.toString());
 
         toDeleteFile.delete().addOnSuccessListener(new OnSuccessListener() {
             @Override
