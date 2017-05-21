@@ -36,7 +36,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:focusable="false"/>
 
         </LinearLayout>
 
@@ -61,7 +62,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:focusable="false"
                 android:inputType="textPersonName" />
 
         </LinearLayout>
@@ -87,7 +87,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:focusable="false"
                 android:inputType="textPersonName" />
 
         </LinearLayout>
@@ -113,7 +112,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:focusable="false"
                 android:inputType="textPersonName" />
 
         </LinearLayout>
@@ -139,65 +137,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:focusable="false"
                 android:inputType="textPersonName" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView76"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="Detalles"
-                android:textAlignment="center"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/etDetailsEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:ems="10"
-                android:focusable="false"
-                android:inputType="textMultiLine" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/buttonShowImages"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Show Images"
-                android:onClick="showPhotos"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/buttonSetStolen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Marcar Como Robada"
-                android:onClick="setStolenScreen"/>
-        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

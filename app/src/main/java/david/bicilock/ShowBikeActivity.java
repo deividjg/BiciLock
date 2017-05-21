@@ -61,6 +61,7 @@ public class ShowBikeActivity extends AppCompatActivity {
 
         if (id == R.id.editBike) {
             editBikeScreen();
+            finish();
         }
 
         if (id == R.id.deleteBike) {

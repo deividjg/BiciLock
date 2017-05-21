@@ -1,5 +1,8 @@
 package david.bicilock;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,10 +16,21 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+
 public class EditBikeActivity extends AppCompatActivity {
 
     private Bike bike;
-    private EditText etSerialNumberEdit, etBrandEdit, etModelEdit, etColorEdit, etYearEdit, etDetailsEdit;
+    private EditText etSerialNumberEdit, etBrandEdit, etModelEdit, etColorEdit, etYearEdit;
+
+    private String url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
+    protected JSONObject jsonObject;
+    private ReturnJSON returnJSON;
+
+    String brand, model, color, year;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +48,14 @@ public class EditBikeActivity extends AppCompatActivity {
             }
         });
 
+        url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
+        returnJSON = new ReturnJSON();
+
         etSerialNumberEdit = (EditText) findViewById(R.id.etSerialNumberEdit);
         etBrandEdit = (EditText) findViewById(R.id.etBrandEdit);
         etModelEdit = (EditText) findViewById(R.id.etModelEdit);
         etColorEdit = (EditText) findViewById(R.id.etColorEdit);
         etYearEdit = (EditText) findViewById(R.id.etYearEdit);
-        etDetailsEdit = (EditText) findViewById(R.id.etDetailsEdit);
 
         getBike();
         prepareScreen();
@@ -55,13 +71,13 @@ public class EditBikeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.saveBikeEdit) {
-
+            takeNewData();
+            new EditBikeTask().execute();
         }
         if (id == R.id.cancelBikeEdit) {
             finish();
-            Toast.makeText(this, "Edición cancilada", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Edición cancelada", Toast.LENGTH_SHORT).show();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -75,7 +91,81 @@ public class EditBikeActivity extends AppCompatActivity {
         etModelEdit.setText(bike.getModel());
         etColorEdit.setText(bike.getColor());
         etYearEdit.setText(bike.getYear());
-        etDetailsEdit.setText((bike.getDetails()));
+    }
+
+    ///////Task para actualizar una bici
+    class EditBikeTask extends AsyncTask<String, String, JSONObject> {
+        private ProgressDialog pDialog;
+        int add;
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(EditBikeActivity.this);
+            pDialog.setMessage("Cargando...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            try {
+                HashMap<String, String> parametrosPost = new HashMap<>();
+                parametrosPost.put("ins_sql", "UPDATE bikes SET Brand='" + brand + "', Model='" + model + "', Color='" + color + "', Year=" + year + " WHERE SerialNumber='" + bike.getSerialNumber() + "'");
+                jsonObject = returnJSON.sendDMLRequest(url_subida, parametrosPost);
+
+                if (jsonObject != null) {
+                    return jsonObject;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(JSONObject json) {
+            if (pDialog != null && pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
+            if (json != null) {
+                try {
+                    add = json.getInt("added");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if(add!=0){
+                    Toast.makeText(EditBikeActivity.this, "Bicicleta Actualizada",
+                            Toast.LENGTH_LONG).show();
+                    showBikeScreen();
+                }else{
+                    Toast.makeText(EditBikeActivity.this, "Error. No se ha podido actualizar",
+                            Toast.LENGTH_LONG).show();
+                }
+
+            } else {
+                Toast.makeText(EditBikeActivity.this, "Error. No se ha podido actualizar 2",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    public void showBikeScreen(){
+        bike.setBrand(brand);
+        bike.setModel(model);
+        bike.setColor(color);
+        bike.setYear(year);
+        Intent intent = new Intent (this, ShowBikeActivity.class);
+        intent.putExtra("bike", bike);
+        startActivity(intent);
+        finish();
+    }
+
+    protected void takeNewData(){
+        brand = etBrandEdit.getText().toString();
+        model = etModelEdit.getText().toString();
+        color = etColorEdit.getText().toString();
+        year = etYearEdit.getText().toString();
     }
 
     @Override
