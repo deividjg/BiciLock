@@ -14,4 +14,7 @@
     <string name="title_activity_show_bike">Your Bike</string>
     <string name="title_activity_set_stolen">SetStolenActivity</string>
     <string name="title_activity_edit_bike">Edit Bike</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

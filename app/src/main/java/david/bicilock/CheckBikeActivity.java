@@ -45,7 +45,7 @@ public class CheckBikeActivity extends AppCompatActivity {
         new CheckBike().execute();
     }
 
-    ///////Task para descargar las bicicletas del usuario
+    ///////Task para comprobar número de serie
     class CheckBike extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -100,17 +100,18 @@ public class CheckBikeActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                    Toast.makeText(CheckBikeActivity.this, "Bici encontrada", Toast.LENGTH_SHORT).show();
-
+                }
+                if (arrayBikes.size() > 0) {
                     if (bike.stolen == 1) {
                         showConfirmDialog();
                     } else {
-                        Toast.makeText(CheckBikeActivity.this, "La bicicleta no está denunciada", Toast.LENGTH_LONG).show();
+                        Toast.makeText(CheckBikeActivity.this, "Esta bicicleta no está denunciada", Toast.LENGTH_LONG).show();
                     }
+                } else {
+                    Toast.makeText(CheckBikeActivity.this, "La bicicleta no se encuentra en la base de datos", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(CheckBikeActivity.this, "La bicicleta no se encuentra en la BD", Toast.LENGTH_LONG).show();
+                Toast.makeText(CheckBikeActivity.this, "Error", Toast.LENGTH_LONG).show();
             }
         }
     }
