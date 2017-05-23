@@ -4,7 +4,7 @@
     tools:context="david.bicilock.NewBikeActivity">
     <item
         android:id="@+id/addBike"
-        android:icon="@android:drawable/ic_input_add"
+        android:icon="@drawable/ic_add_circle_outline_black_24dp"
         android:orderInCategory="100"
         android:title="addBike"
         app:showAsAction="always" />

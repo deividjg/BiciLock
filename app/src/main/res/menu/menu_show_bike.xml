@@ -4,13 +4,13 @@
     tools:context="david.bicilock.ShowBikeActivity">
     <item
         android:id="@+id/editBike"
-        android:icon="@android:drawable/ic_menu_edit"
+        android:icon="@drawable/ic_edit_black_24dp"
         android:orderInCategory="100"
         android:title="editBike"
         app:showAsAction="always" />
     <item
         android:id="@+id/deleteBike"
-        android:icon="@android:drawable/ic_menu_delete"
+        android:icon="@drawable/ic_delete_black_24dp"
         android:orderInCategory="100"
         android:title="deleteBike"
         app:showAsAction="always" />

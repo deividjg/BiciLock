@@ -4,7 +4,7 @@
     tools:context="david.bicilock.ShowImagesActivity">
     <item
         android:id="@+id/addPhotoShow"
-        android:icon="@android:drawable/ic_input_add"
+        android:icon="@drawable/ic_add_a_photo_black_24dp"
         android:orderInCategory="100"
         android:title="addPhoto"
         app:showAsAction="always" />

@@ -4,13 +4,13 @@
     tools:context="david.bicilock.EditBikeActivity">
     <item
         android:id="@+id/saveBikeEdit"
-        android:icon="@android:drawable/ic_menu_save"
+        android:icon="@drawable/ic_save_black_24dp"
         android:orderInCategory="100"
         android:title="saveBikeEdit"
         app:showAsAction="always" />
     <item
         android:id="@+id/cancelBikeEdit"
-        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:icon="@drawable/ic_cancel_black_24dp"
         android:orderInCategory="100"
         android:title="cancelBikeEdit"
         app:showAsAction="always" />

@@ -4,7 +4,7 @@
     tools:context="david.bicilock.NewBikeActivity">
     <item
         android:id="@+id/cancelSetStolen"
-        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:icon="@drawable/ic_cancel_black_24dp"
         android:orderInCategory="100"
         android:title="cancelSetStolen"
         app:showAsAction="always" />

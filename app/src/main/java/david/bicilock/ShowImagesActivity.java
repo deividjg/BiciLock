@@ -84,8 +84,10 @@ public class ShowImagesActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view, final int position) {
-                //Values are passing to activity & to fragment as well
-                Toast.makeText(getApplicationContext(), "Single Click on position:" + position, Toast.LENGTH_SHORT).show();
+                upload = arrayUploads.get(pos);
+                Intent intent = new Intent (getApplicationContext(), ImageDetailActivity.class);
+                intent.putExtra("url", upload.getUrl());
+                startActivity(intent);
             }
 
             @Override
@@ -339,6 +341,10 @@ public class ShowImagesActivity extends AppCompatActivity {
                 Toast.makeText(ShowImagesActivity.this, "Foto no borrada del servidor", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    protected void imageDetailScreen() {
+
     }
 
     @Override
