@@ -1,7 +1,9 @@
 package david.bicilock;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -33,6 +35,7 @@ import com.google.firebase.storage.UploadTask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -64,6 +67,11 @@ public class UploadPhotosActivity extends AppCompatActivity {
     //firebase objects
     private StorageReference storageReference;
 
+    private Intent intent;
+    private static int ACT_GALERIA = 0;
+    private static int ACT_CAMARA = 1;
+    private Bitmap bm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,8 +96,6 @@ public class UploadPhotosActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
 
         storageReference = FirebaseStorage.getInstance().getReference();
-
-        System.out.println(storageReference.toString());
     }
 
     @Override
@@ -124,11 +130,37 @@ public class UploadPhotosActivity extends AppCompatActivity {
         }
     }
 
-    public void showFileChooser(View view) {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    public String getFileExtension(Uri uri) {
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+    public void showSourceDialog(View view) {
+        final AlertDialog.Builder alertDialogBu = new AlertDialog.Builder(this);
+        alertDialogBu.setTitle("Elige fuente de la foto");
+        alertDialogBu.setIcon(R.drawable.ic_add_a_photo_black_24dp);
+        CharSequence opciones[] = {"Galería","Cámara", "Cancelar"};
+        alertDialogBu.setItems(opciones, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                switch(item){
+                    case 0:
+                        intent = new Intent();
+                        intent.setType("image/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+                        break;
+                    case 1:
+                        intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                        startActivityForResult(intent, ACT_CAMARA);
+                        break;
+                    case 2:
+                        break;
+                }
+            }
+        });
+        AlertDialog alertDialog = alertDialogBu.create();
+        alertDialog.show();
     }
 
     @Override
@@ -143,12 +175,11 @@ public class UploadPhotosActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-    }
-
-    public String getFileExtension(Uri uri) {
-        ContentResolver cR = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cR.getType(uri));
+        if (requestCode == ACT_CAMARA && resultCode == RESULT_OK) {
+            filePath = null;
+            bm = (Bitmap) data.getExtras().get("data");
+            imageView.setImageBitmap(bm);
+        }
     }
 
     //this method will upload the file
@@ -198,10 +229,32 @@ public class UploadPhotosActivity extends AppCompatActivity {
                             progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
                         }
                     });
-        }
-        //if there is not any file
-        else {
-            //you can display an error toast
+        } else {
+            // Get the data from an ImageView as bytes
+            imageView.setDrawingCacheEnabled(true);
+            imageView.buildDrawingCache();
+            bm = imageView.getDrawingCache();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] data = baos.toByteArray();
+
+            id = newPhotoId();
+
+            StorageReference riversRef = storageReference.child("images/" + serialNumber + "/" + id + ".jpeg");
+            UploadTask uploadTask = riversRef.putBytes(data);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                    url = taskSnapshot.getDownloadUrl().toString();
+                    new NewPhotoTask().execute();
+                }
+            });
         }
     }
 
