@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -19,10 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,7 +33,7 @@ import com.google.firebase.storage.UploadTask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -45,12 +43,14 @@ import java.util.HashMap;
 public class UploadPhotosActivity extends AppCompatActivity {
 
     //constant to track image chooser intent
-    private static final int PICK_IMAGE_REQUEST = 234;
+    private static final int PICK_IMAGE_REQUEST = 0;
+
+    private static int ACT_CAMARA = 1;
 
     private DateFormat datehourFormat;
     private Date date;
 
-    private String id, serialNumber;
+    private String photoId, serialNumber;
 
     private String url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
     protected JSONObject jsonObject;
@@ -61,16 +61,16 @@ public class UploadPhotosActivity extends AppCompatActivity {
     //view objects
     private ImageView imageView;
 
-    //uri to store file
-    private Uri filePath;
-
     //firebase objects
     private StorageReference storageReference;
 
     private Intent intent;
-    private static int ACT_GALERIA = 0;
-    private static int ACT_CAMARA = 1;
+
     private Bitmap bm;
+
+    private Uri uriImage;
+
+    private String imageExtension;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +130,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
         }
     }
 
+    //Obtain the extension of content uris. Doesn't work for file uris
     public String getFileExtension(Uri uri) {
         ContentResolver cR = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
@@ -145,14 +146,31 @@ public class UploadPhotosActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int item) {
                 switch(item){
                     case 0:
+                        photoId = newPhotoId();
                         intent = new Intent();
                         intent.setType("image/*");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
                         break;
                     case 1:
-                        intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                        startActivityForResult(intent, ACT_CAMARA);
+                        //camera stuff
+                        Intent imageIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                        photoId = newPhotoId();
+
+                        //folder stuff
+                        File imagesFolder = new File(Environment.getExternalStorageDirectory(), "Bicilock");
+
+                        if (!imagesFolder.exists()) {
+                            imagesFolder.mkdirs();
+                        }
+
+                        File image = new File(imagesFolder, photoId + ".jpeg");
+                        uriImage = Uri.fromFile(image);
+                        imageExtension = "jpeg";
+
+                        imageIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriImage);
+                        startActivityForResult(imageIntent, 1);
+
                         break;
                     case 2:
                         break;
@@ -167,34 +185,37 @@ public class UploadPhotosActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            filePath = data.getData();
+            uriImage = data.getData();
+            imageExtension = getFileExtension(uriImage);
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                imageView.setImageBitmap(bitmap);
+                bm = MediaStore.Images.Media.getBitmap(getContentResolver(), uriImage);
+                imageView.setImageBitmap(bm);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         if (requestCode == ACT_CAMARA && resultCode == RESULT_OK) {
-            filePath = null;
-            bm = (Bitmap) data.getExtras().get("data");
-            imageView.setImageBitmap(bm);
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getContentResolver(), uriImage);
+                imageView.setImageBitmap(bm);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println(uriImage.getPath()+"");
         }
     }
 
     //this method will upload the file
     public void uploadFile(View view) {
+        //displaying a progress dialog while upload is going on
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading");
+        progressDialog.show();
+
         //if there is a file to upload
-        if (filePath != null) {
-            //displaying a progress dialog while upload is going on
-            final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading");
-            progressDialog.show();
-
-            id = newPhotoId();
-
-            StorageReference riversRef = storageReference.child("images/" + serialNumber + "/" + id + "." + getFileExtension(filePath));
-            riversRef.putFile(filePath)
+        if (uriImage != null) {
+            StorageReference riversRef = storageReference.child("images/" + serialNumber + "/" + photoId + "." + imageExtension);
+            riversRef.putFile(uriImage)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -203,7 +224,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
                             progressDialog.dismiss();
 
                             //and displaying a success toast
-                            Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "File Uploaded", Toast.LENGTH_LONG).show();
                             imageView.setImageBitmap(null);
                             url = taskSnapshot.getDownloadUrl().toString();
                             new NewPhotoTask().execute();
@@ -230,31 +251,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
                         }
                     });
         } else {
-            // Get the data from an ImageView as bytes
-            imageView.setDrawingCacheEnabled(true);
-            imageView.buildDrawingCache();
-            bm = imageView.getDrawingCache();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] data = baos.toByteArray();
-
-            id = newPhotoId();
-
-            StorageReference riversRef = storageReference.child("images/" + serialNumber + "/" + id + ".jpeg");
-            UploadTask uploadTask = riversRef.putBytes(data);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle unsuccessful uploads
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                    url = taskSnapshot.getDownloadUrl().toString();
-                    new NewPhotoTask().execute();
-                }
-            });
+            Toast.makeText(getApplicationContext(), "Error en la fuente de la foto", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -276,7 +273,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
         protected JSONObject doInBackground(String... args) {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql", "INSERT INTO photos VALUES('" + id + "." + getFileExtension(filePath) + "', '" + serialNumber + "', '" + url + "', 0)");
+                parametrosPost.put("ins_sql", "INSERT INTO photos VALUES('" + photoId + "." + imageExtension + "', '" + serialNumber + "', '" + url + "', 0)");
                 jsonObject = returnJSON.sendDMLRequest(url_subida, parametrosPost);
 
                 if (jsonObject != null) {
