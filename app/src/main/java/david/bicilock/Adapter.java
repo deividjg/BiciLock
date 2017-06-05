@@ -50,7 +50,10 @@ public class Adapter extends BaseAdapter {
         TextView tvModel = (TextView) view.findViewById(R.id.tvModelItem);
         tvModel.setText(list.get(position).getModel());
         ImageView iv = (ImageView) view.findViewById(R.id.iv);
-        //Glide.with(actividad).load(list.get(position).getUrlFav()).into(iv);
+        if(!list.get(position).getUrlFav().equals("null")) {
+            Glide.with(actividad).load(list.get(position).getUrlFav()).into(iv);
+        }
+
         /*File imgFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Fotos_Contactos", lista.get(position).getrFoto());
         if (imgFile.exists()) {
             ImageView im = (ImageView) view.findViewById(R.id.iv);

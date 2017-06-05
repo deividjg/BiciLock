@@ -136,8 +136,8 @@ public class BikelistActivity extends AppCompatActivity {
 
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                //parametrosPost.put("ins_sql", "SELECT bikes.SerialNumber, Brand, Model, Color, Year, Stolen, Details, url, favourite from bikes, photos where email='" + email + "' AND bikes.SerialNumber = photos.SerialNumber AND Favourite = 1");
-                parametrosPost.put("ins_sql", "SELECT * FROM bikes WHERE email='" + email + "'");
+                parametrosPost.put("ins_sql", "SELECT b.SerialNumber, b.Brand, b.Model, b.Color, b.Year, b.Stolen, b.Details, p.url, p.Favourite FROM bikes b LEFT JOIN photos p ON b.SerialNumber=p.SerialNumber AND email='" + email + "' AND p.Favourite = 1");
+                //parametrosPost.put("ins_sql", "SELECT * FROM bikes WHERE email='" + email + "'");
 
                 jSONArrayBikes = returnJSON.sendRequest(url_consulta, parametrosPost);
 
@@ -170,7 +170,9 @@ public class BikelistActivity extends AppCompatActivity {
                         bike.setYear(jsonObject.getString("Year"));
                         bike.setStolen(jsonObject.getInt("Stolen"));
                         bike.setDetails(jsonObject.getString("Details"));
-                        bike.setUrlFav("Favourite");
+                        bike.setUrlFav(jsonObject.getString("url"));
+                        System.out.println("prueba null: " + jsonObject.getString("url"));
+
                         arrayBikes.add(bike);
                     } catch (JSONException e) {
                         e.printStackTrace();
