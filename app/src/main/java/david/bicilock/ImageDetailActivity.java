@@ -17,7 +17,7 @@ public class ImageDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_image_detail);
+        setContentView(R.layout.activity_photo_detail);
 
         //Hide status bar
         View decorView = getWindow().getDecorView();

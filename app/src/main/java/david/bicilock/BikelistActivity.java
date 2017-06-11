@@ -34,9 +34,9 @@ import java.util.HashMap;
 public class BikelistActivity extends AppCompatActivity {
 
     ListView lv;
-    static Adapter a;
+    static AdapterLv adapterLv;
 
-    private String url_consulta, url_borrado, email, serialNumber;
+    private String url_query, url_remove, email, serialNumber;
     private JSONArray jSONArrayBikes, jSONArrayString;
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
@@ -44,8 +44,7 @@ public class BikelistActivity extends AppCompatActivity {
     private int id;
     private ArrayList<Bike> arrayBikes;
     private ArrayList<String> arrayString;
-
-    SharedPreferences sp;
+    private SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +79,8 @@ public class BikelistActivity extends AppCompatActivity {
             }
         });
 
-        url_consulta = "http://iesayala.ddns.net/deividjg/php.php";
-        url_borrado = "http://iesayala.ddns.net/deividjg/prueba.php";
+        url_query = "http://iesayala.ddns.net/deividjg/php.php";
+        url_remove = "http://iesayala.ddns.net/deividjg/php2.php";
         returnJSON = new ReturnJSON();
         new BikeListTask().execute();
 
@@ -118,14 +117,14 @@ public class BikelistActivity extends AppCompatActivity {
         email = sp.getString("email", "null");
     }
 
-    ///////Task para descargar las bicicletas del usuario
+    ///////Task to download user's bike
     class BikeListTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(BikelistActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(R.string.charging + "");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -139,7 +138,7 @@ public class BikelistActivity extends AppCompatActivity {
                 parametrosPost.put("ins_sql", "SELECT b.SerialNumber, b.Brand, b.Model, b.Color, b.Year, b.Stolen, b.Details, p.url, p.Favourite FROM bikes b LEFT JOIN photos p ON b.SerialNumber=p.SerialNumber AND email='" + email + "' AND p.Favourite = 1");
                 //parametrosPost.put("ins_sql", "SELECT * FROM bikes WHERE email='" + email + "'");
 
-                jSONArrayBikes = returnJSON.sendRequest(url_consulta, parametrosPost);
+                jSONArrayBikes = returnJSON.sendRequest(url_query, parametrosPost);
 
                 if (jSONArrayBikes != null) {
                     return jSONArrayBikes;
@@ -171,26 +170,25 @@ public class BikelistActivity extends AppCompatActivity {
                         bike.setStolen(jsonObject.getInt("Stolen"));
                         bike.setDetails(jsonObject.getString("Details"));
                         bike.setUrlFav(jsonObject.getString("url"));
-                        System.out.println("prueba null: " + jsonObject.getString("url"));
 
                         arrayBikes.add(bike);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
-                    a = new Adapter(BikelistActivity.this, arrayBikes);
-                    a.notifyDataSetChanged();
-                    lv.setAdapter(a);
+                    adapterLv = new AdapterLv(BikelistActivity.this, arrayBikes);
+                    adapterLv.notifyDataSetChanged();
+                    lv.setAdapter(adapterLv);
 
-                    Toast.makeText(BikelistActivity.this, "Mostrando Garaje", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BikelistActivity.this, R.string.showing_garage, Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(BikelistActivity.this, "Error en la carga del garaje", Toast.LENGTH_LONG).show();
+                Toast.makeText(BikelistActivity.this, R.string.charging_error, Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    ///////Task para eliminar una bicicleta
+    ///////Task to remove a bike
     class DeleteBikeTask extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
         int add;
@@ -198,7 +196,7 @@ public class BikelistActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(BikelistActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(R.string.charging + "");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -210,7 +208,7 @@ public class BikelistActivity extends AppCompatActivity {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "DELETE FROM bikes WHERE SerialNumber='" + serialNumber + "'");
 
-                jsonObject = returnJSON.sendDMLRequest(url_borrado, parametrosPost);
+                jsonObject = returnJSON.sendDMLRequest(url_remove, parametrosPost);
 
                 if (jsonObject != null) {
                     return jsonObject;
@@ -233,19 +231,19 @@ public class BikelistActivity extends AppCompatActivity {
                 }
 
                 if(add!=0){
-                    Toast.makeText(BikelistActivity.this, "Registro borrado", Toast.LENGTH_LONG).show();
+                    Toast.makeText(BikelistActivity.this, R.string.successfully_removed, Toast.LENGTH_LONG).show();
                     arrayBikes.remove(id);
-                    a.notifyDataSetChanged();
+                    adapterLv.notifyDataSetChanged();
                 }else{
-                    Toast.makeText(BikelistActivity.this, "Error al borrar", Toast.LENGTH_LONG).show();
+                    Toast.makeText(BikelistActivity.this, R.string.error_removing, Toast.LENGTH_LONG).show();
                 }
             } else {
-                Toast.makeText(BikelistActivity.this, "JSON Array nulo", Toast.LENGTH_LONG).show();
+                Toast.makeText(BikelistActivity.this, R.string.charging_error, Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    ///////Task para borrar todas las fotos
+    ///////Task to delete all photos
     class DeleteAllPhotosTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -265,7 +263,7 @@ public class BikelistActivity extends AppCompatActivity {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "SELECT * FROM photos WHERE SerialNumber='" + serialNumber + "'");
 
-                jSONArrayString = returnJSON.sendRequest(url_consulta, parametrosPost);
+                jSONArrayString = returnJSON.sendRequest(url_query, parametrosPost);
 
                 if (jSONArrayString != null) {
                     return jSONArrayString;
@@ -288,33 +286,28 @@ public class BikelistActivity extends AppCompatActivity {
                         JSONObject jsonObject = json.getJSONObject(i);
                         idPhoto = jsonObject.getString("id");
                         arrayString.add(idPhoto);
-                        System.out.println("entra");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-
-                Toast.makeText(BikelistActivity.this, "Array idPhoto Listo", Toast.LENGTH_SHORT).show();
                 borrar();
-            } else {
-                Toast.makeText(BikelistActivity.this, "Error Array idPhoto", Toast.LENGTH_LONG).show();
-            }
+            } else {}
         }
     }
 
     protected void showConfirmDialog(){
         AlertDialog.Builder alertDialogBu = new AlertDialog.Builder(BikelistActivity.this);
-        alertDialogBu.setTitle("Eliminar bicicleta");
-        alertDialogBu.setMessage("¿Estás seguro?");
+        alertDialogBu.setTitle(R.string.remove_bike);
+        alertDialogBu.setMessage(R.string.are_you_sure);
         alertDialogBu.setIcon(android.R.drawable.ic_dialog_alert);
 
-        alertDialogBu.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        alertDialogBu.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Boton Rechazar pulsado", Toast.LENGTH_SHORT).show();
+
             }
         });
 
-        alertDialogBu.setPositiveButton( "Sí", new DialogInterface.OnClickListener() {
+        alertDialogBu.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 new DeleteAllPhotosTask().execute();
             }
@@ -326,23 +319,19 @@ public class BikelistActivity extends AppCompatActivity {
 
     protected void borrar() {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-        System.out.println(storageReference.toString());
-        System.out.println(arrayString.size()+"");
 
         for (int i = 0; i < arrayString.size(); i++) {
             StorageReference toDeleteFile = storageReference.child("images/" + serialNumber + "/" + arrayString.get(i));
 
-            System.out.println(toDeleteFile.toString());
-
             toDeleteFile.delete().addOnSuccessListener(new OnSuccessListener() {
                 @Override
                 public void onSuccess(Object o) {
-                    Toast.makeText(BikelistActivity.this, "foto borrada del servidor", Toast.LENGTH_SHORT).show();
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
-                    Toast.makeText(BikelistActivity.this, "NADA BORRADO", Toast.LENGTH_SHORT).show();
+
                 }
             });
         }

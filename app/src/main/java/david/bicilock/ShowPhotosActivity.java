@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,7 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ShowImagesActivity extends AppCompatActivity {
+public class ShowPhotosActivity extends AppCompatActivity {
 
     //recyclerview object
     private RecyclerView recyclerView;
@@ -43,14 +42,14 @@ public class ShowImagesActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
 
     //list to hold all the uploaded images
-    private List<Upload> uploads;
+    private List<Photo> photos;
 
     private String url_consulta, url_borrado, email, numSerie;
     private JSONArray jSONArray;
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
-    private Upload upload;
-    private ArrayList<Upload> arrayUploads;
+    private Photo photo;
+    private ArrayList<Photo> arrayPhotos;
     ArrayList<HashMap<String, String>> uploadList;
     private String serialNumber;
     private String id;
@@ -59,7 +58,7 @@ public class ShowImagesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_images);
+        setContentView(R.layout.activity_show_photos);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -84,9 +83,9 @@ public class ShowImagesActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view, final int position) {
-                upload = arrayUploads.get(pos);
+                photo = arrayPhotos.get(pos);
                 Intent intent = new Intent (getApplicationContext(), ImageDetailActivity.class);
-                intent.putExtra("url", upload.getUrl());
+                intent.putExtra("url", photo.getUrl());
                 startActivity(intent);
             }
 
@@ -102,7 +101,7 @@ public class ShowImagesActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_show_images, menu);
+        getMenuInflater().inflate(R.menu.menu_show_photos, menu);
         return true;
     }
 
@@ -176,7 +175,7 @@ public class ShowImagesActivity extends AppCompatActivity {
     }
 
     protected void showConfirmDialog() {
-        AlertDialog.Builder alertDialogBu = new AlertDialog.Builder(ShowImagesActivity.this);
+        AlertDialog.Builder alertDialogBu = new AlertDialog.Builder(ShowPhotosActivity.this);
         alertDialogBu.setTitle("Eliminar bicicleta");
         alertDialogBu.setMessage("¿Estás seguro?");
         alertDialogBu.setIcon(android.R.drawable.ic_dialog_alert);
@@ -189,9 +188,9 @@ public class ShowImagesActivity extends AppCompatActivity {
 
         alertDialogBu.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                upload = arrayUploads.get(pos);
-                id = upload.getId();
-                Toast.makeText(ShowImagesActivity.this, id, Toast.LENGTH_SHORT).show();
+                photo = arrayPhotos.get(pos);
+                id = photo.getId();
+                Toast.makeText(ShowPhotosActivity.this, id, Toast.LENGTH_SHORT).show();
                 new DeletePhotoTask().execute();
             }
         });
@@ -206,7 +205,7 @@ public class ShowImagesActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            pDialog = new ProgressDialog(ShowImagesActivity.this);
+            pDialog = new ProgressDialog(ShowPhotosActivity.this);
             pDialog.setMessage("Cargando...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
@@ -236,32 +235,32 @@ public class ShowImagesActivity extends AppCompatActivity {
                 pDialog.dismiss();
             }
             if (json != null) {
-                arrayUploads = new ArrayList<Upload>();
+                arrayPhotos = new ArrayList<Photo>();
                 long position;
                 for (int i = 0; i < json.length(); i++) {
                     position = i;
                     try {
                         JSONObject jsonObject = json.getJSONObject(i);
-                        upload = new Upload();
-                        upload.setPosition(position);
-                        upload.setId(jsonObject.getString("id"));
-                        upload.setSerialNumber(jsonObject.getString("SerialNumber"));
-                        upload.setUrl(jsonObject.getString("url"));
+                        photo = new Photo();
+                        photo.setPosition(position);
+                        photo.setId(jsonObject.getString("id"));
+                        photo.setSerialNumber(jsonObject.getString("SerialNumber"));
+                        photo.setUrl(jsonObject.getString("url"));
 
-                        arrayUploads.add(upload);
+                        arrayPhotos.add(photo);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
-                    adapter = new MyAdapter(getApplicationContext(), arrayUploads);
+                    adapter = new AdapterRv(getApplicationContext(), arrayPhotos);
                     //adding adapter to recyclerview
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
 
-                    Toast.makeText(ShowImagesActivity.this, "Carga correcta", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShowPhotosActivity.this, "Carga correcta", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(ShowImagesActivity.this, "Error en la carga del garaje", Toast.LENGTH_LONG).show();
+                Toast.makeText(ShowPhotosActivity.this, "Error en la carga del garaje", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -273,7 +272,7 @@ public class ShowImagesActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            pDialog = new ProgressDialog(ShowImagesActivity.this);
+            pDialog = new ProgressDialog(ShowPhotosActivity.this);
             pDialog.setMessage("Cargando...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
@@ -309,15 +308,15 @@ public class ShowImagesActivity extends AppCompatActivity {
                 }
 
                 if (add != 0) {
-                    Toast.makeText(ShowImagesActivity.this, "Registro borrado", Toast.LENGTH_LONG).show();
-                    arrayUploads.remove(pos);
+                    Toast.makeText(ShowPhotosActivity.this, "Registro borrado", Toast.LENGTH_LONG).show();
+                    arrayPhotos.remove(pos);
                     adapter.notifyDataSetChanged();
                     borrar();
                 } else {
-                    Toast.makeText(ShowImagesActivity.this, "Error al borrar", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ShowPhotosActivity.this, "Error al borrar", Toast.LENGTH_LONG).show();
                 }
             } else {
-                Toast.makeText(ShowImagesActivity.this, "JSON Array nulo", Toast.LENGTH_LONG).show();
+                Toast.makeText(ShowPhotosActivity.this, "JSON Array nulo", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -333,12 +332,12 @@ public class ShowImagesActivity extends AppCompatActivity {
         toDeleteFile.delete().addOnSuccessListener(new OnSuccessListener() {
             @Override
             public void onSuccess(Object o) {
-                Toast.makeText(ShowImagesActivity.this, "Foto borrada del servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ShowPhotosActivity.this, "Foto borrada del servidor", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                Toast.makeText(ShowImagesActivity.this, "Foto no borrada del servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ShowPhotosActivity.this, "Foto no borrada del servidor", Toast.LENGTH_SHORT).show();
             }
         });
     }

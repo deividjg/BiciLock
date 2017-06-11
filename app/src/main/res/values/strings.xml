@@ -3,18 +3,28 @@
     <string name="action_settings">Settings</string>
 
     <!-- Strings related to login -->
-    <string name="action_sign_in">Entrar</string>
+    <string name="action_sign_in">Enter</string>
     <string name="title_activity_new_bike">New Bike</string>
     <string name="title_activity_bikelist">Your Garage</string>
-    <string name="title_activity_bike_viewer">Bike</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_photos">Add Photos</string>
     <string name="title_activity_show_images">Photos</string>
-    <string name="title_activity_detail">Detail</string>
+    <string name="title_activity_detail">Details</string>
     <string name="title_activity_show_bike">Your Bike</string>
-    <string name="title_activity_set_stolen">SetStolenActivity</string>
+    <string name="title_activity_set_stolen">Set Stolen</string>
     <string name="title_activity_edit_bike">Edit Bike</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="charging">Charging</string>
+    <string name="showing_garage">Showing Garage</string>
+    <string name="charging_error">Charging Error</string>
+    <string name="successfully_removed">Successfully removed</string>
+    <string name="error_removing">Error. Could not be deleted.</string>
+    <string name="server_error">Server error</string>
+    <string name="remove_bike">Remove bike</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

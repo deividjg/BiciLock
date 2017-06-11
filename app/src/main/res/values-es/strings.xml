@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BiciLock</string>
+    <string name="action_settings">Opciones</string>
+    <string name="charging">Cargando</string>
+    <string name="showing_garage">Mostrando garaje</string>
+    <string name="title_activity_edit_bike">Editar Bicicleta</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_new_bike">Nueva Bicicleta</string>
+    <string name="title_activity_photos">Añadir Fotos</string>
+    <string name="title_activity_set_stolen">Marcar como Robada</string>
+    <string name="title_activity_show_bike">Tu bici</string>
+    <string name="title_activity_show_images">Fotos</string>
+    <string name="title_activity_bikelist">Tu garaje</string>
+    <string name="title_activity_detail">Detalles</string>
+    <string name="action_sign_in">Entrar</string>
+    <string name="charging_error">Error cargando datos</string>
+    <string name="error_removing">Error. No se pudo borrar.</string>
+    <string name="successfully_removed">Borrado correcto</string>
+    <string name="server_error">Error en el servidor</string>
+    <string name="remove_bike">Eliminar bibicleta</string>
+    <string name="are_you_sure">¿Estás seguro?</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+</resources>

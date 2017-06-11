@@ -109,7 +109,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        // as you specify adapterLv parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -207,12 +207,12 @@ public class UploadPhotosActivity extends AppCompatActivity {
 
     //this method will upload the file
     public void uploadFile(View view) {
-        //displaying a progress dialog while upload is going on
+        //displaying adapterLv progress dialog while upload is going on
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Uploading");
         progressDialog.show();
 
-        //if there is a file to upload
+        //if there is adapterLv file to upload
         if (uriImage != null) {
             StorageReference riversRef = storageReference.child("images/" + serialNumber + "/" + photoId + "." + imageExtension);
             riversRef.putFile(uriImage)
@@ -223,7 +223,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
                             //hiding the progress dialog
                             progressDialog.dismiss();
 
-                            //and displaying a success toast
+                            //and displaying adapterLv success toast
                             Toast.makeText(getApplicationContext(), "File Uploaded", Toast.LENGTH_LONG).show();
                             imageView.setImageBitmap(null);
                             url = taskSnapshot.getDownloadUrl().toString();

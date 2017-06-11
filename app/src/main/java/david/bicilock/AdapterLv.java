@@ -15,18 +15,17 @@ import com.bumptech.glide.Glide;
 import java.io.File;
 import java.util.ArrayList;
 
-public class Adapter extends BaseAdapter {
+public class AdapterLv extends BaseAdapter {
     private ArrayList<Bike> list;
     private final Activity actividad;
 
-    public Adapter(Activity a, ArrayList<Bike> v) {
+    public AdapterLv(Activity a, ArrayList<Bike> v) {
         super();
         this.list = v;
         this.actividad = a;
     }
-// En el constructor de la clase se indica la actividad donde se ejecutará la lista de datos a visualizar.
-    @Override
 
+    @Override
     public int getCount() {
         return list.size();
     }
@@ -54,12 +53,6 @@ public class Adapter extends BaseAdapter {
             Glide.with(actividad).load(list.get(position).getUrlFav()).into(iv);
         }
 
-        /*File imgFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Fotos_Contactos", lista.get(position).getrFoto());
-        if (imgFile.exists()) {
-            ImageView im = (ImageView) view.findViewById(R.id.iv);
-            im.setImageBitmap(BitmapFactory.decodeFile(imgFile.getAbsolutePath()));
-            im.setAdjustViewBounds(true);
-        }*/
         return view;
     }
 }

@@ -89,7 +89,7 @@ public class ShowBikeActivity extends AppCompatActivity {
     }
 
     public void showPhotos(View view) {
-        Intent intent = new Intent (this, ShowImagesActivity.class);
+        Intent intent = new Intent (this, ShowPhotosActivity.class);
         intent.putExtra("serialNumber", etSerialNumberShow.getText().toString());
         startActivity(intent);
     }

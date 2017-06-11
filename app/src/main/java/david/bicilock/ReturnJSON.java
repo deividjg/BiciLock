@@ -68,7 +68,7 @@ public class ReturnJSON {
                     jArray = new JSONArray(result);
                     return jArray;
                 } catch (JSONException e) {
-                    Log.e("ERROR => ", "Error convirtiendo los datos a JSON : " + e.toString());
+                    Log.e("ERROR => ", "Error convirtiendo los datos adapterLv JSON : " + e.toString());
                     e.printStackTrace();
                     return null;
                 }
@@ -115,7 +115,7 @@ public class ReturnJSON {
                     jobject = new JSONObject(result.toString());
                     return jobject;
                 } catch (JSONException e) {
-                    Log.e("ERROR => ", "Error convirtiendo los datos a JSON222 : " + e.toString());
+                    Log.e("ERROR => ", "Error convirtiendo los datos adapterLv JSON222 : " + e.toString());
                     e.printStackTrace();
                     return null;
                 }

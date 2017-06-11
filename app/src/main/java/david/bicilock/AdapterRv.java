@@ -11,33 +11,33 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class AdapterRv extends RecyclerView.Adapter<AdapterRv.ViewHolder> {
 
     private Context context;
-    private List<Upload> uploads;
+    private List<Photo> photos;
 
-    public MyAdapter(Context context, List<Upload> uploads) {
-        this.uploads = uploads;
+    public AdapterRv(Context context, List<Photo> photos) {
+        this.photos = photos;
         this.context = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_images, parent, false);
+                .inflate(R.layout.layout_photos, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Upload upload = uploads.get(position);
-        Glide.with(context).load(upload.getUrl()).into(holder.imageView);
+        Photo photo = photos.get(position);
+        Glide.with(context).load(photo.getUrl()).into(holder.imageView);
     }
 
     @Override
     public int getItemCount() {
-        return uploads.size();
+        return photos.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

@@ -1,20 +1,20 @@
 package david.bicilock;
 
-public class Upload {
+public class Photo {
 
     public Long position;
     public String id;
     public String serialNumber;
     public String url;
 
-    public Upload(Long position, String id, String serialNumber, String url) {
+    public Photo(Long position, String id, String serialNumber, String url) {
         this.position = position;
         this.id = id;
         this.serialNumber = serialNumber;
         this.url = url;
     }
 
-    public Upload(){}
+    public Photo(){}
 
     public Long getPosition() {
         return position;
