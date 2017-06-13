@@ -45,14 +45,14 @@ public class UploadPhotosActivity extends AppCompatActivity {
     //constant to track image chooser intent
     private static final int PICK_IMAGE_REQUEST = 0;
 
-    private static int ACT_CAMARA = 1;
+    private static int ACT_CAMERA = 1;
 
     private DateFormat datehourFormat;
     private Date date;
 
     private String photoId, serialNumber;
 
-    private String url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
+    private String url_upload;
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
 
@@ -63,13 +63,9 @@ public class UploadPhotosActivity extends AppCompatActivity {
 
     //firebase objects
     private StorageReference storageReference;
-
     private Intent intent;
-
     private Bitmap bm;
-
     private Uri uriImage;
-
     private String imageExtension;
 
     @Override
@@ -90,7 +86,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
 
         getSerialNumber();
 
-        url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
+        url_upload = "http://iesayala.ddns.net/deividjg/php2.php";
         returnJSON = new ReturnJSON();
 
         imageView = (ImageView) findViewById(R.id.imageView);
@@ -124,7 +120,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
     protected void getSerialNumber(){
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
-            Toast.makeText(getApplicationContext(), "Error recibiendo serialNumber", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.charging_error, Toast.LENGTH_LONG).show();
         } else {
             serialNumber = extras.getString("serialNumber");
         }
@@ -139,9 +135,9 @@ public class UploadPhotosActivity extends AppCompatActivity {
 
     public void showSourceDialog(View view) {
         final AlertDialog.Builder alertDialogBu = new AlertDialog.Builder(this);
-        alertDialogBu.setTitle("Elige fuente de la foto");
+        alertDialogBu.setTitle(R.string.choose_source);
         alertDialogBu.setIcon(R.drawable.ic_add_a_photo_black_24dp);
-        CharSequence opciones[] = {"Galería","Cámara", "Cancelar"};
+        CharSequence opciones[] = {"Gallery", "Camera", "Cancel"};
         alertDialogBu.setItems(opciones, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
                 switch(item){
@@ -150,7 +146,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
                         intent = new Intent();
                         intent.setType("image/*");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+                        startActivityForResult(Intent.createChooser(intent, R.string.select_picture + ""), PICK_IMAGE_REQUEST);
                         break;
                     case 1:
                         //camera stuff
@@ -194,7 +190,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        if (requestCode == ACT_CAMARA && resultCode == RESULT_OK) {
+        if (requestCode == ACT_CAMERA && resultCode == RESULT_OK) {
             try {
                 bm = MediaStore.Images.Media.getBitmap(getContentResolver(), uriImage);
                 imageView.setImageBitmap(bm);
@@ -209,7 +205,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
     public void uploadFile(View view) {
         //displaying adapterLv progress dialog while upload is going on
         final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading");
+        progressDialog.setTitle(R.string.uploading);
         progressDialog.show();
 
         //if there is adapterLv file to upload
@@ -224,7 +220,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
                             progressDialog.dismiss();
 
                             //and displaying adapterLv success toast
-                            Toast.makeText(getApplicationContext(), "File Uploaded", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), R.string.upload_ok, Toast.LENGTH_LONG).show();
                             imageView.setImageBitmap(null);
                             url = taskSnapshot.getDownloadUrl().toString();
                             new NewPhotoTask().execute();
@@ -247,15 +243,15 @@ public class UploadPhotosActivity extends AppCompatActivity {
                             double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
 
                             //displaying percentage in progress dialog
-                            progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
+                            progressDialog.setMessage(R.string.uploading + ((int) progress) + " %...");
                         }
                     });
         } else {
-            Toast.makeText(getApplicationContext(), "Error en la fuente de la foto", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.charging_error, Toast.LENGTH_LONG).show();
         }
     }
 
-    ///////Task para registrar una nueva foto
+    ///////Task para registerUser una nueva foto
     class NewPhotoTask extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
         int add;
@@ -263,7 +259,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(UploadPhotosActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(R.string.charging + "");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -274,7 +270,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "INSERT INTO photos VALUES('" + photoId + "." + imageExtension + "', '" + serialNumber + "', '" + url + "', 0)");
-                jsonObject = returnJSON.sendDMLRequest(url_subida, parametrosPost);
+                jsonObject = returnJSON.sendDMLRequest(url_upload, parametrosPost);
 
                 if (jsonObject != null) {
                     return jsonObject;
@@ -297,15 +293,15 @@ public class UploadPhotosActivity extends AppCompatActivity {
                 }
 
                 if(add!=0){
-                    Toast.makeText(UploadPhotosActivity.this, "Registro guardado",
+                    Toast.makeText(UploadPhotosActivity.this, R.string.upload_ok,
                             Toast.LENGTH_LONG).show();
                 }else{
-                    Toast.makeText(UploadPhotosActivity.this, "ha ocurrido un error",
+                    Toast.makeText(UploadPhotosActivity.this, R.string.upload_error,
                             Toast.LENGTH_LONG).show();
                 }
 
             } else {
-                Toast.makeText(UploadPhotosActivity.this, "JSON Array nulo",
+                Toast.makeText(UploadPhotosActivity.this, R.string.charging_error,
                         Toast.LENGTH_LONG).show();
             }
         }

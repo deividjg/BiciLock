@@ -20,12 +20,11 @@ import java.util.HashMap;
 
 public class CheckBikeActivity extends AppCompatActivity {
 
-    private String url_consulta, serialNumber;
+    private String url_query, serialNumber;
     private JSONArray jSONArray;
     private ReturnJSON returnJSON;
     private Bike bike;
     private ArrayList<Bike> arrayBikes;
-    ArrayList<HashMap<String, String>> bikeList;
 
     private EditText etSerialNumberCheckBike;
 
@@ -36,7 +35,7 @@ public class CheckBikeActivity extends AppCompatActivity {
 
         etSerialNumberCheckBike = (EditText)findViewById(R.id.etSerialNumberCheckBike);
 
-        url_consulta = "http://iesayala.ddns.net/deividjg/php.php";
+        url_query = "http://iesayala.ddns.net/deividjg/php.php";
         returnJSON = new ReturnJSON();
     }
 
@@ -45,7 +44,7 @@ public class CheckBikeActivity extends AppCompatActivity {
         new CheckBike().execute();
     }
 
-    ///////Task para comprobar número de serie
+    ///////Task to check serial number
     class CheckBike extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -65,7 +64,7 @@ public class CheckBikeActivity extends AppCompatActivity {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "SELECT * FROM bikes WHERE SerialNumber='" + serialNumber + "'");
 
-                jSONArray = returnJSON.sendRequest(url_consulta, parametrosPost);
+                jSONArray = returnJSON.sendRequest(url_query, parametrosPost);
 
                 if (jSONArray != null) {
                     return jSONArray;
@@ -105,34 +104,32 @@ public class CheckBikeActivity extends AppCompatActivity {
                     if (bike.stolen == 1) {
                         showConfirmDialog();
                     } else {
-                        Toast.makeText(CheckBikeActivity.this, "Esta bicicleta no está denunciada", Toast.LENGTH_LONG).show();
+                        Toast.makeText(CheckBikeActivity.this, R.string.not_stolen, Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(CheckBikeActivity.this, "La bicicleta no se encuentra en la base de datos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CheckBikeActivity.this, R.string.not_database, Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(CheckBikeActivity.this, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(CheckBikeActivity.this, R.string.charging_error, Toast.LENGTH_LONG).show();
             }
         }
     }
 
     protected void showConfirmDialog(){
         AlertDialog.Builder alertDialogBu = new AlertDialog.Builder(CheckBikeActivity.this);
-        alertDialogBu.setTitle("Bicicleta Robada!");
-        alertDialogBu.setMessage("¿Quieres avisar al propietario?");
+        alertDialogBu.setTitle(R.string.stolen_bike);
+        alertDialogBu.setMessage(R.string.notify_owner);
         alertDialogBu.setIcon(android.R.drawable.ic_dialog_alert);
 
-        alertDialogBu.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        alertDialogBu.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Boton Rechazar pulsado",
-                        Toast.LENGTH_SHORT).show();
+
             }
         });
 
         alertDialogBu.setPositiveButton( "Sí", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Boton Aceptar pulsado",
-                        Toast.LENGTH_SHORT).show();
+
             }
         });
 

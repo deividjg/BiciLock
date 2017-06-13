@@ -66,14 +66,14 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    ///////Task para comprobar conexcion de usuario
+    ///////Task to check user's connection
     class CheckLogin extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(LoginActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(R.string.charging + "");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql", "Select * from users where email='" + email + "' and Password=" + password);
+                parametrosPost.put("ins_sql", "SELECT * FROM users WHERE email='" + email + "' and Password=" + password);
 
                 jSONArray = returnJSON.sendRequest(url_consulta, parametrosPost);
 
@@ -116,15 +116,14 @@ public class LoginActivity extends AppCompatActivity {
                         arrayUsers.add(user);
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        System.out.println("joder");
                     }
-                    Toast.makeText(LoginActivity.this, "Login Correcto", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, R.string.login_ok, Toast.LENGTH_SHORT).show();
                     holdLogin();
                     mainScreen();
                 }
 
             } else {
-                Toast.makeText(LoginActivity.this, "Error. usuario y/o password incorrecto", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, R.string.login_error, Toast.LENGTH_LONG).show();
             }
         }
 

@@ -44,13 +44,12 @@ public class ShowPhotosActivity extends AppCompatActivity {
     //list to hold all the uploaded images
     private List<Photo> photos;
 
-    private String url_consulta, url_borrado, email, numSerie;
+    private String url_query, url_remove;
     private JSONArray jSONArray;
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
     private Photo photo;
     private ArrayList<Photo> arrayPhotos;
-    ArrayList<HashMap<String, String>> uploadList;
     private String serialNumber;
     private String id;
     private int pos;
@@ -70,8 +69,8 @@ public class ShowPhotosActivity extends AppCompatActivity {
             }
         });
 
-        url_consulta = "http://iesayala.ddns.net/deividjg/php.php";
-        url_borrado = "http://iesayala.ddns.net/deividjg/prueba.php";
+        url_query = "http://iesayala.ddns.net/deividjg/php.php";
+        url_remove = "http://iesayala.ddns.net/deividjg/php2.php";
         returnJSON = new ReturnJSON();
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -176,21 +175,20 @@ public class ShowPhotosActivity extends AppCompatActivity {
 
     protected void showConfirmDialog() {
         AlertDialog.Builder alertDialogBu = new AlertDialog.Builder(ShowPhotosActivity.this);
-        alertDialogBu.setTitle("Eliminar bicicleta");
-        alertDialogBu.setMessage("¿Estás seguro?");
+        alertDialogBu.setTitle(R.string.remove_bike);
+        alertDialogBu.setMessage(R.string.are_you_sure);
         alertDialogBu.setIcon(android.R.drawable.ic_dialog_alert);
 
-        alertDialogBu.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        alertDialogBu.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Boton Rechazar pulsado", Toast.LENGTH_SHORT).show();
+
             }
         });
 
-        alertDialogBu.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+        alertDialogBu.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 photo = arrayPhotos.get(pos);
                 id = photo.getId();
-                Toast.makeText(ShowPhotosActivity.this, id, Toast.LENGTH_SHORT).show();
                 new DeletePhotoTask().execute();
             }
         });
@@ -199,14 +197,14 @@ public class ShowPhotosActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    ///////Task para descargar las fotos de una bicicleta
+    ///////Task to download bike photos
     class DownloadPhotosTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(ShowPhotosActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(R.string.charging + "");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -219,7 +217,7 @@ public class ShowPhotosActivity extends AppCompatActivity {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "SELECT * FROM photos WHERE SerialNumber='" + serialNumber + "'");
 
-                jSONArray = returnJSON.sendRequest(url_consulta, parametrosPost);
+                jSONArray = returnJSON.sendRequest(url_query, parametrosPost);
 
                 if (jSONArray != null) {
                     return jSONArray;
@@ -256,16 +254,14 @@ public class ShowPhotosActivity extends AppCompatActivity {
                     //adding adapter to recyclerview
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
-
-                    Toast.makeText(ShowPhotosActivity.this, "Carga correcta", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(ShowPhotosActivity.this, "Error en la carga del garaje", Toast.LENGTH_LONG).show();
+                Toast.makeText(ShowPhotosActivity.this, R.string.charging_error, Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    ///////Task para eliminar una foto
+    ///////Task to delete a photo
     class DeletePhotoTask extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
         int add;
@@ -273,7 +269,7 @@ public class ShowPhotosActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(ShowPhotosActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(R.string.charging + "");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -285,7 +281,7 @@ public class ShowPhotosActivity extends AppCompatActivity {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "DELETE FROM photos WHERE id = '" + id + "'");
 
-                jsonObject = returnJSON.sendDMLRequest(url_borrado, parametrosPost);
+                jsonObject = returnJSON.sendDMLRequest(url_remove, parametrosPost);
 
                 if (jsonObject != null) {
                     return jsonObject;
@@ -308,15 +304,15 @@ public class ShowPhotosActivity extends AppCompatActivity {
                 }
 
                 if (add != 0) {
-                    Toast.makeText(ShowPhotosActivity.this, "Registro borrado", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ShowPhotosActivity.this, R.string.successfully_removed, Toast.LENGTH_LONG).show();
                     arrayPhotos.remove(pos);
                     adapter.notifyDataSetChanged();
                     borrar();
                 } else {
-                    Toast.makeText(ShowPhotosActivity.this, "Error al borrar", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ShowPhotosActivity.this, R.string.error_removing, Toast.LENGTH_LONG).show();
                 }
             } else {
-                Toast.makeText(ShowPhotosActivity.this, "JSON Array nulo", Toast.LENGTH_LONG).show();
+                Toast.makeText(ShowPhotosActivity.this, R.string.charging_error, Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -327,23 +323,17 @@ public class ShowPhotosActivity extends AppCompatActivity {
 
         StorageReference toDeleteFile = storageReference.child("images/" + serialNumber + "/" + id);
 
-        System.out.println("Pruebas" + toDeleteFile.toString());
-
         toDeleteFile.delete().addOnSuccessListener(new OnSuccessListener() {
             @Override
             public void onSuccess(Object o) {
-                Toast.makeText(ShowPhotosActivity.this, "Foto borrada del servidor", Toast.LENGTH_SHORT).show();
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                Toast.makeText(ShowPhotosActivity.this, "Foto no borrada del servidor", Toast.LENGTH_SHORT).show();
+
             }
         });
-    }
-
-    protected void imageDetailScreen() {
-
     }
 
     @Override

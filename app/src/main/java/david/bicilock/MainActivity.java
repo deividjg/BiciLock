@@ -66,9 +66,6 @@ public class MainActivity extends AppCompatActivity
             buttonManageGarage.setVisibility(View.INVISIBLE);
             buttonModifyPersonalData.setVisibility(View.INVISIBLE);
         }
-
-
-
     }
 
     @Override

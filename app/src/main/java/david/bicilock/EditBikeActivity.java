@@ -11,8 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,7 +24,7 @@ public class EditBikeActivity extends AppCompatActivity {
     private Bike bike;
     private EditText etSerialNumberEdit, etBrandEdit, etModelEdit, etColorEdit, etYearEdit;
 
-    private String url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
+    private String url_update;
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
 
@@ -48,7 +46,7 @@ public class EditBikeActivity extends AppCompatActivity {
             }
         });
 
-        url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
+        url_update = "http://iesayala.ddns.net/deividjg/php2.php";
         returnJSON = new ReturnJSON();
 
         etSerialNumberEdit = (EditText) findViewById(R.id.etSerialNumberEdit);
@@ -76,7 +74,7 @@ public class EditBikeActivity extends AppCompatActivity {
         }
         if (id == R.id.cancelBikeEdit) {
             finish();
-            Toast.makeText(this, "Edición cancelada", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.cancel_edition, Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -93,7 +91,7 @@ public class EditBikeActivity extends AppCompatActivity {
         etYearEdit.setText(bike.getYear());
     }
 
-    ///////Task para actualizar una bici
+    ///////Task to update a bike
     class EditBikeTask extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
         int add;
@@ -101,7 +99,7 @@ public class EditBikeActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(EditBikeActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(R.string.charging + "");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -112,7 +110,7 @@ public class EditBikeActivity extends AppCompatActivity {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "UPDATE bikes SET Brand='" + brand + "', Model='" + model + "', Color='" + color + "', Year=" + year + " WHERE SerialNumber='" + bike.getSerialNumber() + "'");
-                jsonObject = returnJSON.sendDMLRequest(url_subida, parametrosPost);
+                jsonObject = returnJSON.sendDMLRequest(url_update, parametrosPost);
 
                 if (jsonObject != null) {
                     return jsonObject;
@@ -135,16 +133,16 @@ public class EditBikeActivity extends AppCompatActivity {
                 }
 
                 if(add!=0){
-                    Toast.makeText(EditBikeActivity.this, "Bicicleta Actualizada",
+                    Toast.makeText(EditBikeActivity.this, R.string.bike_updated,
                             Toast.LENGTH_LONG).show();
                     showBikeScreen();
                 }else{
-                    Toast.makeText(EditBikeActivity.this, "Error. No se ha podido actualizar",
+                    Toast.makeText(EditBikeActivity.this, R.string.error_updating,
                             Toast.LENGTH_LONG).show();
                 }
 
             } else {
-                Toast.makeText(EditBikeActivity.this, "Error. No se ha podido actualizar 2",
+                Toast.makeText(EditBikeActivity.this, R.string.charging_error,
                         Toast.LENGTH_LONG).show();
             }
         }

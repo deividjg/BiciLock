@@ -21,7 +21,7 @@ import java.util.HashMap;
 
 public class NewBikeActivity extends AppCompatActivity {
 
-    private String url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
+    private String url_upload;
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
     private EditText etSerialNumberNew, etBrandNew, etModelNew, etColorNew, etYearNew;
@@ -40,7 +40,7 @@ public class NewBikeActivity extends AppCompatActivity {
         etColorNew = (EditText)findViewById(R.id.etColorNew);
         etYearNew = (EditText)findViewById(R.id.etYearNew);
 
-        url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
+        url_upload = "http://iesayala.ddns.net/deividjg/php2.php";
         returnJSON = new ReturnJSON();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -69,7 +69,7 @@ public class NewBikeActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.saveBike) {
-            tomaDatos();
+            dataCollect();
             new NewBikeTask().execute();
         }
 
@@ -80,7 +80,7 @@ public class NewBikeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected void tomaDatos(){
+    protected void dataCollect(){
         serialNumber = etSerialNumberNew.getText().toString();
         brand = etBrandNew.getText().toString();
         model = etModelNew.getText().toString();
@@ -88,7 +88,7 @@ public class NewBikeActivity extends AppCompatActivity {
         year = etYearNew.getText().toString();
     }
 
-    ///////Task para registrar una nueva bici
+    ///////Task to registerUser a new bike
     class NewBikeTask extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
         int add;
@@ -96,7 +96,7 @@ public class NewBikeActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(NewBikeActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(R.string.charging + "");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -108,7 +108,7 @@ public class NewBikeActivity extends AppCompatActivity {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 //parametrosPost.put("ins_sql", "INSERT INTO 'bikes'('SerialNumber', 'Brand', 'Model', 'Color', 'Year', 'email') VALUES ('" + serialNumber + "', '" + brand + "', '" + model + "', '" + color + "', '" + year + "', 'deividjg@gmail.com)");
                 parametrosPost.put("ins_sql", "INSERT INTO bikes VALUES ('" + serialNumber + "', '" + brand + "', '" + model + "', '" + color + "', '" + year + "', 0, 'detalles', 'deividjg@gmail.com')");
-                jsonObject = returnJSON.sendDMLRequest(url_subida, parametrosPost);
+                jsonObject = returnJSON.sendDMLRequest(url_upload, parametrosPost);
 
                 if (jsonObject != null) {
                     return jsonObject;
@@ -131,16 +131,16 @@ public class NewBikeActivity extends AppCompatActivity {
                 }
 
                 if(add!=0){
-                    Toast.makeText(NewBikeActivity.this, "Bicicleta Registrada",
+                    Toast.makeText(NewBikeActivity.this, R.string.new_bike_ok,
                             Toast.LENGTH_LONG).show();
                     addPhotosScreen();
                 }else{
-                    Toast.makeText(NewBikeActivity.this, "Error. No se ha podido registrar",
+                    Toast.makeText(NewBikeActivity.this, R.string.new_bike_error,
                             Toast.LENGTH_LONG).show();
                 }
 
             } else {
-                Toast.makeText(NewBikeActivity.this, "Error. No se ha podido registrar",
+                Toast.makeText(NewBikeActivity.this, R.string.charging_error,
                         Toast.LENGTH_LONG).show();
             }
         }

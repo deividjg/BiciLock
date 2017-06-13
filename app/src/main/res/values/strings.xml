@@ -27,4 +27,29 @@
     <string name="are_you_sure">Are you sure?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="not_stolen">This bike has not been stolen</string>
+    <string name="not_database">This bike is not in the database</string>
+    <string name="stolen_bike">This is a stolen bike!</string>
+    <string name="notify_owner">Do you want to notify the owner?</string>
+    <string name="cancel_edition">Edition canceled</string>
+    <string name="bike_updated">Bike updated</string>
+    <string name="error_updating">Updating error</string>
+    <string name="login_ok">Successfully logged in</string>
+    <string name="login_error">Login error. Incorrect user and/or password</string>
+    <string name="new_bike_ok">Bike added successfully</string>
+    <string name="new_bike_error">Error adding new bike</string>
+    <string name="new_user_ok">User created successfully</string>
+    <string name="new_user_error">Error creating user</string>
+    <string name="modify_state">Modity state?</string>
+    <string name="state_modified_ok">State modified successfully</string>
+    <string name="state_modified_error">Error modifing state</string>
+    <string name="choose_source">Choose source</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="cancel">Cancel</string>
+    <string name="select_picture">Select picture</string>
+    <string name="uploading">Uploading</string>
+    <string name="upload_ok">Picture uploaded successfully</string>
+    <string name="upload_error">Error uploading photo</string>
+
 </resources>

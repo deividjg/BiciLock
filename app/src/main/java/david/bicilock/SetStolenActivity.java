@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +32,7 @@ public class SetStolenActivity extends AppCompatActivity {
     private EditText etDetailsSetStolen;
     private Button btnSetStolen;
 
-    private String url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
+    private String url_upload;
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
 
@@ -63,7 +62,7 @@ public class SetStolenActivity extends AppCompatActivity {
         getBike();
         showBikeData();
 
-        url_subida = "http://iesayala.ddns.net/deividjg/prueba.php";
+        url_upload = "http://iesayala.ddns.net/deividjg/php2.php";
         returnJSON = new ReturnJSON();
 
         /*checkBoxStolenShow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -120,15 +119,15 @@ public class SetStolenActivity extends AppCompatActivity {
 
     protected void showConfirmDialog(){
         AlertDialog.Builder alertDialogBu = new AlertDialog.Builder(SetStolenActivity.this);
-        alertDialogBu.setTitle("Modificar Estado");
-        alertDialogBu.setMessage("¿Estás seguro?");
+        alertDialogBu.setTitle(R.string.modify_state);
+        alertDialogBu.setMessage(R.string.are_you_sure);
         alertDialogBu.setIcon(android.R.drawable.ic_dialog_alert);
 
-        alertDialogBu.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        alertDialogBu.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {}
         });
 
-        alertDialogBu.setPositiveButton( "Sí", new DialogInterface.OnClickListener() {
+        alertDialogBu.setPositiveButton( R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 bike.setDetails(etDetailsSetStolen.getText().toString());
                 new SetStolenTask().execute();
@@ -147,7 +146,7 @@ public class SetStolenActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(SetStolenActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(R.string.charging + "");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -164,7 +163,7 @@ public class SetStolenActivity extends AppCompatActivity {
                     parametrosPost.put("ins_sql", "UPDATE bikes SET Stolen = 0, Details = '" + bike.getDetails() + "' WHERE SerialNumber = '" + bike.getSerialNumber() + "'");
                 }
 
-                jsonObject = returnJSON.sendDMLRequest(url_subida, parametrosPost);
+                jsonObject = returnJSON.sendDMLRequest(url_upload, parametrosPost);
 
                 if (jsonObject != null) {
                     return jsonObject;
@@ -187,19 +186,19 @@ public class SetStolenActivity extends AppCompatActivity {
                 }
 
                 if(add!=0){
-                    Toast.makeText(SetStolenActivity.this, "Estado modificado", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SetStolenActivity.this, R.string.state_modified_ok, Toast.LENGTH_LONG).show();
                     refreshBike();
                     Intent intent = new Intent (getApplicationContext(), ShowBikeActivity.class);
                     intent.putExtra("bike", bike);
                     startActivity(intent);
                     finish();
                 }else{
-                    Toast.makeText(SetStolenActivity.this, "Error. No se ha podido registrar",
+                    Toast.makeText(SetStolenActivity.this, R.string.state_modified_error,
                             Toast.LENGTH_LONG).show();
                 }
 
             } else {
-                Toast.makeText(SetStolenActivity.this, "Error. No se ha podido registrar 2",
+                Toast.makeText(SetStolenActivity.this, R.string.charging_error,
                         Toast.LENGTH_LONG).show();
             }
         }
