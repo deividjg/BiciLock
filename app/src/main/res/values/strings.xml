@@ -82,5 +82,8 @@
     <string name="manage_robbery">Manage robbery</string>
     <string name="choose_photo">Choose photo</string>
     <string name="add">Add</string>
+    <string name="user">User</string>
+    <string name="garage">Garage</string>
+    <string name="exit">Exit</string>
 
 </resources>
