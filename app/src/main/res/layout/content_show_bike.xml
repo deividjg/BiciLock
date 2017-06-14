@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Número Serie"
+                android:text="@string/serial_number"
                 android:textAlignment="center"
                 android:textSize="18sp" />
 
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Marca"
+                android:text="@string/brand"
                 android:textAlignment="center"
                 android:textSize="18sp" />
 
@@ -78,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Modelo"
+                android:text="@string/model"
                 android:textAlignment="center"
                 android:textSize="18sp" />
 
@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Color"
+                android:text="@string/color"
                 android:textAlignment="center"
                 android:textSize="18sp" />
 
@@ -130,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Año"
+                android:text="@string/year"
                 android:textAlignment="center"
                 android:textSize="18sp" />
 
@@ -157,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="150dp"
                 android:layout_weight="1"
-                android:text="¿Robada?"
+                android:text="@string/stolen"
                 android:textSize="18sp" />
 
         </LinearLayout>
@@ -172,7 +172,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Detalles"
+                android:text="@string/details"
                 android:textAlignment="center"
                 android:textSize="18sp" />
 
@@ -199,7 +199,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Show Images"
+                android:text="@string/show_photos"
                 android:onClick="showPhotos"/>
         </LinearLayout>
 
@@ -216,7 +216,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="setStolenScreen"
-                android:text="Gestionar Robo" />
+                android:text="@string/manage_robbery" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

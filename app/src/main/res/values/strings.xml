@@ -51,5 +51,36 @@
     <string name="uploading">Uploading</string>
     <string name="upload_ok">Picture uploaded successfully</string>
     <string name="upload_error">Error uploading photo</string>
+    <string name="enter_sn">Enter Serial Number</string>
+    <string name="check">Check</string>
+    <string name="register_screen">Register Screen</string>
+    <string name="password">Password</string>
+    <string name="name">Nombre</string>
+    <string name="town">Town</string>
+    <string name="province">Province</string>
+    <string name="phone">Phone</string>
+    <string name="accept">Accept</string>
+    <string name="serial_number">Serial Number</string>
+    <string name="brand">Brand</string>
+    <string name="model">Model</string>
+    <string name="color">Color</string>
+    <string name="year">Year</string>
+    <string name="enter">Enter</string>
+    <string name="welcome">Welcome to Bicilock</string>
+    <string name="guest">Guest</string>
+    <string name="what_do_you_want">What do you want to do?</string>
+    <string name="check_sn">Check Serial Number</string>
+    <string name="manage">Manage garage</string>
+    <string name="edit_personal">Edit personal data</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="stolen">Stolen?</string>
+    <string name="details">Details</string>
+    <string name="set_state">Set state</string>
+    <string name="show_photos">Show photos</string>
+    <string name="manage_robbery">Manage robbery</string>
+    <string name="choose_photo">Choose photo</string>
+    <string name="add">Add</string>
 
 </resources>

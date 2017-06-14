@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Marca"
+                android:text="@string/brand"
                 android:textAlignment="center"
                 android:textSize="18sp" />
 
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Modelo"
+                android:text="@string/model"
                 android:textAlignment="center"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Número Serie"
+                android:text="@string/serial_number"
                 android:textAlignment="center"
                 android:textSize="18sp" />
 
@@ -71,14 +71,13 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-
             <CheckBox
                 android:id="@+id/checkBoxStolenSetStolen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="150dp"
                 android:layout_weight="1"
-                android:text="¿Robada?"
+                android:text="@string/stolen"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -93,7 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Detalles del Robo"
+                android:text="@string/robbery_details"
                 android:textAlignment="center"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -120,14 +119,13 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-
             <Button
                 android:id="@+id/buttonSetStolenSetStolen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="setStolen"
-                android:text="Modificar Estado" />
+                android:text="@string/set_state" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

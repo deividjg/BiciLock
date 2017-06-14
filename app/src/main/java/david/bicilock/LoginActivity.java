@@ -27,7 +27,6 @@ public class LoginActivity extends AppCompatActivity {
     private ReturnJSON returnJSON;
     private User user;
     private ArrayList<User> arrayUsers;
-    private ArrayList<HashMap<String, String>> userList;
     private EditText etEmail, etPassword;
 
     SharedPreferences sp;
@@ -73,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(LoginActivity.this);
-            pDialog.setMessage(R.string.charging + "");
+            pDialog.setMessage(getString(R.string.charging));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -84,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql", "SELECT * FROM users WHERE email='" + email + "' and Password=" + password);
+                parametrosPost.put("ins_sql", "SELECT * FROM users WHERE email='" + email + "' AND Password=" + password);
 
                 jSONArray = returnJSON.sendRequest(url_consulta, parametrosPost);
 
@@ -126,7 +125,6 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, R.string.login_error, Toast.LENGTH_LONG).show();
             }
         }
-
     }
 
     protected void holdLogin(){

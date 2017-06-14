@@ -137,7 +137,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
         final AlertDialog.Builder alertDialogBu = new AlertDialog.Builder(this);
         alertDialogBu.setTitle(R.string.choose_source);
         alertDialogBu.setIcon(R.drawable.ic_add_a_photo_black_24dp);
-        CharSequence opciones[] = {"Gallery", "Camera", "Cancel"};
+        CharSequence opciones[] = {getString(R.string.gallery), getString(R.string.camera), getString(R.string.cancel)};
         alertDialogBu.setItems(opciones, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
                 switch(item){
@@ -243,7 +243,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
                             double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
 
                             //displaying percentage in progress dialog
-                            progressDialog.setMessage(R.string.uploading + ((int) progress) + " %...");
+                            progressDialog.setMessage(getString(R.string.uploading) + " " + ((int) progress) + " %...");
                         }
                     });
         } else {
@@ -251,7 +251,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
         }
     }
 
-    ///////Task para registerUser una nueva foto
+    ///////Task to add a new photo
     class NewPhotoTask extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
         int add;
@@ -259,7 +259,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(UploadPhotosActivity.this);
-            pDialog.setMessage(R.string.charging + "");
+            pDialog.setMessage(getString(R.string.charging));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();

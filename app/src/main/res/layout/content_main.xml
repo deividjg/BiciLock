@@ -25,7 +25,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
-                android:text="Bienvenido a BiciLock"
+                android:text="@string/welcome"
                 android:textAlignment="center"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -42,7 +42,7 @@
                 android:layout_below="@+id/textView"
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
-                android:text="Invitado"
+                android:text="@string/guest"
                 android:textAlignment="center"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -60,7 +60,7 @@
                 android:layout_below="@+id/tvEmailMain"
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
-                android:text="¿Qué quieres hacer?"
+                android:text="@string/what_do_you_want"
                 android:textAlignment="center"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -80,7 +80,7 @@
                 android:layout_marginTop="17dp"
                 android:layout_weight="0.31"
                 android:onClick="checkBikeScreen"
-                android:text="Comprobar Número de Serie" />
+                android:text="@string/check_sn" />
 
         </LinearLayout>
 
@@ -99,7 +99,7 @@
                 android:layout_marginBottom="19dp"
                 android:layout_weight="1"
                 android:onClick="bikeListScreen"
-                android:text="Gestionar Garaje" />
+                android:text="@string/manage" />
 
         </LinearLayout>
 
@@ -117,7 +117,7 @@
                 android:layout_alignStart="@+id/textView"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
-                android:text="Modificar mis datos" />
+                android:text="@string/edit_personal" />
 
         </LinearLayout>
 
@@ -135,7 +135,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:onClick="registerScreen"
-                android:text="Registrarse" />
+                android:text="@string/register" />
         </LinearLayout>
 
         <LinearLayout
@@ -152,7 +152,7 @@
                 android:layout_below="@+id/textView2"
                 android:layout_marginTop="15dp"
                 android:layout_weight="1"
-                android:text="Login"
+                android:text="@string/login"
                 android:onClick="loginScreen"/>
         </LinearLayout>
 
@@ -171,7 +171,7 @@
                 android:layout_marginBottom="22dp"
                 android:layout_weight="1"
                 android:onClick="logout"
-                android:text="Logout" />
+                android:text="@string/logout" />
 
         </LinearLayout>
 

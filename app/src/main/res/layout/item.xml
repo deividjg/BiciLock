@@ -18,7 +18,7 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@id/iv"
         android:singleLine="true"
-        android:text="Brand"
+        android:text="@string/brand"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textIsSelectable="false" />
 
@@ -31,6 +31,6 @@
         android:layout_marginBottom="10dp"
         android:layout_toEndOf="@+id/iv"
         android:gravity="center_vertical"
-        android:text="Model"
+        android:text="@string/model"
         android:textIsSelectable="false" />
 </RelativeLayout>

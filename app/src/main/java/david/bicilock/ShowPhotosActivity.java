@@ -204,7 +204,7 @@ public class ShowPhotosActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(ShowPhotosActivity.this);
-            pDialog.setMessage(R.string.charging + "");
+            pDialog.setMessage(getString(R.string.charging));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -269,7 +269,7 @@ public class ShowPhotosActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(ShowPhotosActivity.this);
-            pDialog.setMessage(R.string.charging + "");
+            pDialog.setMessage(getString(R.string.charging));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
