@@ -11,7 +11,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,7 +21,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tvNavHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -39,7 +41,7 @@
                 android:id="@+id/tvEmailMain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textView"
+                android:layout_below="@+id/tvNavHeader"
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:text="@string/guest"
@@ -114,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/buttonRegister"
-                android:layout_alignStart="@+id/textView"
+                android:layout_alignStart="@+id/tvNavHeader"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:text="@string/edit_personal" />

@@ -9,9 +9,9 @@
             android:title="@string/manage" />
 
             <item
-                android:id="@+id/nav_otro"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="@string/manage" />
+                android:id="@+id/nav_check"
+                android:icon="@drawable/ic_check_circle_black_24dp"
+                android:title="@string/check_sn" />
         </menu>
     </item>
 

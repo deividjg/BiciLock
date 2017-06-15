@@ -3,8 +3,6 @@ package david.bicilock;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,22 +21,14 @@ public class MainActivity extends AppCompatActivity
     SharedPreferences sp;
     Button buttonLogout, buttonRegister, buttonModifyPersonalData, buttonManageGarage, btnLogin;
     TextView tvEmail;
+    Menu nav_Menu;
+    TextView nav_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -48,6 +38,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        nav_Menu = navigationView.getMenu();
+        View hView =  navigationView.getHeaderView(0);
+        nav_user = (TextView)hView.findViewById(R.id.tvNavHeader);
 
         buttonLogout = (Button) findViewById(R.id.buttonLogout);
         buttonRegister = (Button) findViewById(R.id.buttonRegister);
@@ -61,10 +54,18 @@ public class MainActivity extends AppCompatActivity
             buttonRegister.setVisibility(View.INVISIBLE);
             btnLogin.setVisibility(View.INVISIBLE);
 
+            nav_Menu.findItem(R.id.nav_login).setVisible(false);
+            nav_Menu.findItem(R.id.nav_register).setVisible(false);
+            nav_user.setText(sp.getString("email", "Invitado"));
+
         } else {
             buttonLogout.setVisibility(View.INVISIBLE);
             buttonManageGarage.setVisibility(View.INVISIBLE);
             buttonModifyPersonalData.setVisibility(View.INVISIBLE);
+
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
+            nav_Menu.findItem(R.id.nav_manage).setVisible(false);
+            nav_user.setText(R.string.guest);
         }
     }
 
@@ -85,35 +86,32 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify adapterLv parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_register) {
-            // Handle the camera action
-        } else if (id == R.id.nav_login) {
-
-        } else if (id == R.id.nav_logout) {
-
+        if (id == R.id.nav_check) {
+            Intent intent = new Intent(this, CheckBikeActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_manage) {
-
+            Intent intent = new Intent(this, BikelistActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_login) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_logout) {
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putBoolean("logged", false);
+            editor.commit();
+            recreate();
+        } else if (id == R.id.nav_register) {
+            Intent intent = new Intent(this, RegisterActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_exit) {
+            int pid = android.os.Process.myPid();
+            android.os.Process.killProcess(pid);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
