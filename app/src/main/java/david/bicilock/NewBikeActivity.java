@@ -57,8 +57,13 @@ public class NewBikeActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.saveBike) {
-            dataCollect();
-            new NewBikeTask().execute();
+            if(isEmpty(etSerialNumberNew) || isEmpty(etBrandNew) || isEmpty(etModelNew) || isEmpty(etColorNew) || isEmpty(etYearNew)) {
+                Toast.makeText(this, R.string.complete_fields, Toast.LENGTH_SHORT).show();
+            }
+            else {
+                dataCollect();
+                new NewBikeTask().execute();
+            }
         }
 
         if (id == R.id.cancelNewBike) {
@@ -138,6 +143,10 @@ public class NewBikeActivity extends AppCompatActivity {
         Intent intent = new Intent (this, UploadPhotosActivity.class);
         intent.putExtra("serialNumber", serialNumber);
         startActivity(intent);
+    }
+
+    public boolean isEmpty(EditText editText) {
+        return editText.getText().toString().trim().length() == 0;
     }
 
     @Override

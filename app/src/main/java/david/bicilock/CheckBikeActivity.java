@@ -40,8 +40,12 @@ public class CheckBikeActivity extends AppCompatActivity {
     }
 
     public void checkSerialNumber(View view){
-        serialNumber = etSerialNumberCheckBike.getText().toString();
-        new CheckBike().execute();
+        if(isEmpty(etSerialNumberCheckBike)){
+            Toast.makeText(this, R.string.enter_sn, Toast.LENGTH_SHORT).show();
+        } else {
+            serialNumber = etSerialNumberCheckBike.getText().toString();
+            new CheckBike().execute();
+        }
     }
 
     ///////Task to check serial number
@@ -141,6 +145,14 @@ public class CheckBikeActivity extends AppCompatActivity {
         Intent intent = new Intent (this, BikelistActivity.class);
         //intent.putExtra("email", email);
         startActivity(intent);
+    }
+
+    public boolean isEmpty(EditText editText) {
+        return editText.getText().toString().trim().length() == 0;
+    }
+
+    public void cancel(View view){
+        finish();
     }
 
     @Override

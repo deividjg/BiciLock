@@ -45,12 +45,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void enter(View view){
-        email = etEmail.getText().toString();
-        password = etPassword.getText().toString();
-        new CheckLogin().execute();
+        if(isEmpty(etEmail) || isEmpty(etPassword)) {
+            Toast.makeText(this, R.string.complete_fields, Toast.LENGTH_SHORT).show();
+        } else {
+            email = etEmail.getText().toString();
+            password = etPassword.getText().toString();
+            new CheckLogin().execute();
+        }
     }
 
-    public void cancel(){
+    public void cancel(View view){
         finish();
     }
 
@@ -127,6 +131,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void mainScreen(){
         Intent intent = new Intent (this, MainActivity.class);
         startActivity(intent);
+    }
+
+    public boolean isEmpty(EditText editText) {
+        return editText.getText().toString().trim().length() == 0;
     }
 
     @Override

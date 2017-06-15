@@ -42,4 +42,14 @@
         android:text="0807FFH"
         tools:layout_editor_absoluteX="84dp"
         tools:layout_editor_absoluteY="65dp" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/button"
+        android:layout_below="@+id/button"
+        android:layout_marginTop="33dp"
+        android:text="@string/cancel"
+        android:onClick="cancel"/>
 </RelativeLayout>

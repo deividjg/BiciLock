@@ -12,31 +12,55 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private String url_upload;
     protected JSONObject jsonObject;
     private ReturnJSON devuelveJSON;
-    private EditText etEMail;
+    private EditText etEMailRegister, etPasswordRegister, etNameRegister, etTownRegister, etProvinceRegister, etPhoneRegister;
     String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        etEMail = (EditText) findViewById(R.id.etEMail);
+        etEMailRegister = (EditText) findViewById(R.id.etEMailRegister);
+        etPasswordRegister = (EditText) findViewById(R.id.etPasswordRegister);
+        etNameRegister = (EditText) findViewById(R.id.etNameRegister);
+        etTownRegister = (EditText) findViewById(R.id.etTownRegister);
+        etProvinceRegister = (EditText) findViewById(R.id.etProvinceRegister);
+        etPhoneRegister = (EditText) findViewById(R.id.etPhoneRegister);
         url_upload = "http://iesayala.ddns.net/deividjg/php2.php";
         devuelveJSON = new ReturnJSON();
     }
 
     public void registerUser(View view) {
-        email = etEMail.getText().toString();
-        new RegistroTask().execute();
+        if (isEmpty(etEMailRegister) || isEmpty(etPasswordRegister) || isEmpty(etNameRegister) || isEmpty(etTownRegister) || isEmpty(etProvinceRegister) || isEmpty(etPhoneRegister)) {
+            Toast.makeText(this, R.string.complete_fields, Toast.LENGTH_SHORT).show();
+        } else if (!isEmailValid(etEMailRegister.getText().toString())) {
+            Toast.makeText(this, R.string.not_valid_email, Toast.LENGTH_SHORT).show();
+        } else {
+            email = etEMailRegister.getText().toString();
+            new RegistroTask().execute();
+        }
     }
 
     public void cancel(View view) {
         finish();
+    }
+
+    public boolean isEmpty(EditText editText) {
+        return editText.getText().toString().trim().length() == 0;
+    }
+
+    public static boolean isEmailValid(String email) {
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     ///////Task to registerUser a new user

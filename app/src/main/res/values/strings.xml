@@ -85,5 +85,7 @@
     <string name="user">User</string>
     <string name="garage">Garage</string>
     <string name="exit">Exit</string>
+    <string name="complete_fields">Complete all the fields</string>
+    <string name="not_valid_email">This is not a valid email</string>
 
 </resources>

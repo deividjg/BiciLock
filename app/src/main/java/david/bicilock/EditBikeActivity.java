@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -58,8 +57,12 @@ public class EditBikeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.saveBikeEdit) {
-            takeNewData();
-            new EditBikeTask().execute();
+            if(isEmpty(etSerialNumberEdit) || isEmpty(etBrandEdit) || isEmpty(etModelEdit) || isEmpty(etColorEdit) || isEmpty(etYearEdit)) {
+                Toast.makeText(this, R.string.complete_fields, Toast.LENGTH_SHORT).show();
+            } else {
+                takeNewData();
+                new EditBikeTask().execute();
+            }
         }
         if (id == R.id.cancelBikeEdit) {
             finish();
@@ -153,6 +156,10 @@ public class EditBikeActivity extends AppCompatActivity {
         model = etModelEdit.getText().toString();
         color = etColorEdit.getText().toString();
         year = etYearEdit.getText().toString();
+    }
+
+    public boolean isEmpty(EditText editText) {
+        return editText.getText().toString().trim().length() == 0;
     }
 
     @Override

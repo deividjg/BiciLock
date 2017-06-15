@@ -39,7 +39,7 @@
                 android:text="e-Mail" />
 
             <EditText
-                android:id="@+id/etEMail"
+                android:id="@+id/etEMailRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -61,7 +61,7 @@
                 android:text="@string/password" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/etPasswordRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -82,7 +82,7 @@
                 android:text="@string/name" />
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/etNameRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -103,7 +103,7 @@
                 android:text="@string/town" />
 
             <EditText
-                android:id="@+id/editText6"
+                android:id="@+id/etTownRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -124,7 +124,7 @@
                 android:text="@string/province" />
 
             <EditText
-                android:id="@+id/editText4"
+                android:id="@+id/etProvinceRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -145,7 +145,7 @@
                 android:text="@string/phone" />
 
             <EditText
-                android:id="@+id/editText5"
+                android:id="@+id/etPhoneRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

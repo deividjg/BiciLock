@@ -80,4 +80,6 @@
     <string name="welcome">Bienvenido a Bicilock</string>
     <string name="what_do_you_want">¿Qué quieres hacer?</string>
     <string name="year">Año</string>
+    <string name="complete_fields">Completa todos los campos</string>
+    <string name="not_valid_email">No es una dirección de correo válida</string>
 </resources>
