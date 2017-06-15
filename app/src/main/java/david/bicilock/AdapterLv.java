@@ -1,8 +1,6 @@
 package david.bicilock;
 
 import android.app.Activity;
-import android.graphics.BitmapFactory;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class AdapterLv extends BaseAdapter {
@@ -43,7 +40,7 @@ public class AdapterLv extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater ly = actividad.getLayoutInflater();
-        View view = ly.inflate(R.layout.item, null, true);
+        View view = ly.inflate(R.layout.item_lv, null, true);
         TextView tvBrand = (TextView) view.findViewById(R.id.tvBrandItem);
         tvBrand.setText((CharSequence) list.get(position).getBrand());
         TextView tvModel = (TextView) view.findViewById(R.id.tvModelItem);

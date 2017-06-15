@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        // Handle navigation view item_lv clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_check) {
