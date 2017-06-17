@@ -25,7 +25,6 @@ public class CheckBikeActivity extends AppCompatActivity {
     private ReturnJSON returnJSON;
     private Bike bike;
     private ArrayList<Bike> arrayBikes;
-
     private EditText etSerialNumberCheckBike;
 
     @Override
@@ -104,7 +103,8 @@ public class CheckBikeActivity extends AppCompatActivity {
                 }
                 if (arrayBikes.size() > 0) {
                     if (bike.stolen == 1) {
-                        showConfirmDialog();
+                        Toast.makeText(CheckBikeActivity.this, R.string.stolen_bike, Toast.LENGTH_SHORT).show();
+                        confirmScreen();
                     } else {
                         Toast.makeText(CheckBikeActivity.this, R.string.not_stolen, Toast.LENGTH_SHORT).show();
                     }
@@ -117,31 +117,9 @@ public class CheckBikeActivity extends AppCompatActivity {
         }
     }
 
-    protected void showConfirmDialog(){
-        AlertDialog.Builder alertDialogBu = new AlertDialog.Builder(CheckBikeActivity.this);
-        alertDialogBu.setTitle(R.string.stolen_bike);
-        alertDialogBu.setMessage(R.string.notify_owner);
-        alertDialogBu.setIcon(android.R.drawable.ic_dialog_alert);
-
-        alertDialogBu.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-        alertDialogBu.setPositiveButton( "Sí", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-        AlertDialog alertDialog = alertDialogBu.create();
-        alertDialog.show();
-    }
-
-    protected void notifyScreen(){
-        Intent intent = new Intent (this, BikelistActivity.class);
-        //intent.putExtra("email", email);
+    protected void confirmScreen(){
+        Intent intent = new Intent (this, ConfirmBikeActivity.class);
+        intent.putExtra("serialNumber", serialNumber);
         startActivity(intent);
     }
 

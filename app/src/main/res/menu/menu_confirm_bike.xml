@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="david.bicilock.ConfirmBikeActivity">
+    <item
+        android:id="@+id/confirm_yes"
+        android:orderInCategory="100"
+        android:title="YES"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/confirm_no"
+        android:orderInCategory="100"
+        android:title="NO"
+        app:showAsAction="always" />
+</menu>

@@ -103,7 +103,7 @@ public class BikelistActivity extends AppCompatActivity {
         email = sp.getString("email", "null");
     }
 
-    ///////Task to download user's bike
+    ///////Task to download user's bikes
     class BikeListTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 

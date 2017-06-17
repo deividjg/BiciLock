@@ -36,10 +36,8 @@ public class ShowPhotosActivity extends AppCompatActivity {
 
     //recyclerview object
     private RecyclerView recyclerView;
-
     //adapter object
     private RecyclerView.Adapter adapter;
-
     //list to hold all the uploaded images
     private List<Photo> photos;
 

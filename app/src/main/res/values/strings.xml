@@ -90,5 +90,7 @@
     <string name="title_activity_edit_user">Personal information</string>
     <string name="data_updated_ok">Data successfully updated</string>
     <string name="showing_user_data">Showing personal data</string>
+    <string name="title_activity_confirm_bike">is this bike?</string>
+    <string name="showing_bike">Showing bike</string>
 
 </resources>

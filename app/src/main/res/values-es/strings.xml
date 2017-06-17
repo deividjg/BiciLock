@@ -85,4 +85,6 @@
     <string name="data_updated_ok">Datos actualizados correctamente</string>
     <string name="title_activity_edit_user">Información personal</string>
     <string name="showing_user_data">Mostrando datos personales</string>
+    <string name="title_activity_confirm_bike">¿Es esta bicicleta?</string>
+    <string name="showing_bike">Mostrando bicicleta</string>
 </resources>
