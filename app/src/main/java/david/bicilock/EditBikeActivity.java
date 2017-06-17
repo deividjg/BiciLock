@@ -23,7 +23,7 @@ public class EditBikeActivity extends AppCompatActivity {
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
 
-    String brand, model, color, year;
+    private String brand, model, color, year;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

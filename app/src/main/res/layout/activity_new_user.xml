@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="david.bicilock.RegisterActivity">
+    tools:context="david.bicilock.NewUserActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                 android:text="e-Mail" />
 
             <EditText
-                android:id="@+id/etEMailRegister"
+                android:id="@+id/etEMailNewUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -61,7 +61,7 @@
                 android:text="@string/password" />
 
             <EditText
-                android:id="@+id/etPasswordRegister"
+                android:id="@+id/etPasswordNewUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -82,7 +82,7 @@
                 android:text="@string/name" />
 
             <EditText
-                android:id="@+id/etNameRegister"
+                android:id="@+id/etNameNewUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -103,7 +103,7 @@
                 android:text="@string/town" />
 
             <EditText
-                android:id="@+id/etTownRegister"
+                android:id="@+id/etTownNewUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -124,7 +124,7 @@
                 android:text="@string/province" />
 
             <EditText
-                android:id="@+id/etProvinceRegister"
+                android:id="@+id/etProvinceNewUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -145,7 +145,7 @@
                 android:text="@string/phone" />
 
             <EditText
-                android:id="@+id/etPhoneRegister"
+                android:id="@+id/etPhoneNewUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

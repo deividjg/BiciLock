@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="david.bicilock.EditUserActivity">
+    <item
+        android:id="@+id/saveUserEdit"
+        android:icon="@drawable/ic_save_black_24dp"
+        android:orderInCategory="100"
+        android:title="saveUserEdit"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/cancelUserEdit"
+        android:icon="@drawable/ic_cancel_black_24dp"
+        android:orderInCategory="100"
+        android:title="cancelUserEdit"
+        app:showAsAction="always" />
+</menu>

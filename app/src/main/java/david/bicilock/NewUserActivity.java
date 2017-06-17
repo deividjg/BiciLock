@@ -15,34 +15,35 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegisterActivity extends AppCompatActivity {
+public class NewUserActivity extends AppCompatActivity {
 
     protected JSONObject jsonObject;
     private ReturnJSON devuelveJSON;
-    private EditText etEMailRegister, etPasswordRegister, etNameRegister, etTownRegister, etProvinceRegister, etPhoneRegister;
-    String email;
+    private EditText etEMailNewUser, etPasswordNewUser, etNameNewUser, etTownNewUser, etProvinceNewUser, etPhoneNewUser;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        etEMailRegister = (EditText) findViewById(R.id.etEMailRegister);
-        etPasswordRegister = (EditText) findViewById(R.id.etPasswordRegister);
-        etNameRegister = (EditText) findViewById(R.id.etNameRegister);
-        etTownRegister = (EditText) findViewById(R.id.etTownRegister);
-        etProvinceRegister = (EditText) findViewById(R.id.etProvinceRegister);
-        etPhoneRegister = (EditText) findViewById(R.id.etPhoneRegister);
+        setContentView(R.layout.activity_new_user);
+
+        etEMailNewUser = (EditText) findViewById(R.id.etEMailNewUser);
+        etPasswordNewUser = (EditText) findViewById(R.id.etPasswordNewUser);
+        etNameNewUser = (EditText) findViewById(R.id.etNameNewUser);
+        etTownNewUser = (EditText) findViewById(R.id.etTownNewUser);
+        etProvinceNewUser = (EditText) findViewById(R.id.etProvinceNewUser);
+        etPhoneNewUser = (EditText) findViewById(R.id.etPhoneNewUser);
         devuelveJSON = new ReturnJSON();
     }
 
     public void registerUser(View view) {
-        if (isEmpty(etEMailRegister) || isEmpty(etPasswordRegister) || isEmpty(etNameRegister) || isEmpty(etTownRegister) || isEmpty(etProvinceRegister) || isEmpty(etPhoneRegister)) {
+        if (isEmpty(etEMailNewUser) || isEmpty(etPasswordNewUser) || isEmpty(etNameNewUser) || isEmpty(etTownNewUser) || isEmpty(etProvinceNewUser) || isEmpty(etPhoneNewUser)) {
             Toast.makeText(this, R.string.complete_fields, Toast.LENGTH_SHORT).show();
-        } else if (!isEmailValid(etEMailRegister.getText().toString())) {
+        } else if (!isEmailValid(etEMailNewUser.getText().toString())) {
             Toast.makeText(this, R.string.not_valid_email, Toast.LENGTH_SHORT).show();
         } else {
-            email = etEMailRegister.getText().toString();
-            new RegistroTask().execute();
+            email = etEMailNewUser.getText().toString();
+            new NewUserTask().execute();
         }
     }
 
@@ -62,13 +63,13 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     ///////Task to registerUser a new user
-    class RegistroTask extends AsyncTask<String, String, JSONObject> {
+    class NewUserTask extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
         int add;
 
         @Override
         protected void onPreExecute() {
-            pDialog = new ProgressDialog(RegisterActivity.this);
+            pDialog = new ProgressDialog(NewUserActivity.this);
             pDialog.setMessage(getString(R.string.charging));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
@@ -104,15 +105,15 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
                 if (add != 0) {
-                    Toast.makeText(RegisterActivity.this, R.string.new_user_ok,
+                    Toast.makeText(NewUserActivity.this, R.string.new_user_ok,
                             Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(RegisterActivity.this, R.string.new_bike_error,
+                    Toast.makeText(NewUserActivity.this, R.string.new_bike_error,
                             Toast.LENGTH_LONG).show();
                 }
 
             } else {
-                Toast.makeText(RegisterActivity.this, R.string.charging_error,
+                Toast.makeText(NewUserActivity.this, R.string.charging_error,
                         Toast.LENGTH_LONG).show();
             }
         }

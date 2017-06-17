@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity
             editor.commit();
             recreate();
         } else if (id == R.id.nav_register) {
-            Intent intent = new Intent(this, RegisterActivity.class);
+            Intent intent = new Intent(this, NewUserActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_exit) {
             int pid = android.os.Process.myPid();
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void registerScreen(View view) {
-        Intent intent = new Intent(this, RegisterActivity.class);
+        Intent intent = new Intent(this, NewUserActivity.class);
         startActivity(intent);
     }
 
