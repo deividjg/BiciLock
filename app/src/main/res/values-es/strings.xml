@@ -82,4 +82,7 @@
     <string name="year">Año</string>
     <string name="complete_fields">Completa todos los campos</string>
     <string name="not_valid_email">No es una dirección de correo válida</string>
+    <string name="data_updated_ok">Datos actualizados correctamente</string>
+    <string name="title_activity_edit_user">Información personal</string>
+    <string name="showing_user_data">Mostrando datos personales</string>
 </resources>

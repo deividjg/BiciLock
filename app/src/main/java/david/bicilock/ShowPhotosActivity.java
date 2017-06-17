@@ -244,7 +244,7 @@ public class ShowPhotosActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                 }
             } else {
-                Toast.makeText(ShowPhotosActivity.this, R.string.charging_error, Toast.LENGTH_LONG).show();
+                Toast.makeText(ShowPhotosActivity.this, R.string.charging_error, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -292,15 +292,15 @@ public class ShowPhotosActivity extends AppCompatActivity {
                 }
 
                 if (add != 0) {
-                    Toast.makeText(ShowPhotosActivity.this, R.string.successfully_removed, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ShowPhotosActivity.this, R.string.successfully_removed, Toast.LENGTH_SHORT).show();
                     arrayPhotos.remove(pos);
                     adapter.notifyDataSetChanged();
                     borrar();
                 } else {
-                    Toast.makeText(ShowPhotosActivity.this, R.string.error_removing, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ShowPhotosActivity.this, R.string.error_removing, Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(ShowPhotosActivity.this, R.string.charging_error, Toast.LENGTH_LONG).show();
+                Toast.makeText(ShowPhotosActivity.this, R.string.charging_error, Toast.LENGTH_SHORT).show();
             }
         }
     }

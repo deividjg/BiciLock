@@ -3,6 +3,7 @@ package david.bicilock;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -10,17 +11,20 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EditUserActivity extends AppCompatActivity {
 
     protected JSONObject jsonObject;
-    private ReturnJSON devuelveJSON;
+    private ReturnJSON returnJSON;
+    private JSONArray jSONArrayUsers;
     private EditText etEMailEditUser, etPasswordEditUser, etNameEditUser, etTownEditUser, etProvinceEditUser, etPhoneEditUser;
-    private String email;
+    private String email, password, name, town, province, phone;
     private User user;
 
     @Override
@@ -36,10 +40,10 @@ public class EditUserActivity extends AppCompatActivity {
         etTownEditUser = (EditText) findViewById(R.id.etTownNewUser);
         etProvinceEditUser = (EditText) findViewById(R.id.etProvinceNewUser);
         etPhoneEditUser = (EditText) findViewById(R.id.etPhoneNewUser);
-        devuelveJSON = new ReturnJSON();
+        returnJSON = new ReturnJSON();
 
-        getUser();
-        prepareScreen();
+        getEmail();
+        new UserDataTask().execute();
     }
 
     @Override
@@ -56,12 +60,17 @@ public class EditUserActivity extends AppCompatActivity {
                 Toast.makeText(this, R.string.complete_fields, Toast.LENGTH_SHORT).show();
             } else {
                 email = etEMailEditUser.getText().toString();
-                new EditUserActivity.EditUserTask().execute();
+                password = etPasswordEditUser.getText().toString();
+                name = etNameEditUser.getText().toString();
+                province = etProvinceEditUser.getText().toString();
+                town = etTownEditUser.getText().toString();
+                phone = etPhoneEditUser.getText().toString();
+                new EditUserTask().execute();
             }
         }
         if (id == R.id.cancelUserEdit) {
-            finish();
             Toast.makeText(this, R.string.cancel_edition, Toast.LENGTH_SHORT).show();
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -70,17 +79,78 @@ public class EditUserActivity extends AppCompatActivity {
         return editText.getText().toString().trim().length() == 0;
     }
 
-    protected void getUser() {
-        user = (User)getIntent().getSerializableExtra("user");
+    protected void getEmail() {
+        email = getIntent().getStringExtra("email");
     }
 
     protected void prepareScreen() {
-        etEMailEditUser.setText(user.getEmail());
+        etEMailEditUser.setText(email);
         etPasswordEditUser.setText(user.getPassword());
         etNameEditUser.setText(user.getName());
         etProvinceEditUser.setText(user.getProvince());
         etTownEditUser.setText(user.getTown());
         etPhoneEditUser.setText(user.getPhone());
+    }
+
+    ///////Task to download user's data
+    class UserDataTask extends AsyncTask<String, String, JSONArray> {
+        private ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(EditUserActivity.this);
+            pDialog.setMessage(getString(R.string.charging));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected JSONArray doInBackground(String... args) {
+            try {
+                HashMap<String, String> parametrosPost = new HashMap<>();
+                parametrosPost.put("ins_sql", "SELECT * FROM users WHERE email='" + email + "'");
+
+                jSONArrayUsers = returnJSON.sendRequest(Parameters.URL_DOWNLOAD, parametrosPost);
+
+                if (jSONArrayUsers != null) {
+                    return jSONArrayUsers;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(JSONArray json) {
+            if (pDialog != null && pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
+            if (json != null) {
+                long id;
+                for (int i = 0; i < json.length(); i++) {
+                    id = i;
+                    try {
+                        JSONObject jsonObject = json.getJSONObject(i);
+                        user = new User();
+                        user.setEmail(email);
+                        user.setPassword(jsonObject.getString("Password"));
+                        user.setName(jsonObject.getString("Name"));
+                        user.setTown(jsonObject.getString("Town"));
+                        user.setProvince(jsonObject.getString("Province"));
+                        user.setPhone(jsonObject.getString("Phone"));
+
+                        prepareScreen();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    Toast.makeText(EditUserActivity.this, R.string.showing_user_data, Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(EditUserActivity.this, R.string.charging_error, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     ///////Task to edit user
@@ -101,9 +171,9 @@ public class EditUserActivity extends AppCompatActivity {
         protected JSONObject doInBackground(String... args) {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql", "INSERT INTO users (`email`, `Password`, `Name`, `Town`, `Province`, `Phone`) VALUES ('" + email + "','0','0','0','0','')");
+                parametrosPost.put("ins_sql", "UPDATE users SET Password='" + password + "', Name='" + name + "', Town='" + town + "', Province='" + province + "', Phone='" + phone + "' WHERE email='" + email +"'");
 
-                jsonObject = devuelveJSON.sendDMLRequest(Parameters.URL_UPLOAD, parametrosPost);
+                jsonObject = returnJSON.sendDMLRequest(Parameters.URL_UPLOAD, parametrosPost);
 
                 if (jsonObject != null) {
                     return jsonObject;
@@ -126,16 +196,15 @@ public class EditUserActivity extends AppCompatActivity {
                 }
 
                 if (add != 0) {
-                    Toast.makeText(EditUserActivity.this, R.string.new_user_ok,
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditUserActivity.this, R.string.data_updated_ok,
+                            Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(EditUserActivity.this, R.string.new_bike_error,
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditUserActivity.this, R.string.error_updating,
+                            Toast.LENGTH_SHORT).show();
                 }
 
             } else {
-                Toast.makeText(EditUserActivity.this, R.string.charging_error,
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(EditUserActivity.this, R.string.charging_error, Toast.LENGTH_SHORT).show();
             }
         }
     }

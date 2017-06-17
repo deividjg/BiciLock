@@ -169,7 +169,7 @@ public class BikelistActivity extends AppCompatActivity {
                     Toast.makeText(BikelistActivity.this, R.string.showing_garage, Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(BikelistActivity.this, R.string.charging_error, Toast.LENGTH_LONG).show();
+                Toast.makeText(BikelistActivity.this, R.string.charging_error, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -217,14 +217,14 @@ public class BikelistActivity extends AppCompatActivity {
                 }
 
                 if(add!=0){
-                    Toast.makeText(BikelistActivity.this, R.string.successfully_removed, Toast.LENGTH_LONG).show();
+                    Toast.makeText(BikelistActivity.this, R.string.successfully_removed, Toast.LENGTH_SHORT).show();
                     arrayBikes.remove(id);
                     adapterLv.notifyDataSetChanged();
                 }else{
-                    Toast.makeText(BikelistActivity.this, R.string.error_removing, Toast.LENGTH_LONG).show();
+                    Toast.makeText(BikelistActivity.this, R.string.error_removing, Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(BikelistActivity.this, R.string.charging_error, Toast.LENGTH_LONG).show();
+                Toast.makeText(BikelistActivity.this, R.string.charging_error, Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -113,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
             } else {
-                Toast.makeText(LoginActivity.this, R.string.login_error, Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, R.string.login_error, Toast.LENGTH_SHORT).show();
             }
         }
     }

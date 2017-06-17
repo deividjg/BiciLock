@@ -94,7 +94,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
     protected void getSerialNumber(){
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
-            Toast.makeText(getApplicationContext(), R.string.charging_error, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.charging_error, Toast.LENGTH_SHORT).show();
         } else {
             serialNumber = extras.getString("serialNumber");
         }
@@ -194,7 +194,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
                             progressDialog.dismiss();
 
                             //and displaying adapterLv success toast
-                            Toast.makeText(getApplicationContext(), R.string.upload_ok, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), R.string.upload_ok, Toast.LENGTH_SHORT).show();
                             imageView.setImageBitmap(null);
                             url = taskSnapshot.getDownloadUrl().toString();
                             new NewPhotoTask().execute();
@@ -207,7 +207,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
                             //hiding the progress dialog
                             progressDialog.dismiss();
                             //and displaying error message
-                            Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -221,7 +221,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
                         }
                     });
         } else {
-            Toast.makeText(getApplicationContext(), R.string.charging_error, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.charging_error, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -268,15 +268,15 @@ public class UploadPhotosActivity extends AppCompatActivity {
 
                 if(add!=0){
                     Toast.makeText(UploadPhotosActivity.this, R.string.upload_ok,
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(UploadPhotosActivity.this, R.string.upload_error,
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 }
 
             } else {
                 Toast.makeText(UploadPhotosActivity.this, R.string.charging_error,
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_SHORT).show();
             }
         }
     }

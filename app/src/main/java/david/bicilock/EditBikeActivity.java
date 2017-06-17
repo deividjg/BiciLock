@@ -62,8 +62,8 @@ public class EditBikeActivity extends AppCompatActivity {
             }
         }
         if (id == R.id.cancelBikeEdit) {
-            finish();
             Toast.makeText(this, R.string.cancel_edition, Toast.LENGTH_SHORT).show();
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -123,16 +123,16 @@ public class EditBikeActivity extends AppCompatActivity {
 
                 if(add!=0){
                     Toast.makeText(EditBikeActivity.this, R.string.bike_updated,
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                     showBikeScreen();
                 }else{
                     Toast.makeText(EditBikeActivity.this, R.string.error_updating,
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 }
 
             } else {
                 Toast.makeText(EditBikeActivity.this, R.string.charging_error,
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_SHORT).show();
             }
         }
     }

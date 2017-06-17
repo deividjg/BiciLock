@@ -123,16 +123,16 @@ public class NewBikeActivity extends AppCompatActivity {
 
                 if(add!=0){
                     Toast.makeText(NewBikeActivity.this, R.string.new_bike_ok,
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                     addPhotosScreen();
                 }else{
                     Toast.makeText(NewBikeActivity.this, R.string.new_bike_error,
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 }
 
             } else {
                 Toast.makeText(NewBikeActivity.this, R.string.charging_error,
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_SHORT).show();
             }
         }
     }

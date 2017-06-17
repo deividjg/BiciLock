@@ -87,6 +87,8 @@
     <string name="exit">Exit</string>
     <string name="complete_fields">Complete all the fields</string>
     <string name="not_valid_email">This is not a valid email</string>
-    <string name="title_activity_edit_user">EditUserActivity</string>
+    <string name="title_activity_edit_user">Personal information</string>
+    <string name="data_updated_ok">Data successfully updated</string>
+    <string name="showing_user_data">Showing personal data</string>
 
 </resources>

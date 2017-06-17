@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 public class NewUserActivity extends AppCompatActivity {
 
     protected JSONObject jsonObject;
-    private ReturnJSON devuelveJSON;
+    private ReturnJSON returnJSON;
     private EditText etEMailNewUser, etPasswordNewUser, etNameNewUser, etTownNewUser, etProvinceNewUser, etPhoneNewUser;
     private String email;
 
@@ -33,7 +33,7 @@ public class NewUserActivity extends AppCompatActivity {
         etTownNewUser = (EditText) findViewById(R.id.etTownNewUser);
         etProvinceNewUser = (EditText) findViewById(R.id.etProvinceNewUser);
         etPhoneNewUser = (EditText) findViewById(R.id.etPhoneNewUser);
-        devuelveJSON = new ReturnJSON();
+        returnJSON = new ReturnJSON();
     }
 
     public void registerUser(View view) {
@@ -82,7 +82,7 @@ public class NewUserActivity extends AppCompatActivity {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "INSERT INTO users (`email`, `Password`, `Name`, `Town`, `Province`, `Phone`) VALUES ('" + email + "','0','0','0','0','')");
 
-                jsonObject = devuelveJSON.sendDMLRequest(Parameters.URL_UPLOAD, parametrosPost);
+                jsonObject = returnJSON.sendDMLRequest(Parameters.URL_UPLOAD, parametrosPost);
 
                 if (jsonObject != null) {
                     return jsonObject;
@@ -106,15 +106,15 @@ public class NewUserActivity extends AppCompatActivity {
 
                 if (add != 0) {
                     Toast.makeText(NewUserActivity.this, R.string.new_user_ok,
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(NewUserActivity.this, R.string.new_bike_error,
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 }
 
             } else {
                 Toast.makeText(NewUserActivity.this, R.string.charging_error,
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_SHORT).show();
             }
         }
     }

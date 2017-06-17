@@ -29,6 +29,10 @@
                 android:id="@+id/nav_register"
                 android:icon="@drawable/ic_person_add_black_24dp"
                 android:title="@string/register" />
+            <item
+                android:id="@+id/nav_edit"
+                android:icon="@drawable/ic_edit_black_24dp"
+                android:title="@string/edit_personal" />
         </menu>
 
     </item>

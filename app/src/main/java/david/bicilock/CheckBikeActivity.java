@@ -106,13 +106,13 @@ public class CheckBikeActivity extends AppCompatActivity {
                     if (bike.stolen == 1) {
                         showConfirmDialog();
                     } else {
-                        Toast.makeText(CheckBikeActivity.this, R.string.not_stolen, Toast.LENGTH_LONG).show();
+                        Toast.makeText(CheckBikeActivity.this, R.string.not_stolen, Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(CheckBikeActivity.this, R.string.not_database, Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(CheckBikeActivity.this, R.string.charging_error, Toast.LENGTH_LONG).show();
+                Toast.makeText(CheckBikeActivity.this, R.string.charging_error, Toast.LENGTH_SHORT).show();
             }
         }
     }

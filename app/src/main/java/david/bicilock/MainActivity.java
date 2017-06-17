@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     SharedPreferences sp;
-    Button buttonLogout, buttonRegister, buttonModifyPersonalData, buttonManageGarage, btnLogin;
     TextView tvEmail;
     Menu nav_Menu;
     TextView nav_user;
@@ -41,30 +40,18 @@ public class MainActivity extends AppCompatActivity
         nav_Menu = navigationView.getMenu();
         View hView =  navigationView.getHeaderView(0);
         nav_user = (TextView)hView.findViewById(R.id.tvNavHeader);
-
-        buttonLogout = (Button) findViewById(R.id.buttonLogout);
-        buttonRegister = (Button) findViewById(R.id.buttonRegister);
         tvEmail = (TextView) findViewById(R.id.tvEmailMain);
-        buttonModifyPersonalData = (Button) findViewById(R.id.buttonModifyPersonalData);
-        buttonManageGarage = (Button) findViewById(R.id.btnManageGarage);
-        btnLogin = (Button)findViewById(R.id.btnLogin);
 
         if (alreadyLogged()) {
             tvEmail.setText(sp.getString("email", "Invitado"));
-            buttonRegister.setVisibility(View.INVISIBLE);
-            btnLogin.setVisibility(View.INVISIBLE);
-
             nav_Menu.findItem(R.id.nav_login).setVisible(false);
             nav_Menu.findItem(R.id.nav_register).setVisible(false);
             nav_user.setText(sp.getString("email", "Invitado"));
 
         } else {
-            buttonLogout.setVisibility(View.INVISIBLE);
-            buttonManageGarage.setVisibility(View.INVISIBLE);
-            buttonModifyPersonalData.setVisibility(View.INVISIBLE);
-
             nav_Menu.findItem(R.id.nav_logout).setVisible(false);
             nav_Menu.findItem(R.id.nav_manage).setVisible(false);
+            nav_Menu.findItem(R.id.nav_edit).setVisible(false);
             nav_user.setText(R.string.guest);
         }
     }
@@ -106,6 +93,10 @@ public class MainActivity extends AppCompatActivity
             editor.putBoolean("logged", false);
             editor.commit();
             recreate();
+        } else if (id == R.id.nav_edit) {
+            Intent intent = new Intent(this, EditUserActivity.class);
+            intent.putExtra("email", sp.getString("email", "Invitado"));
+            startActivity(intent);
         } else if (id == R.id.nav_register) {
             Intent intent = new Intent(this, NewUserActivity.class);
             startActivity(intent);

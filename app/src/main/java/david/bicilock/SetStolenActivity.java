@@ -170,7 +170,7 @@ public class SetStolenActivity extends AppCompatActivity {
                 }
 
                 if(add!=0){
-                    Toast.makeText(SetStolenActivity.this, R.string.state_modified_ok, Toast.LENGTH_LONG).show();
+                    Toast.makeText(SetStolenActivity.this, R.string.state_modified_ok, Toast.LENGTH_SHORT).show();
                     refreshBike();
                     Intent intent = new Intent (getApplicationContext(), ShowBikeActivity.class);
                     intent.putExtra("bike", bike);
@@ -178,12 +178,12 @@ public class SetStolenActivity extends AppCompatActivity {
                     finish();
                 }else{
                     Toast.makeText(SetStolenActivity.this, R.string.state_modified_error,
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 }
 
             } else {
                 Toast.makeText(SetStolenActivity.this, R.string.charging_error,
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_SHORT).show();
             }
         }
     }
