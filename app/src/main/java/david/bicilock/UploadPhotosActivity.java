@@ -40,26 +40,15 @@ import java.util.HashMap;
 
 public class UploadPhotosActivity extends AppCompatActivity {
 
-    //constant to track image chooser intent
     private static final int PICK_IMAGE_REQUEST = 0;
-
     private static int ACT_CAMERA = 1;
-
     private DateFormat datehourFormat;
     private Date date;
-
     private String photoId, serialNumber;
-
-    private String url_upload;
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
-
     private String url;
-
-    //view objects
     private ImageView imageView;
-
-    //firebase objects
     private StorageReference storageReference;
     private Intent intent;
     private Bitmap bm;
@@ -74,12 +63,8 @@ public class UploadPhotosActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSerialNumber();
-
-        url_upload = "http://iesayala.ddns.net/deividjg/php2.php";
         returnJSON = new ReturnJSON();
-
         imageView = (ImageView) findViewById(R.id.imageView);
-
         storageReference = FirebaseStorage.getInstance().getReference();
     }
 
@@ -259,7 +244,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "INSERT INTO photos VALUES('" + photoId + "." + imageExtension + "', '" + serialNumber + "', '" + url + "', 0)");
-                jsonObject = returnJSON.sendDMLRequest(url_upload, parametrosPost);
+                jsonObject = returnJSON.sendDMLRequest(Parameters.URL_UPLOAD, parametrosPost);
 
                 if (jsonObject != null) {
                     return jsonObject;

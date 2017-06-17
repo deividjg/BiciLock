@@ -20,7 +20,7 @@ import java.util.HashMap;
 
 public class CheckBikeActivity extends AppCompatActivity {
 
-    private String url_query, serialNumber;
+    private String serialNumber;
     private JSONArray jSONArray;
     private ReturnJSON returnJSON;
     private Bike bike;
@@ -34,8 +34,6 @@ public class CheckBikeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_check_bike);
 
         etSerialNumberCheckBike = (EditText)findViewById(R.id.etSerialNumberCheckBike);
-
-        url_query = "http://iesayala.ddns.net/deividjg/php.php";
         returnJSON = new ReturnJSON();
     }
 
@@ -68,7 +66,7 @@ public class CheckBikeActivity extends AppCompatActivity {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "SELECT * FROM bikes WHERE SerialNumber='" + serialNumber + "'");
 
-                jSONArray = returnJSON.sendRequest(url_query, parametrosPost);
+                jSONArray = returnJSON.sendRequest(Parameters.URL_DOWNLOAD, parametrosPost);
 
                 if (jSONArray != null) {
                     return jSONArray;

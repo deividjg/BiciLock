@@ -20,7 +20,7 @@ import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private String url_consulta, email, password;
+    private String email, password;
     private JSONArray jSONArray;
     private ReturnJSON returnJSON;
     private User user;
@@ -38,8 +38,6 @@ public class LoginActivity extends AppCompatActivity {
 
         etEmail = (EditText) findViewById(R.id.etEmailLogin);
         etPassword = (EditText) findViewById(R.id.etPasswordLogin);
-
-        url_consulta = "http://iesayala.ddns.net/deividjg/php.php";
 
         returnJSON = new ReturnJSON();
     }
@@ -78,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "SELECT * FROM users WHERE email='" + email + "' AND Password=" + password);
 
-                jSONArray = returnJSON.sendRequest(url_consulta, parametrosPost);
+                jSONArray = returnJSON.sendRequest(Parameters.URL_DOWNLOAD, parametrosPost);
 
                 if (jSONArray != null) {
                     return jSONArray;

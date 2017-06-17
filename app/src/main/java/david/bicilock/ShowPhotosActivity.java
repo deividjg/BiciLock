@@ -43,7 +43,6 @@ public class ShowPhotosActivity extends AppCompatActivity {
     //list to hold all the uploaded images
     private List<Photo> photos;
 
-    private String url_query, url_remove;
     private JSONArray jSONArray;
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
@@ -60,8 +59,6 @@ public class ShowPhotosActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        url_query = "http://iesayala.ddns.net/deividjg/php.php";
-        url_remove = "http://iesayala.ddns.net/deividjg/php2.php";
         returnJSON = new ReturnJSON();
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -208,7 +205,7 @@ public class ShowPhotosActivity extends AppCompatActivity {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "SELECT * FROM photos WHERE SerialNumber='" + serialNumber + "'");
 
-                jSONArray = returnJSON.sendRequest(url_query, parametrosPost);
+                jSONArray = returnJSON.sendRequest(Parameters.URL_DOWNLOAD, parametrosPost);
 
                 if (jSONArray != null) {
                     return jSONArray;
@@ -272,7 +269,7 @@ public class ShowPhotosActivity extends AppCompatActivity {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "DELETE FROM photos WHERE id = '" + id + "'");
 
-                jsonObject = returnJSON.sendDMLRequest(url_remove, parametrosPost);
+                jsonObject = returnJSON.sendDMLRequest(Parameters.URL_UPLOAD, parametrosPost);
 
                 if (jsonObject != null) {
                     return jsonObject;

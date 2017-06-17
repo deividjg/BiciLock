@@ -16,7 +16,6 @@ public class ShowBikeActivity extends AppCompatActivity {
     private Bike bike;
     private EditText etSerialNumberShow, etBrandShow, etModelShow, etColorShow, etYearShow, etDetailsShow;
     private CheckBox checkBoxStolenShow;
-    private Button btnSetStolen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,6 @@ public class ShowBikeActivity extends AppCompatActivity {
         etYearShow = (EditText)findViewById(R.id.etYearShow);
         etDetailsShow = (EditText)findViewById(R.id.etDetailsShow);
         checkBoxStolenShow = (CheckBox)findViewById(R.id.checkBoxStolenShow);
-        btnSetStolen = (Button)findViewById(R.id.buttonSetStolenShowBike);
 
         getBike();
         prepareScreen();

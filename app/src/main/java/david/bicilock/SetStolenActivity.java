@@ -28,9 +28,6 @@ public class SetStolenActivity extends AppCompatActivity {
     private TextView tvBrandSetStolen, tvModelSetStolen, tvSerialNumberSetStolen;
     private CheckBox checkBoxStolenShow;
     private EditText etDetailsSetStolen;
-    private Button btnSetStolen;
-
-    private String url_upload;
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
 
@@ -46,12 +43,10 @@ public class SetStolenActivity extends AppCompatActivity {
         tvSerialNumberSetStolen = (TextView)findViewById(R.id.tvSerialNumberSetStolen);
         checkBoxStolenShow = (CheckBox)findViewById(R.id.checkBoxStolenSetStolen);
         etDetailsSetStolen = (EditText)findViewById(R.id.etDetailsSetStolen);
-        btnSetStolen = (Button)findViewById(R.id.buttonSetStolenSetStolen);
 
         getBike();
         showBikeData();
 
-        url_upload = "http://iesayala.ddns.net/deividjg/php2.php";
         returnJSON = new ReturnJSON();
 
         /*checkBoxStolenShow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -102,7 +97,7 @@ public class SetStolenActivity extends AppCompatActivity {
         }
     }
 
-    public void setStolen(View view) {
+    public void setState(View view) {
         showConfirmDialog();
     }
 
@@ -127,7 +122,7 @@ public class SetStolenActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    ///////Task para marcar una bici como robada
+    ///////Task to change state
     class SetStolenTask extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
         int add;
@@ -152,7 +147,7 @@ public class SetStolenActivity extends AppCompatActivity {
                     parametrosPost.put("ins_sql", "UPDATE bikes SET Stolen = 0, Details = '" + bike.getDetails() + "' WHERE SerialNumber = '" + bike.getSerialNumber() + "'");
                 }
 
-                jsonObject = returnJSON.sendDMLRequest(url_upload, parametrosPost);
+                jsonObject = returnJSON.sendDMLRequest(Parameters.URL_UPLOAD, parametrosPost);
 
                 if (jsonObject != null) {
                     return jsonObject;

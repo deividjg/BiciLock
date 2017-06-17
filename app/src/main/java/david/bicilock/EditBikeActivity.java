@@ -20,8 +20,6 @@ public class EditBikeActivity extends AppCompatActivity {
 
     private Bike bike;
     private EditText etSerialNumberEdit, etBrandEdit, etModelEdit, etColorEdit, etYearEdit;
-
-    private String url_update;
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
 
@@ -34,7 +32,6 @@ public class EditBikeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        url_update = "http://iesayala.ddns.net/deividjg/php2.php";
         returnJSON = new ReturnJSON();
 
         etSerialNumberEdit = (EditText) findViewById(R.id.etSerialNumberEdit);
@@ -102,7 +99,7 @@ public class EditBikeActivity extends AppCompatActivity {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "UPDATE bikes SET Brand='" + brand + "', Model='" + model + "', Color='" + color + "', Year=" + year + " WHERE SerialNumber='" + bike.getSerialNumber() + "'");
-                jsonObject = returnJSON.sendDMLRequest(url_update, parametrosPost);
+                jsonObject = returnJSON.sendDMLRequest(Parameters.URL_UPLOAD, parametrosPost);
 
                 if (jsonObject != null) {
                     return jsonObject;

@@ -18,7 +18,6 @@ import java.util.HashMap;
 
 public class NewBikeActivity extends AppCompatActivity {
 
-    private String url_upload;
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
     private EditText etSerialNumberNew, etBrandNew, etModelNew, etColorNew, etYearNew;
@@ -37,7 +36,6 @@ public class NewBikeActivity extends AppCompatActivity {
         etColorNew = (EditText)findViewById(R.id.etColorNew);
         etYearNew = (EditText)findViewById(R.id.etYearNew);
 
-        url_upload = "http://iesayala.ddns.net/deividjg/php2.php";
         returnJSON = new ReturnJSON();
     }
 
@@ -101,7 +99,7 @@ public class NewBikeActivity extends AppCompatActivity {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 //parametrosPost.put("ins_sql", "INSERT INTO 'bikes'('SerialNumber', 'Brand', 'Model', 'Color', 'Year', 'email') VALUES ('" + serialNumber + "', '" + brand + "', '" + model + "', '" + color + "', '" + year + "', 'deividjg@gmail.com)");
                 parametrosPost.put("ins_sql", "INSERT INTO bikes VALUES ('" + serialNumber + "', '" + brand + "', '" + model + "', '" + color + "', '" + year + "', 0, 'detalles', 'deividjg@gmail.com')");
-                jsonObject = returnJSON.sendDMLRequest(url_upload, parametrosPost);
+                jsonObject = returnJSON.sendDMLRequest(Parameters.URL_UPLOAD, parametrosPost);
 
                 if (jsonObject != null) {
                     return jsonObject;

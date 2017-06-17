@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private String url_upload;
     protected JSONObject jsonObject;
     private ReturnJSON devuelveJSON;
     private EditText etEMailRegister, etPasswordRegister, etNameRegister, etTownRegister, etProvinceRegister, etPhoneRegister;
@@ -33,7 +32,6 @@ public class RegisterActivity extends AppCompatActivity {
         etTownRegister = (EditText) findViewById(R.id.etTownRegister);
         etProvinceRegister = (EditText) findViewById(R.id.etProvinceRegister);
         etPhoneRegister = (EditText) findViewById(R.id.etPhoneRegister);
-        url_upload = "http://iesayala.ddns.net/deividjg/php2.php";
         devuelveJSON = new ReturnJSON();
     }
 
@@ -83,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "INSERT INTO users (`email`, `Password`, `Name`, `Town`, `Province`, `Phone`) VALUES ('" + email + "','0','0','0','0','')");
 
-                jsonObject = devuelveJSON.sendDMLRequest(url_upload, parametrosPost);
+                jsonObject = devuelveJSON.sendDMLRequest(Parameters.URL_UPLOAD, parametrosPost);
 
                 if (jsonObject != null) {
                     return jsonObject;

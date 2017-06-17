@@ -31,10 +31,9 @@ import java.util.HashMap;
 
 public class BikelistActivity extends AppCompatActivity {
 
-    ListView lv;
-    static AdapterLv adapterLv;
-
-    private String url_query, url_remove, email, serialNumber;
+    private ListView lv;
+    private static AdapterLv adapterLv;
+    private String email, serialNumber;
     private JSONArray jSONArrayBikes, jSONArrayString;
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
@@ -77,8 +76,6 @@ public class BikelistActivity extends AppCompatActivity {
             }
         });
 
-        url_query = "http://iesayala.ddns.net/deividjg/php.php";
-        url_remove = "http://iesayala.ddns.net/deividjg/php2.php";
         returnJSON = new ReturnJSON();
         new BikeListTask().execute();
     }
@@ -127,7 +124,7 @@ public class BikelistActivity extends AppCompatActivity {
                 parametrosPost.put("ins_sql", "SELECT b.SerialNumber, b.Brand, b.Model, b.Color, b.Year, b.Stolen, b.Details, p.url, p.Favourite FROM bikes b LEFT JOIN photos p ON b.SerialNumber=p.SerialNumber AND email='" + email + "' AND p.Favourite = 1");
                 //parametrosPost.put("ins_sql", "SELECT * FROM bikes WHERE email='" + email + "'");
 
-                jSONArrayBikes = returnJSON.sendRequest(url_query, parametrosPost);
+                jSONArrayBikes = returnJSON.sendRequest(Parameters.URL_DOWNLOAD, parametrosPost);
 
                 if (jSONArrayBikes != null) {
                     return jSONArrayBikes;
@@ -197,7 +194,7 @@ public class BikelistActivity extends AppCompatActivity {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "DELETE FROM bikes WHERE SerialNumber='" + serialNumber + "'");
 
-                jsonObject = returnJSON.sendDMLRequest(url_remove, parametrosPost);
+                jsonObject = returnJSON.sendDMLRequest(Parameters.URL_UPLOAD, parametrosPost);
 
                 if (jsonObject != null) {
                     return jsonObject;
@@ -252,7 +249,7 @@ public class BikelistActivity extends AppCompatActivity {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "SELECT * FROM photos WHERE SerialNumber='" + serialNumber + "'");
 
-                jSONArrayString = returnJSON.sendRequest(url_query, parametrosPost);
+                jSONArrayString = returnJSON.sendRequest(Parameters.URL_DOWNLOAD, parametrosPost);
 
                 if (jSONArrayString != null) {
                     return jSONArrayString;
