@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="david.bicilock.NotifyActivity">
+    <item
+        android:id="@+id/sendNotify"
+        android:orderInCategory="100"
+        android:title="@string/send"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/cancelNotify"
+        android:orderInCategory="100"
+        android:title="@string/cancel"
+        app:showAsAction="always" />
+</menu>

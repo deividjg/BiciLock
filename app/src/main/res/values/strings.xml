@@ -92,5 +92,7 @@
     <string name="showing_user_data">Showing personal data</string>
     <string name="title_activity_confirm_bike">is this bike?</string>
     <string name="showing_bike">Showing bike</string>
+    <string name="title_activity_notify">Send message</string>
+    <string name="send">Send</string>
 
 </resources>

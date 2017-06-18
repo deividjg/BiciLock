@@ -83,6 +83,10 @@
         <activity
             android:name=".ConfirmBikeActivity"
             android:label="@string/title_activity_confirm_bike"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".NotifyActivity"
+            android:label="@string/title_activity_notify"
             android:theme="@style/AppTheme"></activity>
     </application>
 

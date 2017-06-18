@@ -87,4 +87,6 @@
     <string name="showing_user_data">Mostrando datos personales</string>
     <string name="title_activity_confirm_bike">¿Es esta bicicleta?</string>
     <string name="showing_bike">Mostrando bicicleta</string>
+    <string name="title_activity_notify">Enviar mensaje</string>
+    <string name="send">Enviar</string>
 </resources>
