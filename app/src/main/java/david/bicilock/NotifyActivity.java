@@ -17,6 +17,10 @@ public class NotifyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notify);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        new MailJob("bicilock.info", "677393677").execute(
+                new MailJob.Mail("bicilock.info@gmail.com", "deividjg@gmail.com", "prueba", "enviado a las 15:18")
+        );
     }
 
     @Override

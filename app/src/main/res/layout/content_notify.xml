@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_notify">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/editTextNotify"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:ems="10"

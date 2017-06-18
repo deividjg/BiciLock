@@ -3,6 +3,7 @@ package david.bicilock;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -32,7 +33,7 @@ public class ConfirmBikeActivity extends AppCompatActivity {
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
     private Bike bike;
-    private String serialNumber;
+    private String serialNumber, email;
     private Photo photo;
     private ArrayList<Photo> arrayPhotos;
 
@@ -110,12 +111,18 @@ public class ConfirmBikeActivity extends AppCompatActivity {
 
         alertDialogBu.setPositiveButton( "Sí", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-
+                notifyScreen();
             }
         });
 
         AlertDialog alertDialog = alertDialogBu.create();
         alertDialog.show();
+    }
+
+    protected void notifyScreen() {
+        Intent intent = new Intent (this, NotifyActivity.class);
+        intent.putExtra("email", email);
+        startActivity(intent);
     }
 
     ///////Task to download user's bike data
@@ -159,6 +166,7 @@ public class ConfirmBikeActivity extends AppCompatActivity {
                     id = i;
                     try {
                         JSONObject jsonObject = json.getJSONObject(i);
+                        email = jsonObject.getString("email");
                         bike = new Bike();
                         bike.setId(id);
                         bike.setSerialNumber(jsonObject.getString("SerialNumber"));
