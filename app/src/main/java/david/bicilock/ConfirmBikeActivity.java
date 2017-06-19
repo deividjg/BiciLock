@@ -121,11 +121,11 @@ public class ConfirmBikeActivity extends AppCompatActivity {
 
     protected void notifyScreen() {
         Intent intent = new Intent (this, NotifyActivity.class);
-        intent.putExtra("email", email);
+        intent.putExtra("serialNumber", serialNumber);
         startActivity(intent);
     }
 
-    ///////Task to download user's bike data
+    ///////Task for download user's bike data
     class BikeListTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -190,7 +190,7 @@ public class ConfirmBikeActivity extends AppCompatActivity {
         }
     }
 
-    ///////Task to download bike photos
+    ///////Task for download bike photos
     class DownloadPhotosTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 

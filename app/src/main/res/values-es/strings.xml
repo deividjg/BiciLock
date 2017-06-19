@@ -89,4 +89,5 @@
     <string name="showing_bike">Mostrando bicicleta</string>
     <string name="title_activity_notify">Enviar mensaje</string>
     <string name="send">Enviar</string>
+    <string name="notice">Aviso</string>
 </resources>

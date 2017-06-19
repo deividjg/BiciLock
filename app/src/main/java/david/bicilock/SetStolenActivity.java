@@ -122,7 +122,7 @@ public class SetStolenActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    ///////Task to change state
+    ///////Task for change state
     class SetStolenTask extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
         int add;

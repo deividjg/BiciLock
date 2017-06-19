@@ -80,7 +80,7 @@ public class EditBikeActivity extends AppCompatActivity {
         etYearEdit.setText(bike.getYear());
     }
 
-    ///////Task to update a bike
+    ///////Task for update a bike
     class EditBikeTask extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
         int add;

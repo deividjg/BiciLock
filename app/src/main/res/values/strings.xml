@@ -94,5 +94,6 @@
     <string name="showing_bike">Showing bike</string>
     <string name="title_activity_notify">Send message</string>
     <string name="send">Send</string>
+    <string name="notice">Notice</string>
 
 </resources>

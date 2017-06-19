@@ -45,14 +45,14 @@ public class CheckBikeActivity extends AppCompatActivity {
         }
     }
 
-    ///////Task to check serial number
+    ///////Task for check serial number
     class CheckBike extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(CheckBikeActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(getString(R.string.charging));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();

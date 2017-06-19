@@ -62,7 +62,7 @@ public class NewUserActivity extends AppCompatActivity {
         return matcher.matches();
     }
 
-    ///////Task to registerUser a new user
+    ///////Task for registerUser a new user
     class NewUserTask extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
         int add;

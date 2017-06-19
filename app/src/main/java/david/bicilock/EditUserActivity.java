@@ -92,7 +92,7 @@ public class EditUserActivity extends AppCompatActivity {
         etPhoneEditUser.setText(user.getPhone());
     }
 
-    ///////Task to download user's data
+    ///////Task for download user's data
     class UserDataTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -153,7 +153,7 @@ public class EditUserActivity extends AppCompatActivity {
         }
     }
 
-    ///////Task to edit user
+    ///////Task for edit user
     class EditUserTask extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
         int add;

@@ -183,7 +183,7 @@ public class ShowPhotosActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    ///////Task to download bike photos
+    ///////Task for download bike photos
     class DownloadPhotosTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -247,7 +247,7 @@ public class ShowPhotosActivity extends AppCompatActivity {
         }
     }
 
-    ///////Task to delete a photo
+    ///////Task for delete a photo
     class DeletePhotoTask extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
         int add;

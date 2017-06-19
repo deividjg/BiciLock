@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    ///////Task to check user's connection
+    ///////Task for check user's connection
     class CheckLogin extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 

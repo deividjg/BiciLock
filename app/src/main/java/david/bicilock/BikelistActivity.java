@@ -103,7 +103,7 @@ public class BikelistActivity extends AppCompatActivity {
         email = sp.getString("email", "null");
     }
 
-    ///////Task to download user's bikes
+    ///////Task for download user's bikes
     class BikeListTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -174,7 +174,7 @@ public class BikelistActivity extends AppCompatActivity {
         }
     }
 
-    ///////Task to remove a bike
+    ///////Task for remove a bike
     class DeleteBikeTask extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
         int add;
@@ -229,7 +229,7 @@ public class BikelistActivity extends AppCompatActivity {
         }
     }
 
-    ///////Task to delete all photos
+    ///////Task for delete all photos
     class DeleteAllPhotosTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 

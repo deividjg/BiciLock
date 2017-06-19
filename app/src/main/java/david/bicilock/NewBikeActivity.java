@@ -79,7 +79,7 @@ public class NewBikeActivity extends AppCompatActivity {
         year = etYearNew.getText().toString();
     }
 
-    ///////Task to registerUser a new bike
+    ///////Task for registerUser a new bike
     class NewBikeTask extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
         int add;

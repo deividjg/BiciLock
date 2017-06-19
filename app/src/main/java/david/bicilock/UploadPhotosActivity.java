@@ -225,7 +225,7 @@ public class UploadPhotosActivity extends AppCompatActivity {
         }
     }
 
-    ///////Task to add a new photo
+    ///////Task for add a new photo
     class NewPhotoTask extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
         int add;
