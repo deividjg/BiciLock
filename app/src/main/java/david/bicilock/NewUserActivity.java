@@ -8,9 +8,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,7 +22,8 @@ public class NewUserActivity extends AppCompatActivity {
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
     private EditText etEMailNewUser, etPasswordNewUser, etNameNewUser, etTownNewUser, etProvinceNewUser, etPhoneNewUser;
-    private String email;
+    private String email, password, name, town, province, phone;
+    private JSONArray jSONArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +45,8 @@ public class NewUserActivity extends AppCompatActivity {
         } else if (!isEmailValid(etEMailNewUser.getText().toString())) {
             Toast.makeText(this, R.string.not_valid_email, Toast.LENGTH_SHORT).show();
         } else {
-            email = etEMailNewUser.getText().toString();
-            new NewUserTask().execute();
+            getFields();
+            new CheckUserTask().execute();
         }
     }
 
@@ -60,6 +63,15 @@ public class NewUserActivity extends AppCompatActivity {
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    protected void getFields() {
+        email = etEMailNewUser.getText().toString();
+        password = etPasswordNewUser.getText().toString();
+        name = etNameNewUser.getText().toString();
+        town = etTownNewUser.getText().toString();
+        province = etProvinceNewUser.getText().toString();
+        phone = etPhoneNewUser.getText().toString();
     }
 
     ///////Task for registerUser a new user
@@ -80,7 +92,7 @@ public class NewUserActivity extends AppCompatActivity {
         protected JSONObject doInBackground(String... args) {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql", "INSERT INTO users (`email`, `Password`, `Name`, `Town`, `Province`, `Phone`) VALUES ('" + email + "','0','0','0','0','')");
+                parametrosPost.put("ins_sql", "INSERT INTO users (`email`, `Password`, `Name`, `Town`, `Province`, `Phone`) VALUES ('" + email + "', '" + name + "', '" + town + "', '" + province + "', '" + phone + "')");
 
                 jsonObject = returnJSON.sendDMLRequest(Parameters.URL_UPLOAD, parametrosPost);
 
@@ -108,13 +120,68 @@ public class NewUserActivity extends AppCompatActivity {
                     Toast.makeText(NewUserActivity.this, R.string.new_user_ok,
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(NewUserActivity.this, R.string.new_bike_error,
+                    Toast.makeText(NewUserActivity.this, R.string.new_user_error,
                             Toast.LENGTH_SHORT).show();
                 }
 
             } else {
                 Toast.makeText(NewUserActivity.this, R.string.charging_error,
                         Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    ///////Task for check if user exists
+    class CheckUserTask extends AsyncTask<String, String, JSONArray> {
+        private ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(NewUserActivity.this);
+            pDialog.setMessage(getString(R.string.charging));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected JSONArray doInBackground(String... args) {
+
+            try {
+                HashMap<String, String> parametrosPost = new HashMap<>();
+                parametrosPost.put("ins_sql", "SELECT * FROM users WHERE email='" + email + "'");
+                System.out.println("email: " + email);
+
+                jSONArray = returnJSON.sendRequest(Parameters.URL_DOWNLOAD, parametrosPost);
+
+                if (jSONArray != null) {
+                    return jSONArray;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(JSONArray json) {
+            if (pDialog != null && pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
+            if (json != null) {
+                for (int i = 0; i < json.length(); i++) {
+                    try {
+                        JSONObject jsonObject = json.getJSONObject(i);
+                        if(email.equals(jsonObject.getString("email"))) {
+                            Toast.makeText(NewUserActivity.this, R.string.error_user_exists, Toast.LENGTH_SHORT).show();
+                        } else {
+                            new NewUserTask().execute();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                new NewUserTask().execute();
             }
         }
     }

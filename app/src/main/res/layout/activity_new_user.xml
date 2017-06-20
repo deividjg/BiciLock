@@ -44,7 +44,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:text="deividjg@gmail.com" />
 
         </LinearLayout>
 
@@ -66,7 +67,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                tools:text="fs" />
         </LinearLayout>
 
         <LinearLayout
@@ -87,7 +89,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                tools:text="fds" />
         </LinearLayout>
 
         <LinearLayout
@@ -108,7 +111,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                tools:text="fdsf" />
         </LinearLayout>
 
         <LinearLayout
@@ -129,7 +133,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                tools:text="fdsfs" />
         </LinearLayout>
 
         <LinearLayout
@@ -150,7 +155,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="phone" />
+                android:inputType="phone"
+                tools:text="fsdfs" />
 
         </LinearLayout>
 

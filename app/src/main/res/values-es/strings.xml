@@ -90,4 +90,6 @@
     <string name="title_activity_notify">Enviar mensaje</string>
     <string name="send">Enviar</string>
     <string name="notice">Aviso</string>
+    <string name="error_user_exists">Error. Este usuario ya existe.</string>
+    <string name="error_bike_exists">Error. Esta bicicleta ya existe.</string>
 </resources>
