@@ -47,6 +47,7 @@ public class NewUserActivity extends AppCompatActivity {
         } else {
             getFields();
             new CheckUserTask().execute();
+            new NewUserTask().execute();
         }
     }
 
@@ -92,7 +93,7 @@ public class NewUserActivity extends AppCompatActivity {
         protected JSONObject doInBackground(String... args) {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql", "INSERT INTO users (`email`, `Password`, `Name`, `Town`, `Province`, `Phone`) VALUES ('" + email + "', '" + name + "', '" + town + "', '" + province + "', '" + phone + "')");
+                parametrosPost.put("ins_sql", "INSERT INTO users VALUES ('" + email + "', '" + password + "', '" + name + "', '" + town + "', '" + province + "', '" + phone + "')");
 
                 jsonObject = returnJSON.sendDMLRequest(Parameters.URL_UPLOAD, parametrosPost);
 

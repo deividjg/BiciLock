@@ -68,7 +68,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPassword"
-                tools:text="fs" />
+                android:text="fdsa" />
         </LinearLayout>
 
         <LinearLayout
@@ -90,7 +90,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
-                tools:text="fds" />
+                android:text="fasd" />
         </LinearLayout>
 
         <LinearLayout
@@ -112,7 +112,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
-                tools:text="fdsf" />
+                android:text="fsaf" />
         </LinearLayout>
 
         <LinearLayout
@@ -134,7 +134,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
-                tools:text="fdsfs" />
+                android:text="fdsa" />
         </LinearLayout>
 
         <LinearLayout
@@ -156,7 +156,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="phone"
-                tools:text="fsdfs" />
+                android:text="fsadf" />
 
         </LinearLayout>
 
