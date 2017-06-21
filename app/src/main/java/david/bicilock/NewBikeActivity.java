@@ -2,6 +2,7 @@ package david.bicilock;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,7 +23,9 @@ public class NewBikeActivity extends AppCompatActivity {
     protected JSONObject jsonObject;
     private ReturnJSON returnJSON;
     private EditText etSerialNumberNew, etBrandNew, etModelNew, etColorNew, etYearNew;
-    private String serialNumber, brand, model, color, year;
+    private String serialNumber, brand, model, color, year, email;
+    private JSONArray jSONArray;
+    private SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,7 @@ public class NewBikeActivity extends AppCompatActivity {
         etYearNew = (EditText)findViewById(R.id.etYearNew);
 
         returnJSON = new ReturnJSON();
+        getEmail();
     }
 
     @Override
@@ -60,7 +65,7 @@ public class NewBikeActivity extends AppCompatActivity {
             }
             else {
                 dataCollect();
-                new NewBikeTask().execute();
+                new CheckBikeTask().execute();
             }
         }
 
@@ -69,6 +74,11 @@ public class NewBikeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void getEmail(){
+        sp = getSharedPreferences("preferences", this.MODE_PRIVATE);
+        email = sp.getString("email", "null");
     }
 
     protected void dataCollect(){
@@ -97,8 +107,7 @@ public class NewBikeActivity extends AppCompatActivity {
         protected JSONObject doInBackground(String... args) {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                //parametrosPost.put("ins_sql", "INSERT INTO 'bikes'('SerialNumber', 'Brand', 'Model', 'Color', 'Year', 'email') VALUES ('" + serialNumber + "', '" + brand + "', '" + model + "', '" + color + "', '" + year + "', 'deividjg@gmail.com)");
-                parametrosPost.put("ins_sql", "INSERT INTO bikes VALUES ('" + serialNumber + "', '" + brand + "', '" + model + "', '" + color + "', '" + year + "', 0, 'detalles', 'deividjg@gmail.com')");
+                parametrosPost.put("ins_sql", "INSERT INTO bikes (SerialNumber, Brand, Model, Color, Year, Stolen, Details, email) VALUES ('" + serialNumber + "', '" + brand + "', '" + model + "', '" + color + "', " + year + ", 0, 'detalles', '" + email + "')");
                 jsonObject = returnJSON.sendDMLRequest(Parameters.URL_UPLOAD, parametrosPost);
 
                 if (jsonObject != null) {
@@ -133,6 +142,70 @@ public class NewBikeActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(NewBikeActivity.this, R.string.charging_error,
                         Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    ///////Task for check if bike exists
+    class CheckBikeTask extends AsyncTask<String, String, JSONArray> {
+        private ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(NewBikeActivity.this);
+            pDialog.setMessage(getString(R.string.charging));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected JSONArray doInBackground(String... args) {
+
+            try {
+                HashMap<String, String> parametrosPost = new HashMap<>();
+                parametrosPost.put("ins_sql", "SELECT * FROM bikes WHERE SerialNumber='" + serialNumber + "'");
+
+                jSONArray = returnJSON.sendRequest(Parameters.URL_DOWNLOAD, parametrosPost);
+
+                if (jSONArray != null) {
+                    return jSONArray;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(JSONArray json) {
+            if (pDialog != null && pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
+            if (json != null) {
+                for (int i = 0; i < json.length(); i++) {
+                    try {
+                        JSONObject jsonObject = json.getJSONObject(i);
+                        if(serialNumber.equals(jsonObject.getString("SerialNumber"))) {
+                            Toast.makeText(NewBikeActivity.this, R.string.error_bike_exists, Toast.LENGTH_SHORT).show();
+                        } else {
+                            try {
+                                Thread.sleep(3000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            new NewBikeTask().execute();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                new NewBikeTask().execute();
             }
         }
     }

@@ -121,8 +121,9 @@ public class BikelistActivity extends AppCompatActivity {
 
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql", "SELECT b.SerialNumber, b.Brand, b.Model, b.Color, b.Year, b.Stolen, b.Details, p.url, p.Favourite FROM bikes b LEFT JOIN photos p ON b.SerialNumber=p.SerialNumber AND email='" + email + "' AND p.Favourite = 1");
+                //parametrosPost.put("ins_sql", "SELECT b.SerialNumber, b.Brand, b.Model, b.Color, b.Year, b.Stolen, b.Details, p.url, p.Favourite FROM bikes b LEFT JOIN photos p ON b.SerialNumber=p.SerialNumber AND email='" + email + "' AND p.Favourite = 1");
                 //parametrosPost.put("ins_sql", "SELECT * FROM bikes WHERE email='" + email + "'");
+                parametrosPost.put("ins_sql", "SELECT b.SerialNumber, b.Brand, b.Model, b.Color, b.Year, b.Stolen, b.Details, p.url, p.Favourite FROM bikes b LEFT JOIN photos p ON b.SerialNumber=p.SerialNumber AND email='" + email + "'");
 
                 jSONArrayBikes = returnJSON.sendRequest(Parameters.URL_DOWNLOAD, parametrosPost);
 
@@ -142,6 +143,7 @@ public class BikelistActivity extends AppCompatActivity {
             if (json != null) {
                 arrayBikes = new ArrayList<Bike>();
                 long id;
+                String previousSerial = "";
                 for (int i = 0; i < json.length(); i++) {
                     id = i;
                     try {
@@ -157,7 +159,11 @@ public class BikelistActivity extends AppCompatActivity {
                         bike.setDetails(jsonObject.getString("Details"));
                         bike.setUrlFav(jsonObject.getString("url"));
 
-                        arrayBikes.add(bike);
+                        if (!previousSerial.equals(jsonObject.getString("SerialNumber"))) {
+                            arrayBikes.add(bike);
+                        }
+                        previousSerial = jsonObject.getString("SerialNumber");
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

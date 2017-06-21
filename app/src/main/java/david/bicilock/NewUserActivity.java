@@ -120,6 +120,7 @@ public class NewUserActivity extends AppCompatActivity {
                 if (add != 0) {
                     Toast.makeText(NewUserActivity.this, R.string.new_user_ok,
                             Toast.LENGTH_SHORT).show();
+                    finish();
                 } else {
                     Toast.makeText(NewUserActivity.this, R.string.new_user_error,
                             Toast.LENGTH_SHORT).show();
@@ -151,7 +152,6 @@ public class NewUserActivity extends AppCompatActivity {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "SELECT * FROM users WHERE email='" + email + "'");
-                System.out.println("email: " + email);
 
                 jSONArray = returnJSON.sendRequest(Parameters.URL_DOWNLOAD, parametrosPost);
 
