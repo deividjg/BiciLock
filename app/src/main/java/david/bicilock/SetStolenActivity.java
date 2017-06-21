@@ -48,17 +48,6 @@ public class SetStolenActivity extends AppCompatActivity {
         showBikeData();
 
         returnJSON = new ReturnJSON();
-
-        /*checkBoxStolenShow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (checkBoxStolenShow.isChecked()) {
-                        etDetailsSetStolen.setVisibility(View.VISIBLE);
-                    } else {
-                        etDetailsSetStolen.setVisibility(View.INVISIBLE);
-                    }
-            }
-        });*/
     }
 
     @Override

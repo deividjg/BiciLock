@@ -24,7 +24,6 @@ public class LoginActivity extends AppCompatActivity {
     private JSONArray jSONArray;
     private ReturnJSON returnJSON;
     private User user;
-    private ArrayList<User> arrayUsers;
     private EditText etEmail, etPassword;
 
     SharedPreferences sp;
@@ -92,26 +91,22 @@ public class LoginActivity extends AppCompatActivity {
                 pDialog.dismiss();
             }
             if (json != null) {
-                arrayUsers = new ArrayList<User>();
-                for (int i = 0; i < json.length(); i++) {
-                    try {
-                        JSONObject jsonObject = json.getJSONObject(i);
-                        user = new User();
-                        user.setEmail(jsonObject.getString("email"));
-                        user.setPassword(jsonObject.getString("Password"));
-                        user.setName(jsonObject.getString("Name"));
-                        user.setTown(jsonObject.getString("Town"));
-                        user.setProvince(jsonObject.getString("Province"));
-                        user.setPhone(jsonObject.getString("Phone"));
-                        arrayUsers.add(user);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    JSONObject jsonObject = json.getJSONObject(0);
+                    user = new User();
+                    user.setEmail(jsonObject.getString("email"));
+                    user.setPassword(jsonObject.getString("Password"));
+                    user.setName(jsonObject.getString("Name"));
+                    user.setTown(jsonObject.getString("Town"));
+                    user.setProvince(jsonObject.getString("Province"));
+                    user.setPhone(jsonObject.getString("Phone"));
+
                     Toast.makeText(LoginActivity.this, R.string.login_ok, Toast.LENGTH_SHORT).show();
                     holdLogin();
                     mainScreen();
+                } catch (JSONException e) {
+                    Toast.makeText(LoginActivity.this, R.string.login_error, Toast.LENGTH_SHORT).show();
                 }
-
             } else {
                 Toast.makeText(LoginActivity.this, R.string.login_error, Toast.LENGTH_SHORT).show();
             }

@@ -161,10 +161,9 @@ public class NewBikeActivity extends AppCompatActivity {
 
         @Override
         protected JSONArray doInBackground(String... args) {
-
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql", "SELECT * FROM bikes WHERE SerialNumber='" + serialNumber + "'");
+                parametrosPost.put("ins_sql", "SELECT SerialNumber FROM bikes WHERE SerialNumber='" + serialNumber + "'");
 
                 jSONArray = returnJSON.sendRequest(Parameters.URL_DOWNLOAD, parametrosPost);
 
@@ -182,29 +181,17 @@ public class NewBikeActivity extends AppCompatActivity {
                 pDialog.dismiss();
             }
             if (json != null) {
-                for (int i = 0; i < json.length(); i++) {
-                    try {
-                        JSONObject jsonObject = json.getJSONObject(i);
-                        if(serialNumber.equals(jsonObject.getString("SerialNumber"))) {
-                            Toast.makeText(NewBikeActivity.this, R.string.error_bike_exists, Toast.LENGTH_SHORT).show();
-                        } else {
-                            try {
-                                Thread.sleep(3000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            new NewBikeTask().execute();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                try {
+                    JSONObject jsonObject = json.getJSONObject(0);
+                    if (serialNumber.equals(jsonObject.getString("SerialNumber"))) {
+                        Toast.makeText(NewBikeActivity.this, R.string.error_bike_exists, Toast.LENGTH_SHORT).show();
+                    } else {
+                        new NewBikeTask().execute();
                     }
+                } catch (JSONException e) {
+                    new NewBikeTask().execute();
                 }
             } else {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 new NewBikeTask().execute();
             }
         }

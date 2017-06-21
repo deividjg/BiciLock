@@ -169,17 +169,15 @@ public class NewUserActivity extends AppCompatActivity {
                 pDialog.dismiss();
             }
             if (json != null) {
-                for (int i = 0; i < json.length(); i++) {
-                    try {
-                        JSONObject jsonObject = json.getJSONObject(i);
-                        if(email.equals(jsonObject.getString("email"))) {
-                            Toast.makeText(NewUserActivity.this, R.string.error_user_exists, Toast.LENGTH_SHORT).show();
-                        } else {
-                            new NewUserTask().execute();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                try {
+                    JSONObject jsonObject = json.getJSONObject(0);
+                    if (email.equals(jsonObject.getString("email"))) {
+                        Toast.makeText(NewUserActivity.this, R.string.error_user_exists, Toast.LENGTH_SHORT).show();
+                    } else {
+                        new NewUserTask().execute();
                     }
+                } catch (JSONException e) {
+                    new NewUserTask().execute();
                 }
             } else {
                 new NewUserTask().execute();

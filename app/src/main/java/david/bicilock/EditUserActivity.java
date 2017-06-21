@@ -209,4 +209,9 @@ public class EditUserActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed(){
+        finish();
+    }
+
 }

@@ -254,4 +254,9 @@ public class ConfirmBikeActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed(){
+        finish();
+    }
+
 }

@@ -171,9 +171,8 @@ public class BikelistActivity extends AppCompatActivity {
                     adapterLv = new AdapterLv(BikelistActivity.this, arrayBikes);
                     adapterLv.notifyDataSetChanged();
                     lv.setAdapter(adapterLv);
-
-                    Toast.makeText(BikelistActivity.this, R.string.showing_garage, Toast.LENGTH_SHORT).show();
                 }
+                Toast.makeText(BikelistActivity.this, R.string.showing_garage, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(BikelistActivity.this, R.string.charging_error, Toast.LENGTH_SHORT).show();
             }

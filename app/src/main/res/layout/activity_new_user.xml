@@ -23,7 +23,7 @@
                 android:layout_weight="1"
                 android:text="@string/register_screen"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="30sp" />
         </LinearLayout>
 
         <LinearLayout

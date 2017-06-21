@@ -133,4 +133,9 @@ public class NotifyActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public void onBackPressed(){
+        finish();
+    }
 }

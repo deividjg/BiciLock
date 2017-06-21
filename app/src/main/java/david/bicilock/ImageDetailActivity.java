@@ -28,4 +28,9 @@ public class ImageDetailActivity extends AppCompatActivity {
         url = getIntent().getExtras().getString("url");
         Glide.with(this).load(url).into(imageView);
     }
+
+    @Override
+    public void onBackPressed(){
+        finish();
+    }
 }
