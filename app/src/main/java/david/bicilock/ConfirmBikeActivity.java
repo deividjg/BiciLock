@@ -79,7 +79,8 @@ public class ConfirmBikeActivity extends AppCompatActivity {
             showNotifyDialog();
         }
         if (id == R.id.confirm_no) {
-
+            Toast.makeText(ConfirmBikeActivity.this, R.string.wrong_bike, Toast.LENGTH_SHORT).show();
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -105,13 +106,14 @@ public class ConfirmBikeActivity extends AppCompatActivity {
 
         alertDialogBu.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-
+                finish();
             }
         });
 
         alertDialogBu.setPositiveButton( "Sí", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 notifyScreen();
+                finish();
             }
         });
 
@@ -181,7 +183,6 @@ public class ConfirmBikeActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     prepareScreen();
-                    Toast.makeText(ConfirmBikeActivity.this, R.string.showing_bike, Toast.LENGTH_SHORT).show();
                     new DownloadPhotosTask().execute();
                 }
             } else {

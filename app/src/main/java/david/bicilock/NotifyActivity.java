@@ -58,6 +58,8 @@ public class NotifyActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.sendNotify) {
             sendEmail(user.getEmail(), etNotify.getText().toString());
+            Toast.makeText(this, R.string.mail_sent, Toast.LENGTH_SHORT).show();
+            finish();
         }
         if (id == R.id.cancelNotify) {
             finish();

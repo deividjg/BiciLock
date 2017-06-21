@@ -103,6 +103,7 @@ public class CheckBikeActivity extends AppCompatActivity {
         Intent intent = new Intent (this, ConfirmBikeActivity.class);
         intent.putExtra("serialNumber", serialNumber);
         startActivity(intent);
+        finish();
     }
 
     public boolean isEmpty(EditText editText) {

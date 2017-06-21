@@ -68,7 +68,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPassword"
-                android:text="fdsa" />
+                android:text="123456" />
         </LinearLayout>
 
         <LinearLayout
