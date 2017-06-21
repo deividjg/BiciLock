@@ -183,11 +183,7 @@ public class NewBikeActivity extends AppCompatActivity {
             if (json != null) {
                 try {
                     JSONObject jsonObject = json.getJSONObject(0);
-                    if (serialNumber.equals(jsonObject.getString("SerialNumber"))) {
-                        Toast.makeText(NewBikeActivity.this, R.string.error_bike_exists, Toast.LENGTH_SHORT).show();
-                    } else {
-                        new NewBikeTask().execute();
-                    }
+                    Toast.makeText(NewBikeActivity.this, R.string.error_bike_exists, Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     new NewBikeTask().execute();
                 }

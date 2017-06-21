@@ -171,11 +171,7 @@ public class NewUserActivity extends AppCompatActivity {
             if (json != null) {
                 try {
                     JSONObject jsonObject = json.getJSONObject(0);
-                    if (email.equals(jsonObject.getString("email"))) {
-                        Toast.makeText(NewUserActivity.this, R.string.error_user_exists, Toast.LENGTH_SHORT).show();
-                    } else {
-                        new NewUserTask().execute();
-                    }
+                    Toast.makeText(NewUserActivity.this, R.string.error_user_exists, Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     new NewUserTask().execute();
                 }
