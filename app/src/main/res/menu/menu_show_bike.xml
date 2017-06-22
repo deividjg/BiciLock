@@ -8,10 +8,5 @@
         android:orderInCategory="100"
         android:title="editBike"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/deleteBike"
-        android:icon="@drawable/ic_delete_black_24dp"
-        android:orderInCategory="100"
-        android:title="deleteBike"
-        app:showAsAction="always" />
+
 </menu>

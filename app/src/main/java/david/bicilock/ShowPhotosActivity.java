@@ -293,7 +293,7 @@ public class ShowPhotosActivity extends AppCompatActivity {
                     Toast.makeText(ShowPhotosActivity.this, R.string.successfully_removed, Toast.LENGTH_SHORT).show();
                     arrayPhotos.remove(pos);
                     adapter.notifyDataSetChanged();
-                    borrar();
+                    delete();
                 } else {
                     Toast.makeText(ShowPhotosActivity.this, R.string.error_removing, Toast.LENGTH_SHORT).show();
                 }
@@ -303,10 +303,8 @@ public class ShowPhotosActivity extends AppCompatActivity {
         }
     }
 
-    protected void borrar() {
+    protected void delete() {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-        System.out.println(storageReference.toString());
-
         StorageReference toDeleteFile = storageReference.child("images/" + serialNumber + "/" + id);
 
         toDeleteFile.delete().addOnSuccessListener(new OnSuccessListener() {
@@ -325,5 +323,11 @@ public class ShowPhotosActivity extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         finish();
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        recreate();
     }
 }

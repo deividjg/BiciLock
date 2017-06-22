@@ -51,10 +51,6 @@ public class ShowBikeActivity extends AppCompatActivity {
             finish();
         }
 
-        if (id == R.id.deleteBike) {
-
-        }
-
         return super.onOptionsItemSelected(item);
     }
 

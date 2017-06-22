@@ -259,5 +259,4 @@ public class ConfirmBikeActivity extends AppCompatActivity {
     public void onBackPressed(){
         finish();
     }
-
 }

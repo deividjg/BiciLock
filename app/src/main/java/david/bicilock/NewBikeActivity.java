@@ -197,6 +197,7 @@ public class NewBikeActivity extends AppCompatActivity {
         Intent intent = new Intent (this, UploadPhotosActivity.class);
         intent.putExtra("serialNumber", serialNumber);
         startActivity(intent);
+        finish();
     }
 
     public boolean isEmpty(EditText editText) {

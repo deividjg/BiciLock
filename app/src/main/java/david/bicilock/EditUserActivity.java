@@ -198,6 +198,7 @@ public class EditUserActivity extends AppCompatActivity {
                 if (add != 0) {
                     Toast.makeText(EditUserActivity.this, R.string.data_updated_ok,
                             Toast.LENGTH_SHORT).show();
+                    finish();
                 } else {
                     Toast.makeText(EditUserActivity.this, R.string.error_updating,
                             Toast.LENGTH_SHORT).show();

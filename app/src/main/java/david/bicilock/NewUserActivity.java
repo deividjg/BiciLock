@@ -47,7 +47,6 @@ public class NewUserActivity extends AppCompatActivity {
         } else {
             getFields();
             new CheckUserTask().execute();
-            new NewUserTask().execute();
         }
     }
 
