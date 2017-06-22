@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/details"
-                android:textAlignment="center"
+                android:textAlignment="textStart"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -110,6 +110,7 @@
                 android:layout_height="314dp"
                 android:layout_weight="1"
                 android:ems="10"
+                android:gravity="top"
                 android:inputType="textMultiLine" />
         </LinearLayout>
 

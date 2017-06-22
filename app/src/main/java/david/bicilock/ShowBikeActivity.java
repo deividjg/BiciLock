@@ -81,12 +81,14 @@ public class ShowBikeActivity extends AppCompatActivity {
         Intent intent = new Intent (getApplicationContext(), SetStolenActivity.class);
         intent.putExtra("bike", bike);
         startActivity(intent);
+        finish();
     }
 
     protected void editBikeScreen(){
         Intent intent = new Intent (getApplicationContext(), EditBikeActivity.class);
         intent.putExtra("bike", bike);
         startActivity(intent);
+        finish();
     }
 
     @Override

@@ -101,8 +101,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, NewUserActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_exit) {
-            int pid = android.os.Process.myPid();
-            android.os.Process.killProcess(pid);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

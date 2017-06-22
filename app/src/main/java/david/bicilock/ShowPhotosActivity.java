@@ -161,7 +161,7 @@ public class ShowPhotosActivity extends AppCompatActivity {
 
     protected void showConfirmDialog() {
         AlertDialog.Builder alertDialogBu = new AlertDialog.Builder(ShowPhotosActivity.this);
-        alertDialogBu.setTitle(R.string.remove_bike);
+        alertDialogBu.setTitle(R.string.remove_photo);
         alertDialogBu.setMessage(R.string.are_you_sure);
         alertDialogBu.setIcon(android.R.drawable.ic_dialog_alert);
 

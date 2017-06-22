@@ -99,5 +99,6 @@
     <string name="error_bike_exists">Error. This bike already exists</string>
     <string name="mail_sent">Notification sent</string>
     <string name="wrong_bike">Serial number should be wrong</string>
+    <string name="remove_photo">Remove photo</string>
 
 </resources>

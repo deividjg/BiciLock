@@ -29,7 +29,7 @@
                 android:layout_weight="1"
                 android:text="@string/welcome"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="24sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -46,7 +46,7 @@
                 android:layout_weight="1"
                 android:text="@string/guest"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="24sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -64,7 +64,7 @@
                 android:layout_weight="1"
                 android:text="@string/what_do_you_want"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="24sp" />
         </LinearLayout>
 
     </LinearLayout>

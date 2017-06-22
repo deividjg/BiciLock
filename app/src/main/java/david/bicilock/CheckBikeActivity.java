@@ -25,6 +25,7 @@ public class CheckBikeActivity extends AppCompatActivity {
     private ReturnJSON returnJSON;
     private Bike bike;
     private EditText etSerialNumberCheckBike;
+    private ArrayList<Bike> arrayBikes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,21 +81,37 @@ public class CheckBikeActivity extends AppCompatActivity {
                 pDialog.dismiss();
             }
             if (json != null) {
-                try {
-                    JSONObject jsonObject = json.getJSONObject(0);
-                    bike = new Bike();
-                    bike.setStolen(jsonObject.getInt("Stolen"));
+                arrayBikes = new ArrayList<Bike>();
+                long id;
+                for (int i = 0; i < json.length(); i++) {
+                    id = i;
+                    try {
+                        JSONObject jsonObject = json.getJSONObject(i);
+                        bike = new Bike();
+                        bike.setId(id);
+                        bike.setSerialNumber(jsonObject.getString("SerialNumber"));
+                        bike.setBrand(jsonObject.getString("Brand"));
+                        bike.setModel(jsonObject.getString("Model"));
+                        bike.setColor(jsonObject.getString("Color"));
+                        bike.setYear(jsonObject.getString("Year"));
+                        bike.setStolen(jsonObject.getInt("Stolen"));
+                        bike.setDetails("Details");
+                        arrayBikes.add(bike);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (arrayBikes.size() > 0) {
                     if (bike.stolen == 1) {
-                        Toast.makeText(CheckBikeActivity.this, R.string.stolen_bike, Toast.LENGTH_SHORT).show();
                         confirmScreen();
                     } else {
-                        Toast.makeText(CheckBikeActivity.this, R.string.not_stolen, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CheckBikeActivity.this, "Esta bicicleta no está denunciada", Toast.LENGTH_LONG).show();
                     }
-                } catch (JSONException e) {
-                    Toast.makeText(CheckBikeActivity.this, R.string.not_database, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(CheckBikeActivity.this, "La bicicleta no se encuentra en la base de datos", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(CheckBikeActivity.this, R.string.charging_error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(CheckBikeActivity.this, "Error", Toast.LENGTH_LONG).show();
             }
         }
     }

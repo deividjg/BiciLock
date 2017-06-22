@@ -94,4 +94,5 @@
     <string name="error_bike_exists">Error. Esta bicicleta ya existe.</string>
     <string name="mail_sent">Notificación enviada</string>
     <string name="wrong_bike">El número de serie podría ser incorrecto</string>
+    <string name="remove_photo">Eliminar foto</string>
 </resources>
